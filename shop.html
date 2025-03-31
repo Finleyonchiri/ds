@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tales Online - Books Display</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+
+        body {
+            overflow-x: hidden;
+            background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
+            background-color: #f5f5dc;
+            color: #4a3728;
+        }
+
+        /* Header Styles */
+        header {
+            background: #34495e;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .menu-toggle {
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: rotate(90deg);
+        }
+
+        .logo {
+            width: clamp(40px, 8vw, 60px);
+            height: clamp(40px, 8vw, 60px);
+            background: url('https://assets.onecompiler.app/42jd8ggps/43csd3hqs/WhatsApp%20Image%202025-03-25%20at%2000.40.52_7d01f9c9.jpg') no-repeat center/cover;
+            border-radius: 50%;
+        }
+
+        .header-title {
+            font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+            font-weight: 600;
+            color: white;
+        }
+
+        .nav-menu {
+            list-style: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #34495e;
+            width: 100%;
+            padding: 1rem;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        .nav-menu.active {
+            display: flex;
+        }
+
+        .nav-menu li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease, background 0.3s ease;
+            border-radius: 5px;
+            display: block;
+        }
+
+        .nav-menu li a:hover {
+            color: #3498db;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Search Bar Styles */
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem auto;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            padding: 0 1rem;
+        }
+
+        #searchInput {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 14px;
+            flex: 1;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        #searchInput:focus {
+            border-color: #3498db;
+        }
+
+        #searchButton {
+            padding: 8px 16px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        #searchButton:hover {
+            background: #2980b9;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 1rem;
+            right: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 1000;
+            margin-top: 5px;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-results ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .search-results li {
+            padding: 8px 12px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .search-results li:hover {
+            background: #f5f5f5;
+        }
+
+        /* Books Display Styles */
+        .books-display {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: #4a3728;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 0.5rem;
+            font-family: 'Times New Roman', serif;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: #d4af37;
+            border-radius: 2px;
+        }
+
+        .book-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .book-card {
+            background: #fff;
+            border: 3px solid #d4af37;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease-out;
+        }
+
+        .book-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .book-card:hover {
+            transform: perspective(1000px) rotateY(10deg);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .book-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/old-wall.png') repeat;
+            opacity: 0.1;
+            border-radius: 15px;
+            z-index: -1;
+        }
+
+        .book-image {
+            width: 150px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 2px solid #d4af37;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .book-image:hover {
+            transform: scale(1.05);
+        }
+
+        .book-details {
+            flex: 1;
+        }
+
+        .book-details h3 {
+            font-size: 1.8rem;
+            color: #4a3728;
+            margin-bottom: 0.5rem;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .book-details .author {
+            font-size: 1.1rem;
+            color: #6b5442;
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+
+        .book-details .price {
+            font-size: 1.2rem;
+            color: #d4af37;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .book-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .book-buttons button {
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .view-btn {
+            background: #4a3728;
+            color: #fff;
+        }
+
+        .purchase-btn {
+            background: #d4af37;
+            color: #4a3728;
+        }
+
+        .view-btn:hover, .purchase-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .view-btn:hover {
+            background: #3a2a1e;
+        }
+
+        .purchase-btn:hover {
+            background: #b8972e;
+        }
+
+        .view-btn::after, .purchase-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.5s ease, height 0.5s ease;
+        }
+
+        .view-btn:hover::after, .purchase-btn:hover::after {
+            width: 200px;
+            height: 200px;
+        }
+
+        /* View Modal */
+        .view-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 2rem;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            text-align: center;
+            max-width: 90%;
+            width: 400px;
+        }
+
+        .view-modal.active {
+            display: block;
+        }
+
+        .view-modal h3 {
+            font-size: 1.5rem;
+            color: #4a3728;
+            margin-bottom: 1rem;
+        }
+
+        .view-modal p {
+            font-size: 1rem;
+            color: #6b5442;
+            margin-bottom: 1rem;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            color: #4a3728;
+            cursor: pointer;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: block;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: #f5f5dc;
+            color: #333;
+            padding: 20px 1rem;
+            font-size: 14px;
+            border-radius: 15px 15px 0 0;
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-content > div {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            margin: 0.5rem 0;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            display: block;
+            width: 24px;
+            height: 24px;
+            transition: opacity 0.2s;
+        }
+
+        .social-icons a:hover {
+            opacity: 0.8;
+        }
+
+        .social-icons img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .footer-links a {
+            color: #333;
+            text-decoration: none;
+            margin: 0 0.5rem;
+            font-size: 12px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-copyright {
+            text-align: center;
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1e3a8a;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-to-top:hover {
+            background-color: #3b82f6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                padding: 0.5rem 1rem;
+            }
+
+            .header-left {
+                gap: 0.5rem;
+            }
+
+            .search-container {
+                max-width: 85%;
+                margin: 1rem auto;
+            }
+
+            .books-display {
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .book-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .book-image {
+                width: 120px;
+                height: 160px;
+            }
+
+            .book-details h3 {
+                font-size: 1.5rem;
+            }
+
+            .book-details .author {
+                font-size: 1rem;
+            }
+
+            .book-details .price {
+                font-size: 1.1rem;
+            }
+
+            .view-modal {
+                width: 90%;
+                padding: 1.5rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-content > div {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 1rem;
+            }
+
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            .menu-toggle {
+                font-size: 1.2rem;
+            }
+
+            .nav-menu li a {
+                font-size: 0.9rem;
+                padding: 0.4rem 1rem;
+            }
+
+            #searchInput, #searchButton {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .book-image {
+                width: 100px;
+                height: 140px;
+            }
+
+            .book-details h3 {
+                font-size: 1.3rem;
+            }
+
+            .book-details .author {
+                font-size: 0.9rem;
+            }
+
+            .book-details .price {
+                font-size: 1rem;
+            }
+
+            .book-buttons button {
+                font-size: 0.9rem;
+                padding: 0.5rem 1.2rem;
+            }
+
+            footer {
+                padding: 15px 0.5rem;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <div class="menu-toggle" id="menu-toggle">☰</div>
+            <div class="logo"></div>
+            <h1 class="header-title">Tales Online</h1>
+      <ul class="nav-menu" id="nav-menu"> 
+	    <li><a href="dashboard.html">Home</a></li>
+            <li><a href="books.html">Books</a></li>
+            <li><a href="magazine.html">Magazines</a></li>
+            <li><a href="about.html">About the Developer</a></li>
+            <li><a href="blogs.html">Blogs</a></li>
+	    <li><a href="pod.html">Podcast</a></li>
+	      <li><a href="shop.html">Shop</a></li>
+            
+        </ul>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search content...">
+        <button id="searchButton" onclick="performSearch()">Search</button>
+        <div id="searchResults" class="search-results"></div>
+    </div>
+
+    <!-- Books Display Section -->
+    <section class="books-display" id="top">
+        <h2 class="section-title">Our Books Collection</h2>
+        <div class="book-list">
+            <div class="book-card">
+                <img src="https://via.placeholder.com/150x200?text=Book+1" alt="Book 1" class="book-image">
+                <div class="book-details">
+                    <h3>The Enchanted Forest</h3>
+                    <p class="author">by Elara Thorne</p>
+                    <p class="price">$19.99</p>
+                    <div class="book-buttons">
+                        <button class="view-btn" onclick="showViewModal('The Enchanted Forest', 'A magical journey through a forest where every tree whispers secrets of the ancient world.')">View</button>
+                        <button class="purchase-btn" onclick="redirectToShop()">Purchase</button>
+                    </div>
+                </div>
+            </div>
+            <div class="book-card">
+                <img src="https://via.placeholder.com/150x200?text=Book+2" alt="Book 2" class="book-image">
+                <div class="book-details">
+                    <h3>Whispers of the Past</h3>
+                    <p class="author">by Julian Crest</p>
+                    <p class="price">$24.99</p>
+                    <div class="book-buttons">
+                        <button class="view-btn" onclick="showViewModal('Whispers of the Past', 'A historical novel that uncovers the hidden truths of a forgotten era.')">View</button>
+                        <button class="purchase-btn" onclick="redirectToShop()">Purchase</button>
+                    </div>
+                </div>
+            </div>
+            <div class="book-card">
+                <img src="https://via.placeholder.com/150x200?text=Book+3" alt="Book 3" class="book-image">
+                <div class="book-details">
+                    <h3>Starlit Dreams</h3>
+                    <p class="author">by Lyra Nova</p>
+                    <p class="price">$14.99</p>
+                    <div class="book-buttons">
+                        <button class="view-btn" onclick="showViewModal('Starlit Dreams', 'A poetic tale of love and longing under the stars.')">View</button>
+                        <button class="purchase-btn" onclick="redirectToShop()">Purchase</button>
+                    </div>
+                </div>
+            </div>
+            <div class="book-card">
+                <img src="https://via.placeholder.com/150x200?text=Book+4" alt="Book 4" class="book-image">
+                <div class="book-details">
+                    <h3>The Clockmaker's Secret</h3>
+                    <p class="author">by Theo Grayson</p>
+                    <p class="price">$29.99</p>
+                    <div class="book-buttons">
+                        <button class="view-btn" onclick="showViewModal('The Clockmaker\'s Secret', 'A thrilling mystery about a clockmaker who holds the key to time itself.')">View</button>
+                        <button class="purchase-btn" onclick="redirectToShop()">Purchase</button>
+                    </div>
+                </div>
+            </div>
+            <div class="book-card">
+                <img src="https://via.placeholder.com/150x200?text=Book+5" alt="Book 5" class="book-image">
+                <div class="book-details">
+                    <h3>Echoes of Eternity</h3>
+                    <p class="author">by Selene Vesper</p>
+                    <p class="price">$22.99</p>
+                    <div class="book-buttons">
+                        <button class="view-btn" onclick="showViewModal('Echoes of Eternity', 'A fantasy epic that spans centuries, weaving tales of gods and mortals.')">View</button>
+                        <button class="purchase-btn" onclick="redirectToShop()">Purchase</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- View Modal -->
+    <div class="modal-overlay" id="modal-overlay"></div>
+    <div class="view-modal" id="view-modal">
+        <span class="close-modal" onclick="hideViewModal()">×</span>
+        <h3 id="view-title"></h3>
+        <p id="view-content"></p>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <p><strong>Contact:</strong> <a href="mailto:info@talesonline.com" style="color: #00acee; text-decoration: none;">info@talesonline.com</a></p>
+                <p><strong>Phone:</strong> (555) 123-4567</p>
+            </div>
+            <div class="social-icons">
+                <a href="https://www.facebook.com" target="_blank">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/facebook%20(1).png" alt="Facebook">
+                </a>
+                <a href="https://twitter.com" target="_blank">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/twitter.png" alt="Twitter">
+                </a>
+                <a href="https://www.instagram.com" target="_blank">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/instagram.png" alt="Instagram">
+                </a>
+                <a href="https://www.linkedin.com" target="_blank">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/linkedin.png" alt="LinkedIn">
+                </a>
+                <a href="https://wa.me/0102645377" target="_blank">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/whatsapp.png" alt="WhatsApp">
+                </a>
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy</a> | 
+                <a href="#">Terms</a> | 
+                <a href="#">About</a>
+            </div>
+        </div>
+        <p class="footer-copyright">© 2025 Tales Online. All rights reserved.</p>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#top" class="back-to-top">Back to Top</a>
+
+    <script>
+        // Menu Toggle
+        const menuToggle = document.getElementById("menu-toggle");
+        const navMenu = document.getElementById("nav-menu");
+        menuToggle.addEventListener("click", (event) => {
+            event.stopPropagation();
+            navMenu.classList.toggle("active");
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!menuToggle.contains(event.target) && !navMenu.contains(event.target)) {
+                navMenu.classList.remove("active");
+            }
+        });
+
+        // Search Functionality
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+            const resultsDiv = document.getElementById('searchResults');
+            resultsDiv.innerHTML = '';
+            resultsDiv.classList.remove('active');
+
+            if (searchTerm === '') return;
+
+            const elements = document.querySelectorAll('h1, h2, h3, p, li');
+            const matches = [];
+
+            elements.forEach(element => {
+                const text = element.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    matches.push({ text: element.textContent, element });
+                }
+            });
+
+            if (matches.length > 0) {
+                const ul = document.createElement('ul');
+                matches.forEach(match => {
+                    const li = document.createElement('li');
+                    li.textContent = match.text.substring(0, 40) + (match.text.length > 40 ? '...' : '');
+                    li.addEventListener('click', () => {
+                        match.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        resultsDiv.classList.remove('active');
+                    });
+                    ul.appendChild(li);
+                });
+                resultsDiv.appendChild(ul);
+                resultsDiv.classList.add('active');
+            } else {
+                resultsDiv.innerHTML = '<p style="padding: 8px 12px; margin: 0;">No results found</p>';
+                resultsDiv.classList.add('active');
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') performSearch();
+        });
+
+        document.addEventListener('click', function(e) {
+            const searchContainer = document.querySelector('.search-container');
+            const resultsDiv = document.getElementById('searchResults');
+            if (!searchContainer.contains(e.target) && resultsDiv.classList.contains('active')) {
+                resultsDiv.classList.remove('active');
+            }
+        });
+
+        // View Modal Functionality
+        function showViewModal(title, content) {
+            document.getElementById('view-title').textContent = title;
+            document.getElementById('view-content').textContent = content;
+            document.getElementById('view-modal').classList.add('active');
+            document.getElementById('modal-overlay').classList.add('active');
+        }
+
+        function hideViewModal() {
+            document.getElementById('view-modal').classList.remove('active');
+            document.getElementById('modal-overlay').classList.remove('active');
+        }
+
+        // Purchase Redirect
+        function redirectToShop() {
+            window.location.href = 'shop.html';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('modal-overlay').addEventListener('click', hideViewModal);
+
+        // Scroll Animation for Book Cards
+        const bookCards = document.querySelectorAll('.book-card');
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        bookCards.forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

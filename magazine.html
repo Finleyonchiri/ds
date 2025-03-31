@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tales Online - Magazine Shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+
+        body {
+            overflow-x: hidden;
+            background: url('https://www.transparenttextures.com/patterns/paper-fibers.png') repeat;
+            background-color: #f5f5dc;
+            color: #4a3728;
+        }
+
+        /* Header Styles */
+        header {
+            background: #34495e;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .menu-toggle {
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: rotate(90deg);
+        }
+
+        .logo {
+            width: clamp(40px, 8vw, 60px);
+            height: clamp(40px, 8vw, 60px);
+            background: url('https://assets.onecompiler.app/42jd8ggps/43csd3hqs/WhatsApp%20Image%202025-03-25%20at%2000.40.52_7d01f9c9.jpg') no-repeat center/cover;
+            border-radius: 50%;
+        }
+
+        .header-title {
+            font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+            font-weight: 600;
+            color: white;
+        }
+
+        .nav-menu {
+            list-style: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #34495e;
+            width: 100%;
+            padding: 1rem;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        .nav-menu.active {
+            display: flex;
+        }
+
+        .nav-menu li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease, background 0.3s ease;
+            border-radius: 5px;
+            display: block;
+        }
+
+        .nav-menu li a:hover {
+            color: #3498db;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Search Bar Styles */
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem auto;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            padding: 0 1rem;
+        }
+
+        #searchInput {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 14px;
+            flex: 1;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        #searchInput:focus {
+            border-color: #3498db;
+        }
+
+        #searchButton {
+            padding: 8px 16px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        #searchButton:hover {
+            background: #2980b9;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 1rem;
+            right: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 1000;
+            margin-top: 5px;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-results ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .search-results li {
+            padding: 8px 12px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .search-results li:hover {
+            background: #f5f5f5;
+        }
+
+        /* Magazine Shop Styles */
+        .magazine-shop {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: #4a3728;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 0.5rem;
+            font-family: 'Times New Roman', serif;
+        }
+
+        /* Free Magazines Section */
+        .free-magazines {
+            margin-bottom: 4rem;
+        }
+
+        .scroll-container {
+            overflow-x: auto;
+            position: relative;
+            width: 100%;
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
+            scrollbar-width: none; /* Hide scrollbar in Firefox */
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            display: none; /* Hide scrollbar in Webkit browsers */
+        }
+
+        .scroll-content {
+            display: flex;
+            padding: 0 1rem;
+        }
+
+        .magazine-card {
+            flex: 0 0 200px;
+            margin: 0 1rem;
+            background: #fff;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 1rem;
+            transition: transform 0.3s ease;
+            cursor: pointer; /* Indicate clickable */
+        }
+
+        .magazine-card:hover {
+            transform: scale(1.05);
+        }
+
+        .magazine-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .magazine-card h3 {
+            font-size: 1.2rem;
+            color: #4a3728;
+            margin-bottom: 0.5rem;
+        }
+
+        .magazine-card p {
+            font-size: 0.9rem;
+            color: #6b5442;
+        }
+
+        /* Premium Magazines Section */
+        .premium-magazines {
+            margin-bottom: 2rem;
+        }
+
+        .premium-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .premium-card {
+            background: #fff;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            padding: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .premium-card:hover {
+            transform: scale(1.05);
+        }
+
+        .premium-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .premium-card h3 {
+            font-size: 1.2rem;
+            color: #4a3728;
+            margin-bottom: 0.5rem;
+        }
+
+        .premium-card .prize {
+            font-size: 0.9rem;
+            color: #d4af37;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .premium-card .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .premium-card button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .purchase-btn {
+            background: #d4af37;
+            color: #4a3728;
+        }
+
+        .purchase-btn:hover {
+            background: #b8972e;
+        }
+
+        .review-btn {
+            background: #4a3728;
+            color: #fff;
+        }
+
+        .review-btn:hover {
+            background: #3a2a1e;
+        }
+
+        /* Review Modal */
+        .review-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 2rem;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            text-align: center;
+            max-width: 90%;
+            width: 400px;
+        }
+
+        .review-modal.active {
+            display: block;
+        }
+
+        .review-modal h3 {
+            font-size: 1.5rem;
+            color: #4a3728;
+            margin-bottom: 1rem;
+        }
+
+        .review-modal p {
+            font-size: 1rem;
+            color: #6b5442;
+            margin-bottom: 1rem;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1.5rem;
+            color: #4a3728;
+            cursor: pointer;
+        }
+
+        /* Purchase Confirmation Modal */
+        .purchase-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 2rem;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+            text-align: center;
+            max-width: 90%;
+            width: 400px;
+        }
+
+        .purchase-modal.active {
+            display: block;
+        }
+
+        .purchase-modal p {
+            font-size: 1.2rem;
+            color: #4a3728;
+            margin-bottom: 1.5rem;
+        }
+
+        .purchase-modal .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .purchase-modal button {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .cancel-btn {
+            background: #4a3728;
+            color: #fff;
+        }
+
+        .cancel-btn:hover {
+            background: #3a2a1e;
+        }
+
+        .agree-btn {
+            background: #d4af37;
+            color: #4a3728;
+        }
+
+        .agree-btn:hover {
+            background: #b8972e;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: block;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: #f5f5dc;
+            color: #333;
+            padding: 20px 1rem;
+            font-size: 14px;
+            border-radius: 15px 15px 0 0;
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-content > div {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            margin: 0.5rem 0;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            display: block;
+            width: 24px;
+            height: 24px;
+            transition: opacity 0.2s;
+        }
+
+        .social-icons a:hover {
+            opacity: 0.8;
+        }
+
+        .social-icons img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .footer-links a {
+            color: #333;
+            text-decoration: none;
+            margin: 0 0.5rem;
+            font-size: 12px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-copyright {
+            text-align: center;
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1e3a8a;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-to-top:hover {
+            background-color: #3b82f6;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                padding: 0.5rem 1rem;
+            }
+
+            .header-left {
+                gap: 0.5rem;
+            }
+
+            .search-container {
+                max-width: 85%;
+                margin: 1rem auto;
+            }
+
+            .magazine-shop {
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .magazine-card {
+                flex: 0 0 180px;
+                margin: 0 0.5rem;
+            }
+
+            .magazine-card img {
+                height: 180px;
+            }
+
+            .premium-card img {
+                height: 180px;
+            }
+
+            .review-modal, .purchase-modal {
+                width: 90%;
+                padding: 1.5rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-content > div {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 1rem;
+            }
+
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            .menu-toggle {
+                font-size: 1.2rem;
+            }
+
+            .nav-menu li a {
+                font-size: 0.9rem;
+                padding: 0.4rem 1rem;
+            }
+
+            #searchInput, #searchButton {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .magazine-card {
+                flex: 0 0 150px;
+            }
+
+            .magazine-card img {
+                height: 150px;
+            }
+
+            .magazine-card h3 {
+                font-size: 1rem;
+            }
+
+            .magazine-card p {
+                font-size: 0.8rem;
+            }
+
+            .premium-card img {
+                height: 150px;
+            }
+
+            .premium-card h3 {
+                font-size: 1rem;
+            }
+
+            .premium-card .prize {
+                font-size: 0.8rem;
+            }
+
+            .premium-card button {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            footer {
+                padding: 15px 0.5rem;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <div class="menu-toggle" id="menu-toggle">☰</div>
+            <div class="logo"></div>
+            <h1 class="header-title">Tales Online</h1>
+        </div>
+         <ul class="nav-menu" id="nav-menu"> 
+	    <li><a href="dashboard.html">Home</a></li>
+            <li><a href="books.html">Books</a></li>
+            <li><a href="magazine.html">Magazines</a></li>
+            <li><a href="about.html">About the Developer</a></li>
+            <li><a href="blogs.html">Blogs</a></li>
+	    <li><a href="pod.html">Podcast</a></li>
+	      <li><a href="shop.html">Shop</a></li>
+            
+        </ul>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search content...">
+        <button id="searchButton" onclick="performSearch()">Search</button>
+        <div id="searchResults" class="search-results"></div>
+    </div>
+
+    <!-- Magazine Shop Section -->
+    <section class="magazine-shop" id="top">
+        <!-- Free Magazines -->
+        <div class="free-magazines">
+            <h2 class="section-title">Free Magazines</h2>
+            <div class="scroll-container">
+                <div class="scroll-content">
+                    <div class="magazine-card">
+                        <img src="https://via.placeholder.com/200x200?text=Magazine+1" alt="Magazine 1">
+                        <h3>Tales of Adventure</h3>
+                        <p>Issue #1 - 2025</p>
+                    </div>
+                    <div class="magazine-card">
+                        <img src="https://via.placeholder.com/200x200?text=Magazine+2" alt="Magazine 2">
+                        <h3>Mystery Monthly</h3>
+                        <p>Issue #2 - 2025</p>
+                    </div>
+                    <div class="magazine-card">
+                        <img src="https://via.placeholder.com/200x200?text=Magazine+3" alt="Magazine 3">
+                        <h3>Classic Tales</h3>
+                        <p>Issue #3 - 2025</p>
+                    </div>
+                    <div class="magazine-card">
+                        <img src="https://via.placeholder.com/200x200?text=Magazine+4" alt="Magazine 4">
+                        <h3>Poetry Corner</h3>
+                        <p>Issue #4 - 2025</p>
+                    </div>
+                    <div class="magazine-card">
+                        <img src="https://via.placeholder.com/200x200?text=Magazine+5" alt="Magazine 5">
+                        <h3>Historical Reads</h3>
+                        <p>Issue #5 - 2025</p>
+                    </div>
+                    <div class="magazine-card">
+                        <img src="https://via.placeholder.com/200x200?text=Magazine+6" alt="Magazine 6">
+                        <h3>Fantasy Realms</h3>
+                        <p>Issue #6 - 2025</p>
+                    </div>
+                    <div class="magazine-card">
+                        <img src="https://via.placeholder.com/200x200?text=Magazine+7" alt="Magazine 7">
+                        <h3>Science Stories</h3>
+                        <p>Issue #7 - 2025</p>
+                    </div>
+                    <div class="magazine-card">
+                        <img src="https://via.placeholder.com/200x200?text=Magazine+8" alt="Magazine 8">
+                        <h3>Travel Tales</h3>
+                        <p>Issue #8 - 2025</p>
+                    </div>
+                    <div class="magazine-card">
+                        <img src="https://via.placeholder.com/200x200?text=Magazine+9" alt="Magazine 9">
+                        <h3>Art Insights</h3>
+                        <p>Issue #9 - 2025</p>
+                    </div>
+                    <div class="magazine-card">
+                        <img src="https://via.placeholder.com/200x200?text=Magazine+10" alt="Magazine 10">
+                        <h3>Cultural Digest</h3>
+                        <p>Issue #10 - 2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Premium Magazines -->
+        <div class="premium-magazines">
+            <h2 class="section-title">Premium Magazines</h2>
+            <div class="premium-grid">
+                <div class="premium-card">
+                    <img src="https://via.placeholder.com/200x200?text=Premium+1" alt="Premium Magazine 1">
+                    <h3>Literary Gems</h3>
+                    <p class="prize">Prize: Signed Book</p>
+                    <div class="buttons">
+                        <button class="purchase-btn" onclick="showPurchaseModal('Literary Gems')">Purchase</button>
+                        <button class="review-btn" onclick="showReviewModal('Literary Gems', 'A collection of the finest literary works, featuring exclusive interviews with renowned authors.')">Review</button>
+                    </div>
+                </div>
+                <div class="premium-card">
+                    <img src="https://via.placeholder.com/200x200?text=Premium+2" alt="Premium Magazine 2">
+                    <h3>Art & Culture</h3>
+                    <p class="prize">Prize: Art Print</p>
+                    <div class="buttons">
+                        <button class="purchase-btn" onclick="showPurchaseModal('Art & Culture')">Purchase</button>
+                        <button class="review-btn" onclick="showReviewModal('Art & Culture', 'Explore the intersection of art and culture with in-depth articles and stunning visuals.')">Review</button>
+                    </div>
+                </div>
+                <div class="premium-card">
+                    <img src="https://via.placeholder.com/200x200?text=Premium+3" alt="Premium Magazine 3">
+                    <h3>Travel Chronicles</h3>
+                    <p class="prize">Prize: Travel Voucher</p>
+                    <div class="buttons">
+                        <button class="purchase-btn" onclick="showPurchaseModal('Travel Chronicles')">Purchase</button>
+                        <button class="review-btn" onclick="showReviewModal('Travel Chronicles', 'Journey through breathtaking destinations with stories and tips from seasoned travelers.')">Review</button>
+                    </div>
+                </div>
+                <div class="premium-card">
+                    <img src="https://via.placeholder.com/200x200?text=Premium+4" alt="Premium Magazine 4">
+                    <h3>Science & Wonder</h3>
+                    <p class="prize">Prize: Telescope</p>
+                    <div class="buttons">
+                        <button class="purchase-btn" onclick="showPurchaseModal('Science & Wonder')">Purchase</button>
+                        <button class="review-btn" onclick="showReviewModal('Science & Wonder', 'Discover the wonders of science with fascinating articles and experiments.')">Review</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Review Modal -->
+    <div class="modal-overlay" id="modal-overlay"></div>
+    <div class="review-modal" id="review-modal">
+        <span class="close-modal" onclick="hideReviewModal()">×</span>
+        <h3 id="review-title"></h3>
+        <p id="review-content"></p>
+    </div>
+
+    <!-- Purchase Confirmation Modal -->
+    <div class="purchase-modal" id="purchase-modal">
+        <p>You are about to be redirected to our shop to purchase <span id="purchase-title"></span>.</p>
+        <div class="buttons">
+            <button class="cancel-btn" onclick="hidePurchaseModal()">Cancel</button>
+            <button class="agree-btn" onclick="redirectToShop()">Agree</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <p><strong>Contact:</strong> <a href="mailto:info@talesonline.com" style="color: #00acee; text-decoration: none;">info@talesonline.com</a></p>
+                <p><strong>Phone:</strong> (555) 123-4567</p>
+            </div>
+            <div class="social-icons">
+                <a href="https://www.facebook.com" target="_blank">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/facebook%20(1).png" alt="Facebook">
+                </a>
+                <a href="https://twitter.com" target="_blank">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/twitter.png" alt="Twitter">
+                </a>
+                <a href="https://www.instagram.com" target="_blank">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/instagram.png" alt="Instagram">
+                </a>
+                <a href="https://www.linkedin.com" target="_blank">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/linkedin.png" alt="LinkedIn">
+                </a>
+                <a href="https://wa.me/0102645377" target="_blank">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/whatsapp.png" alt="WhatsApp">
+                </a>
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy</a> | 
+                <a href="#">Terms</a> | 
+                <a href="#">About</a>
+            </div>
+        </div>
+        <p class="footer-copyright">© 2025 Tales Online. All rights reserved.</p>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#top" class="back-to-top">Back to Top</a>
+
+    <script>
+        // Menu Toggle
+        const menuToggle = document.getElementById("menu-toggle");
+        const navMenu = document.getElementById("nav-menu");
+        menuToggle.addEventListener("click", (event) => {
+            event.stopPropagation();
+            navMenu.classList.toggle("active");
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!menuToggle.contains(event.target) && !navMenu.contains(event.target)) {
+                navMenu.classList.remove("active");
+            }
+        });
+
+        // Search Functionality
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+            const resultsDiv = document.getElementById('searchResults');
+            resultsDiv.innerHTML = '';
+            resultsDiv.classList.remove('active');
+
+            if (searchTerm === '') return;
+
+            const elements = document.querySelectorAll('h1, h2, h3, p, li');
+            const matches = [];
+
+            elements.forEach(element => {
+                const text = element.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    matches.push({ text: element.textContent, element });
+                }
+            });
+
+            if (matches.length > 0) {
+                const ul = document.createElement('ul');
+                matches.forEach(match => {
+                    const li = document.createElement('li');
+                    li.textContent = match.text.substring(0, 40) + (match.text.length > 40 ? '...' : '');
+                    li.addEventListener('click', () => {
+                        match.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        resultsDiv.classList.remove('active');
+                    });
+                    ul.appendChild(li);
+                });
+                resultsDiv.appendChild(ul);
+                resultsDiv.classList.add('active');
+            } else {
+                resultsDiv.innerHTML = '<p style="padding: 8px 12px; margin: 0;">No results found</p>';
+                resultsDiv.classList.add('active');
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') performSearch();
+        });
+
+        document.addEventListener('click', function(e) {
+            const searchContainer = document.querySelector('.search-container');
+            const resultsDiv = document.getElementById('searchResults');
+            if (!searchContainer.contains(e.target) && resultsDiv.classList.contains('active')) {
+                resultsDiv.classList.remove('active');
+            }
+        });
+
+        // Free Magazines Touch/Click Redirect
+        const magazineCards = document.querySelectorAll('.magazine-card');
+        magazineCards.forEach(card => {
+            card.addEventListener('click', () => {
+                window.location.href = 'shop.html';
+            });
+
+            // Add touch event for mobile devices
+            card.addEventListener('touchstart', () => {
+                window.location.href = 'shop.html';
+            });
+        });
+
+        // Review Modal Functionality
+        function showReviewModal(title, content) {
+            document.getElementById('review-title').textContent = title;
+            document.getElementById('review-content').textContent = content;
+            document.getElementById('review-modal').classList.add('active');
+            document.getElementById('modal-overlay').classList.add('active');
+        }
+
+        function hideReviewModal() {
+            document.getElementById('review-modal').classList.remove('active');
+            document.getElementById('modal-overlay').classList.remove('active');
+        }
+
+        // Purchase Modal Functionality
+        function showPurchaseModal(title) {
+            document.getElementById('purchase-title').textContent = title;
+            document.getElementById('purchase-modal').classList.add('active');
+            document.getElementById('modal-overlay').classList.add('active');
+        }
+
+        function hidePurchaseModal() {
+            document.getElementById('purchase-modal').classList.remove('active');
+            document.getElementById('modal-overlay').classList.remove('active');
+        }
+
+        function redirectToShop() {
+            window.location.href = 'shop.html';
+        }
+
+        // Close modals when clicking outside
+        document.getElementById('modal-overlay').addEventListener('click', () => {
+            hideReviewModal();
+            hidePurchaseModal();
+        });
+    </script>
+</body>
+</html>

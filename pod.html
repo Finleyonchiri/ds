@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tales Online - Podcast</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        /* Header Styles */
+        header {
+            background: #34495e;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 100%; /* Ensure header doesn't exceed viewport */
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem; /* Space between menu toggle, logo, and title */
+        }
+
+        .menu-toggle {
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            transform: rotate(90deg);
+        }
+
+        .logo {
+            width: clamp(40px, 8vw, 60px);
+            height: clamp(40px, 8vw, 60px);
+            background: url('https://assets.onecompiler.app/42jd8ggps/43csd3hqs/WhatsApp%20Image%202025-03-25%20at%2000.40.52_7d01f9c9.jpg') no-repeat center/cover;
+            border-radius: 50%;
+        }
+
+        .header-title {
+            font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+            font-weight: 600;
+            color: white;
+        }
+
+        .nav-menu {
+            list-style: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #34495e;
+            width: 100%;
+            padding: 1rem;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        .nav-menu.active {
+            display: flex;
+        }
+
+        .nav-menu li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s ease, background 0.3s ease;
+            border-radius: 5px;
+            display: block;
+        }
+
+        .nav-menu li a:hover {
+            color: #3498db;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Search Bar Styles */
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem auto;
+            max-width: 600px;
+            width: 90%; /* Ensure it fits within viewport */
+            position: relative;
+            padding: 0 1rem;
+        }
+
+        #searchInput {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 14px;
+            flex: 1;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        #searchInput:focus {
+            border-color: #3498db;
+        }
+
+        #searchButton {
+            padding: 8px 16px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        #searchButton:hover {
+            background: #2980b9;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 1rem;
+            right: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 1000;
+            margin-top: 5px;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-results ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .search-results li {
+            padding: 8px 12px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .search-results li:hover {
+            background: #f5f5f5;
+        }
+
+        /* Podcast Section Styles */
+        .podcast-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 50px;
+            background: url('grid-lines.png') repeat-y center;
+            background-size: 50px 100%;
+            position: relative;
+            min-height: 100vh;
+            max-width: 1200px; /* Constrain width */
+            width: 100%;
+            margin: 0 auto; /* Center the section */
+        }
+
+        .content-left {
+            max-width: 50%;
+        }
+
+        .content-left h1 {
+            font-size: 48px;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 20px;
+        }
+
+        .content-left p {
+            font-size: 18px;
+            color: #000;
+            margin-bottom: 30px;
+        }
+
+        .podcast-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap; /* Prevent buttons from overflowing */
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .apple {
+            background-color: #f5f0ff;
+            color: #000;
+        }
+
+        .spotify {
+            background-color: #e6f4ea;
+            color: #000;
+        }
+
+        .google {
+            background-color: #f1f3f4;
+            color: #000;
+        }
+
+        .content-right {
+            position: relative;
+            max-width: 40%;
+        }
+
+        .banner {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #000;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        .portrait {
+            border-radius: 10px;
+        }
+
+        .portrait.top {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 150px;
+            max-width: 100%; /* Prevent overflow */
+        }
+
+        .portrait.bottom {
+            position: absolute;
+            bottom: 50px;
+            right: 0;
+            width: 150px;
+            max-width: 100%; /* Prevent overflow */
+        }
+
+        .mic {
+            position: absolute;
+            bottom: 50px;
+            left: 0;
+            width: 50px;
+            max-width: 100%; /* Prevent overflow */
+        }
+
+        .waveform {
+            position: absolute;
+            bottom: 50px;
+            left: 70px;
+            width: 100px;
+            max-width: 100%; /* Prevent overflow */
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1e3a8a;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-to-top:hover {
+            background-color: #3b82f6;
+        }
+
+        /* Footer Styles */
+        footer {
+            background: #f5f5dc;
+            color: #333;
+            padding: 20px 1rem;
+            font-size: 14px;
+            border-radius: 15px 15px 0 0;
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 100%; /* Ensure footer doesn't exceed viewport */
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer-content > div {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            margin: 0.5rem 0;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .social-icons a {
+            display: block;
+            width: 24px;
+            height: 24px;
+            transition: opacity 0.2s;
+        }
+
+        .social-icons a:hover {
+            opacity: 0.8;
+        }
+
+        .social-icons img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .footer-links a {
+            color: #333;
+            text-decoration: none;
+            margin: 0 0.5rem;
+            font-size: 12px;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-copyright {
+            text-align: center;
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                padding: 0.5rem 1rem;
+            }
+
+            .header-left {
+                gap: 0.5rem;
+            }
+
+            .search-container {
+                max-width: 85%;
+                margin: 1rem auto;
+            }
+
+            .podcast-section {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px;
+            }
+
+            .content-left, .content-right {
+                max-width: 100%;
+            }
+
+            .content-right {
+                margin-top: 30px;
+            }
+
+            .portrait.top, .portrait.bottom {
+                position: static;
+                margin: 10px auto;
+                width: 120px;
+            }
+
+            .mic, .waveform {
+                position: static;
+                margin: 10px auto;
+                width: 40px;
+            }
+
+            .banner {
+                position: static;
+                margin: 0 auto 20px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-content > div {
+                min-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 1rem;
+            }
+
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            .menu-toggle {
+                font-size: 1.2rem;
+            }
+
+            .nav-menu li a {
+                font-size: 0.9rem;
+                padding: 0.4rem 1rem;
+            }
+
+            #searchInput, #searchButton {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+
+            .content-left h1 {
+                font-size: 36px;
+            }
+
+            .content-left p {
+                font-size: 16px;
+            }
+
+            .btn {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+
+            footer {
+                padding: 15px 0.5rem;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <div class="menu-toggle" id="menu-toggle">☰</div>
+            <div class="logo"></div>
+            <h1 class="header-title">Tales Online</h1>
+        </div>
+           <ul class="nav-menu" id="nav-menu"> 
+	    <li><a href="dashboard.html">Home</a></li>
+            <li><a href="books.html">Books</a></li>
+            <li><a href="magazine.html">Magazines</a></li>
+            <li><a href="about.html">About the Developer</a></li>
+            <li><a href="blogs.html">Blogs</a></li>
+	    <li><a href="pod.html">Podcast</a></li>
+	      <li><a href="shop.html">Shop</a></li>
+            
+        </ul>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search content...">
+        <button id="searchButton" onclick="performSearch()">Search</button>
+        <div id="searchResults" class="search-results"></div>
+    </div>
+
+    <!-- Podcast Section -->
+    <section class="podcast-section" id="top">
+        <div class="content-left">
+            <h1>Value. Be the voice of change</h1>
+            <p>Knowledge might be power, but it’s much more powerful when it’s shared. We are here to share insights and experience.</p>
+            <div class="podcast-buttons">
+                <a href="#" class="btn apple">Listen on Apple Podcasts</a>
+                <a href="#" class="btn spotify">Listen on Spotify</a>
+                <a href="#" class="btn google">Listen on Google Podcasts</a>
+            </div>
+        </div>
+        <div class="content-right">
+            <div class="banner">Podcast with Sense</div>
+            <!-- Replace these image sources with actual images -->
+            <img src="portrait1.jpg" alt="Portrait 1" class="portrait top">
+            <img src="portrait2.jpg" alt="Portrait 2" class="portrait bottom">
+            <img src="mic.jpg" alt="Microphone" class="mic">
+            <img src="waveform.png" alt="Waveform" class="waveform">
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <p><strong>Contact:</strong> <a href="mailto:info@talesonline.com" style="color: #00acee; text-decoration: none;">info@talesonline.com</a></p>
+                <p><strong>Phone:</strong> (555) 123-4567</p>
+            </div>
+            <div class="social-icons">
+                <a href="https://www.facebook.com" target="_blank">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/facebook%20(1).png" alt="Facebook">
+                </a>
+                <a href="https://twitter.com" target="_blank">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/twitter.png" alt="Twitter">
+                </a>
+                <a href="https://www.instagram.com" target="_blank">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/instagram.png" alt="Instagram">
+                </a>
+                <a href="https://www.linkedin.com" target="_blank">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/linkedin.png" alt="LinkedIn">
+                </a>
+                <a href="https://wa.me/0102645377" target="_blank">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/whatsapp.png" alt="WhatsApp">
+                </a>
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy</a> | 
+                <a href="#">Terms</a> | 
+                <a href="#">About</a>
+            </div>
+        </div>
+        <p class="footer-copyright">© 2025 Tales Online. All rights reserved.</p>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#top" class="back-to-top">Back to Top</a>
+
+    <script>
+        // Menu Toggle
+        const menuToggle = document.getElementById("menu-toggle");
+        const navMenu = document.getElementById("nav-menu");
+        menuToggle.addEventListener("click", (event) => {
+            event.stopPropagation();
+            navMenu.classList.toggle("active");
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!menuToggle.contains(event.target) && !navMenu.contains(event.target)) {
+                navMenu.classList.remove("active");
+            }
+        });
+
+        // Search Functionality
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+            const resultsDiv = document.getElementById('searchResults');
+            resultsDiv.innerHTML = '';
+            resultsDiv.classList.remove('active');
+
+            if (searchTerm === '') return;
+
+            const elements = document.querySelectorAll('h1, h2, h3, p, li');
+            const matches = [];
+
+            elements.forEach(element => {
+                const text = element.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    matches.push({ text: element.textContent, element });
+                }
+            });
+
+            if (matches.length > 0) {
+                const ul = document.createElement('ul');
+                matches.forEach(match => {
+                    const li = document.createElement('li');
+                    li.textContent = match.text.substring(0, 40) + (match.text.length > 40 ? '...' : '');
+                    li.addEventListener('click', () => {
+                        match.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        resultsDiv.classList.remove('active');
+                    });
+                    ul.appendChild(li);
+                });
+                resultsDiv.appendChild(ul);
+                resultsDiv.classList.add('active');
+            } else {
+                resultsDiv.innerHTML = '<p style="padding: 8px 12px; margin: 0;">No results found</p>';
+                resultsDiv.classList.add('active');
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') performSearch();
+        });
+
+        document.addEventListener('click', function(e) {
+            const searchContainer = document.querySelector('.search-container');
+            const resultsDiv = document.getElementById('searchResults');
+            if (!searchContainer.contains(e.target) && resultsDiv.classList.contains('active')) {
+                resultsDiv.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

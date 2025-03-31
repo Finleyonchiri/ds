@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tales Online - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f0f4f8;
+            color: #2c3e50;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: #34495e;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            width: clamp(40px, 8vw, 80px);
+            height: clamp(40px, 8vw, 80px);
+            background: url('https://assets.onecompiler.app/42jd8ggps/43csd3hqs/WhatsApp%20Image%202025-03-25%20at%2000.40.52_7d01f9c9.jpg') no-repeat center/cover;
+            border-radius: 50%;
+        }
+
+        .header-title {
+            font-size: clamp(1rem, 3.5vw, 1.8rem);
+            font-weight: 600;
+            color: white;
+            margin-left: 0.5rem;
+        }
+
+        .menu-toggle {
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+            padding: 0.3rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #34495e;
+            width: 100%;
+            padding: 0.5rem;
+            display: none;
+            flex-direction: column;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+        }
+
+        .nav-menu.active {
+            display: flex;
+        }
+
+        .nav-menu li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 0.5rem;
+            transition: color 0.3s ease, background 0.3s ease;
+            border-radius: 5px;
+            display: block;
+        }
+
+        .nav-menu li a:hover {
+            color: #3498db;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-buttons button {
+            padding: 0.4rem 1rem;
+            border: none;
+            border-radius: 20px;
+            background: #3498db;
+            color: white;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+
+        .auth-buttons button:hover {
+            background: #2980b9;
+        }
+
+        /* Search Bar */
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin: 1rem auto;
+            max-width: 90%;
+            position: relative;
+        }
+
+        #searchInput {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 12px;
+            flex: 1;
+            outline: none;
+        }
+
+        #searchButton {
+            padding: 6px 12px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s ease;
+        }
+
+        #searchButton:hover {
+            background: #2980b9;
+        }
+
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            max-height: 150px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 1000;
+        }
+
+        .search-results.active {
+            display: block;
+        }
+
+        .search-results ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .search-results li {
+            padding: 6px 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s ease;
+        }
+
+        .search-results li:hover {
+            background: #f5f5f5;
+        }
+
+        /* Skills Section */
+        .skills-section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .skills-section h2 {
+            font-size: clamp(1.2rem, 4vw, 2.5rem);
+            font-weight: bold;
+            color: #34495e;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+        }
+
+        #underline {
+            display: block;
+            height: 3px;
+            background: linear-gradient(90deg, #007bff, #ff5733, #28a745);
+            background-size: 300% 100%;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            transition: width 3s steps(20, end);
+            animation: underlineAnimation 3s infinite alternate ease-in-out;
+        }
+
+        .greeting-container {
+            text-align: center;
+            padding: 10px;
+            margin: 1rem 0;
+        }
+
+        #greeting {
+            font-size: clamp(1rem, 5vw, 1.5rem);
+            text-transform: capitalize;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96c93d);
+            background-size: 400% 400%;
+            animation: gradientFlow 8s ease infinite;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: transform 0.3s ease;
+        }
+
+        #greeting:hover {
+            transform: scale(1.05);
+        }
+
+        .greeting-container p {
+            font-size: clamp(0.8rem, 3vw, 1rem);
+            margin: 5px 0 0;
+            background: linear-gradient(90deg, #f4a261, #e76f51, #2a9d8f, #264653);
+            background-size: 400% 400%;
+            animation: gradientFlow 6s ease infinite, bounce 1.5s ease infinite;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            transition: transform 0.3s ease;
+        }
+
+        .greeting-container p:hover {
+            transform: scale(1.05);
+        }
+
+        #quote {
+            color: #888;
+            font-size: clamp(0.7rem, 2.5vw, 0.9rem);
+            font-style: italic;
+            margin: 5px 0 0;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            justify-items: center;
+            margin-top: 0.8rem;
+        }
+
+        .skill-card {
+            background: white;
+            width: 100%;
+            max-width: 300px;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-image {
+            width: 100%;
+            height: 280px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-bottom: 0.8rem;
+        }
+
+        .skill-card h3 {
+            color: #34495e;
+            margin-bottom: 0.4rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            font-weight: 600;
+        }
+
+        .skill-card p {
+            color: #7f8c8d;
+            font-size: clamp(0.75rem, 2.5vw, 0.9rem);
+            line-height: 1.4;
+        }
+
+        /* Card Section */
+        .card-section {
+            background: #f0f4f8;
+            padding: 1.5rem 1rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .card-section .card {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            min-height: 18rem;
+            display: grid;
+            place-content: center;
+            place-items: center;
+            text-align: center;
+            box-shadow: 1px 12px 25px rgba(0, 0, 0, 0.78);
+            border-radius: 2rem;
+            font-family: "Nunito", sans-serif;
+            transition: transform 0.3s ease;
+        }
+
+        .card-section .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-section .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 2rem;
+            border: 0.155rem solid transparent;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: destination-out;
+            mask-composite: exclude;
+        }
+
+        .card-section .card-header {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0.5rem 0 1rem;
+        }
+
+        .card-section .card-header .date {
+            color: #ddd;
+            font-size: 0.9rem;
+        }
+
+        .card-section .card-header svg {
+            color: #fff;
+            width: 2rem;
+            cursor: pointer;
+        }
+
+        .card-section .card-body {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 0.6rem 1rem;
+        }
+
+        .card-section .card-body h3 {
+            color: #fff;
+            font-size: clamp(1.1rem, 3.5vw, 1.375rem);
+            margin: 0.5rem 0 0.15rem;
+            text-transform: capitalize;
+            font-weight: 600;
+        }
+
+        .card-section .card-body p {
+            color: #ddd;
+            font-size: clamp(0.8rem, 2.5vw, 1rem);
+        }
+
+        .card-section .card-footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            border-top: 0.063rem solid #292929;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 1rem;
+            background: #151419;
+            border-bottom-left-radius: 2rem;
+            border-bottom-right-radius: 2rem;
+        }
+
+        .card-section .btn-add {
+            width: 1.2rem;
+            height: 1.2rem;
+            border-radius: 50%;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-section .btn-add svg {
+            width: 0.9rem;
+        }
+
+        .card-section .btn-countdown {
+            background: #222127;
+            color: #fff;
+            border-radius: 1.5rem;
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .card-section .green {
+            background: radial-gradient(ellipse at right top, #107667ed 0%, #151419 47%, #151419 100%);
+        }
+
+        .card-section .green::before {
+            background: linear-gradient(45deg, #232228, #232228, #232228, #232228, #01c3a8) border-box;
+        }
+
+        .card-section .green .btn-add {
+            background: #01c3a8;
+        }
+
+        .card-section .green .btn-countdown:hover {
+            background: #01c3a8;
+        }
+
+        .card-section .orange {
+            background: radial-gradient(ellipse at right top, #ffb74194 0%, #151419 47%, #151419 100%);
+        }
+
+        .card-section .orange::before {
+            background: linear-gradient(45deg, #232228, #232228, #232228, #232228, #ffb741) border-box;
+        }
+
+        .card-section .orange .btn-add {
+            background: #ffb741;
+        }
+
+        .card-section .orange .btn-countdown:hover {
+            background: #ffb741;
+        }
+
+        .card-section .red {
+            background: radial-gradient(ellipse at right top, #a63d2a82 0%, #151419 47%, #151419 100%);
+        }
+
+        .card-section .red::before {
+            background: linear-gradient(45deg, #232228, #232228, #232228, #232228, #a63d2a) border-box;
+        }
+
+        .card-section .red .btn-add {
+            background: #a63d2a;
+        }
+
+        .card-section .red .btn-countdown:hover {
+            background: #a63d2a;
+        }
+
+        .card-section .blue {
+            background: radial-gradient(ellipse at right top, #00458f8f 0%, #151419 45%, #151419 100%);
+        }
+
+        .card-section .blue::before {
+            background: linear-gradient(45deg, #232228, #232228, #232228, #232228, #1890ff) border-box;
+        }
+
+        .card-section .blue .btn-add {
+            background: #1890ff;
+        }
+
+        .card-section .blue .btn-countdown:hover {
+            background: #1890ff;
+        }
+
+        /* Footer */
+        footer {
+            background: #f5f5dc;
+            color: #333;
+            padding: 10px 1rem;
+            font-size: 12px;
+            border-radius: 15px 15px 0 0;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-content > div {
+            flex: 1;
+            min-width: 100%;
+            text-align: center;
+            margin: 0.3rem 0;
+        }
+
+        .social-btn {
+            text-decoration: none;
+            color: #fff;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 6px;
+            margin: 0 2px;
+            animation: rotatePause 6s infinite;
+        }
+
+        @keyframes rotatePause {
+            0% { transform: rotate(0deg); }
+            10% { transform: rotate(360deg); }
+            90% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .footer-links a {
+            color: #333;
+            text-decoration: none;
+            margin: 0 0.3rem;
+            font-size: 11px;
+        }
+
+        /* Animations */
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-8px); }
+            60% { transform: translateY(-4px); }
+        }
+
+        @keyframes underlineAnimation {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+                padding: 0.5rem;
+            }
+
+            .auth-buttons {
+                margin-top: 0.5rem;
+            }
+
+            .skills-section {
+                margin: 1rem auto;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+
+            .skill-card {
+                width: 100%;
+                max-width: 300px;
+                padding: 1rem;
+            }
+
+            .skill-image {
+                height: auto;
+                max-height: 200px;
+                min-height: 150px;
+            }
+
+            .card-section {
+                padding: 1rem;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card-section .card {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 1rem;
+            }
+
+            .logo {
+                width: 40px;
+                height: 40px;
+            }
+
+            .menu-toggle {
+                font-size: 1.2rem;
+            }
+
+            .nav-menu li a {
+                font-size: 0.9rem;
+                padding: 0.4rem;
+            }
+
+            .auth-buttons button {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .search-container {
+                max-width: 85%;
+            }
+
+            #searchInput, #searchButton {
+                font-size: 11px;
+                padding: 5px 8px;
+            }
+
+            .skill-card {
+                padding: 0.8rem;
+            }
+
+            .skill-image {
+                height: auto;
+                max-height: 150px;
+                min-height: 100px;
+            }
+
+            .card-section .card {
+                min-height: 16rem;
+            }
+
+            .card-section .card-header {
+                padding: 0.5rem;
+            }
+
+            .card-section .card-body {
+                padding: 0.5rem;
+            }
+
+            .card-section .card-footer {
+                padding: 0.5rem;
+            }
+
+            .footer-content > div {
+                min-width: 100%;
+            }
+
+            footer {
+                padding: 8px 0.5rem;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div style="display: flex; align-items: center; flex-wrap: wrap;">
+            <div class="menu-toggle" id="menu-toggle">☰</div>
+            <div class="logo"></div>
+            <h1 class="header-title">Tales Online</h1>
+        </div>
+        <ul class="nav-menu" id="nav-menu"> 
+	    <li><a href="dashboard.html">Home</a></li>
+            <li><a href="books.html">Books</a></li>
+            <li><a href="magazine.html">Magazines</a></li>
+            <li><a href="about.html">About the Developer</a></li>
+            <li><a href="blogs.html">Blogs</a></li>
+	    <li><a href="pod.html">Podcast</a></li>
+	      <li><a href="shop.html">Shop</a></li>
+            
+        </ul>
+        <div class="auth-buttons">
+            <button id="logout-btn">Log Out</button>
+        </div>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search content...">
+        <button id="searchButton" onclick="performSearch()">Search</button>
+        <div id="searchResults" class="search-results"></div>
+    </div>
+
+    <section class="skills-section" id="skills">
+        <h2>Welcome to Our Dashboard<span id="underline"></span></h2>
+        <div class="greeting-container">
+            <h2 id="greeting">Good Morning</h2>
+            <p>Welcome!</p>
+            <p id="quote"></p>
+        </div>
+<style>
+    .skills-title {
+        color: darkgreen;
+        font-size: 24px;
+        font-weight: bold;
+        font-style: italic;
+        text-align: left;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        letter-spacing: 1px;
+        transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+        display: block; /* Ensures it displays properly */
+        cursor: pointer;
+        animation: glowing 2s infinite alternate ease-in-out;
+        margin: 5px 0; /* Small top and bottom spacing */
+        padding: 5px; /* Light padding */
+    }
+
+    .resources-title:hover {
+        transform: scale(1.05);
+        color: #006400;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes glowing {
+        0% {
+            text-shadow: 0 0 5px rgba(139, 0, 0, 0.6);
+        }
+        100% {
+            text-shadow: 0 0 15px rgba(139, 0, 0, 0.9);
+        }
+    }
+
+    .container {
+        text-align: left; /* Centers the text */
+        margin: 5px 0; /* Ensures it fits within the content flow */
+    }
+</style>
+<section class="sale-of-week">
+    <h2>🔥 SALE OF THE WEEK 🔥</h2>
+    <div class="timer">
+        <span id="days">00</span> Days 
+        <span id="hours">00</span> Hours 
+        <span id="minutes">00</span> Mins 
+        <span id="seconds">00</span> Secs
+    </div>
+
+    <div class="products">
+        <div class="product">
+            <img id="product-img-1" src="" alt="Product 1">
+            <div class="product-details">
+                <h3 id="product-name-1"></h3>
+                <p id="product-desc-1"></p>
+                <p><strong>Now: <span id="product-price-1"></span></strong> <del id="old-price-1"></del></p>
+                <a id="buy-now-1" class="buy-now" download>Buy Now</a>
+            </div>
+        </div>
+
+        <div class="product">
+            <img id="product-img-2" src="" alt="Product 2">
+            <div class="product-details">
+                <h3 id="product-name-2"></h3>
+                <p id="product-desc-2"></p>
+                <p><strong>Now: <span id="product-price-2"></span></strong> <del id="old-price-2"></del></p>
+                <a id="buy-now-2" class="buy-now" download>Buy Now</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Product data for 5 weeks (Two products per week)
+    const weeklyProducts = [
+        [ // Week 1
+            { name: "Classic Jeans", desc: "Get these stylish jeans at an unbeatable price!", price: "$29.99", oldPrice: "$49.99", img: "https://via.placeholder.com/150", file: "jeans.pdf" },
+            { name: "Smart Watch", desc: "Limited-time deal on this smartwatch!", price: "$99.99", oldPrice: "$149.99", img: "https://via.placeholder.com/150", file: "watch.pdf" }
+        ],
+        [ // Week 2
+            { name: "Running Shoes", desc: "Comfort and style for your workouts!", price: "$59.99", oldPrice: "$89.99", img: "https://via.placeholder.com/150", file: "shoes.pdf" },
+            { name: "Wireless Earbuds", desc: "High-quality sound at a great price!", price: "$39.99", oldPrice: "$69.99", img: "https://via.placeholder.com/150", file: "earbuds.pdf" }
+        ],
+        [ // Week 3
+            { name: "Leather Jacket", desc: "Stay warm and stylish this season!", price: "$79.99", oldPrice: "$129.99", img: "https://via.placeholder.com/150", file: "jacket.pdf" },
+            { name: "Gaming Headset", desc: "Immersive sound experience for gamers!", price: "$49.99", oldPrice: "$79.99", img: "https://via.placeholder.com/150", file: "headset.pdf" }
+        ],
+        [ // Week 4
+            { name: "Digital Camera", desc: "Capture stunning moments with this camera!", price: "$199.99", oldPrice: "$299.99", img: "https://via.placeholder.com/150", file: "camera.pdf" },
+            { name: "Bluetooth Speaker", desc: "Portable speaker with deep bass!", price: "$34.99", oldPrice: "$59.99", img: "https://via.placeholder.com/150", file: "speaker.pdf" }
+        ],
+        [ // Week 5
+            { name: "Designer Sunglasses", desc: "Stylish and UV-protected sunglasses!", price: "$24.99", oldPrice: "$49.99", img: "https://via.placeholder.com/150", file: "sunglasses.pdf" },
+            { name: "Backpack", desc: "Durable and spacious for all your needs!", price: "$44.99", oldPrice: "$69.99", img: "https://via.placeholder.com/150", file: "backpack.pdf" }
+        ]
+    ];
+
+    function startWeeklyCountdown() {
+        let now = new Date();
+        let startDate = new Date("2025-03-31"); // Change to your sale start date
+        let weekNumber = Math.floor((now - startDate) / (7 * 24 * 60 * 60 * 1000)) % 5;
+
+        // Load product details for both products of the week
+        let product1 = weeklyProducts[weekNumber][0];
+        let product2 = weeklyProducts[weekNumber][1];
+
+        document.getElementById("product-name-1").innerText = product1.name;
+        document.getElementById("product-desc-1").innerText = product1.desc;
+        document.getElementById("product-price-1").innerText = product1.price;
+        document.getElementById("old-price-1").innerText = product1.oldPrice;
+        document.getElementById("product-img-1").src = product1.img;
+        document.getElementById("buy-now-1").href = product1.file;
+
+        document.getElementById("product-name-2").innerText = product2.name;
+        document.getElementById("product-desc-2").innerText = product2.desc;
+        document.getElementById("product-price-2").innerText = product2.price;
+        document.getElementById("old-price-2").innerText = product2.oldPrice;
+        document.getElementById("product-img-2").src = product2.img;
+        document.getElementById("buy-now-2").href = product2.file;
+
+        // Set countdown to next Monday
+        let nextMonday = new Date(now);
+        nextMonday.setDate(now.getDate() + (7 - now.getDay()));
+        nextMonday.setHours(0, 0, 0, 0);
+
+        function updateCountdown() {
+            let now = new Date();
+            let remainingTime = nextMonday - now;
+
+            if (remainingTime <= 0) {
+                location.reload();
+                return;
+            }
+
+            document.getElementById("days").innerText = Math.floor(remainingTime / (1000 * 60 * 60 * 24));
+            document.getElementById("hours").innerText = Math.floor((remainingTime / (1000 * 60 * 60)) % 24);
+            document.getElementById("minutes").innerText = Math.floor((remainingTime / (1000 * 60)) % 60);
+            document.getElementById("seconds").innerText = Math.floor((remainingTime / 1000) % 60);
+
+            setTimeout(updateCountdown, 1000);
+        }
+
+        updateCountdown();
+    }
+
+    startWeeklyCountdown();
+</script>
+
+<style>
+    .sale-of-week {
+        background: linear-gradient(135deg, #ff4e50, #fc913a);
+        color: white;
+        text-align: center;
+        padding: 30px 10px;
+        border-radius: 10px;
+        max-width: 100%;
+    }
+
+    .products {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .product {
+        flex: 1;
+        background: white;
+        color: black;
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .product img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        transition: transform 0.3s;
+    }
+
+    .product img:hover {
+        transform: scale(1.1);
+    }
+
+    .buy-now {
+        display: block;
+        margin-top: 10px;
+        padding: 8px;
+        background: #ff4e50;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+    }
+
+    .buy-now:hover {
+        background: white;
+        color: #ff4e50;
+    }
+</style>
+
+
+<div class="container">
+    <p class="skills-title">skills section</p>
+</div>
+
+        <div class="skills-grid">
+            <div class="skill-card">
+                <img src="https://assets.onecompiler.app/42jd8ggps/43csd3hqs/mm.jng.jpeg" alt="Book Writing" class="skill-image">
+                <h3>Book Writing</h3>
+		<p style="font-size:16px; color:#333;">
+  I craft <b style="color:#007bff;">compelling stories</b> that captivate readers and bring your <i style="color:#ff5733;">imagination to life</i> through <b style="color:#28a745;">professional writing</b>. With a <i style="color:#6f42c1;">keen eye for detail</i> and a <b style="color:#17a2b8;">passion for storytelling</b>, I create <i style="color:#e83e8c;">engaging content</i> that resonates with audiences. Whether it's <b style="color:#6610f2;">fiction</b>, <b style="color:#dc3545;">blogs</b>, <b style="color:#fd7e14;">articles</b>, or <b style="color:#ffc107;">magazine pieces</b>, my expertise ensures every word is impactful, every story is <i style="color:#20c997;">vivid</i>, and every idea is expressed with <b style="color:#ff1493;">clarity</b> and <i style="color:#00ced1;">creativity</i>. Let me transform your thoughts into beautifully written narratives that leave a <b style="color:#8a2be2;">lasting impression</b>.
+</p>
+<button onclick="checkMenu()" 
+        style="background-color:#28a745; color:white; border:none; padding:10px 20px; font-size:16px; 
+        border-radius:5px; cursor:pointer; margin-top:15px; transition:0.3s;">
+        Check
+    </button>
+
+    <script>
+        function checkMenu() {
+            let msgBox = document.createElement("div");
+            msgBox.innerText = "Please Check out the menu and select the section of interest...thank you!";
+            msgBox.style.position = "fixed";
+            msgBox.style.top = "50%";
+            msgBox.style.left = "50%";
+            msgBox.style.transform = "translate(-50%, -50%)";
+            msgBox.style.background = "#333";
+            msgBox.style.color = "white";
+            msgBox.style.padding = "15px 20px";
+            msgBox.style.borderRadius = "8px";
+            msgBox.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
+            msgBox.style.fontSize = "16px";
+            msgBox.style.zIndex = "1000";
+
+            document.body.appendChild(msgBox);
+
+            setTimeout(() => {
+                msgBox.remove();
+            }, 4000);
+        }
+    </script>
+
+              </div>
+            <div class="skill-card">
+                <img src="https://assets.onecompiler.app/42jd8ggps/43csd3hqs/web.jpg" alt="Web Development" class="skill-image">
+                <h3>Web Development</h3>
+                <p style="font-size:16px; color:#333;">
+  I build <b style="color:#007bff;">modern</b>, <b style="color:#28a745;">responsive</b> websites that seamlessly adapt to any device, ensuring an <i style="color:#ff5733;">optimal user experience</i>. Using <b style="color:#6f42c1;">cutting-edge technologies</b> and <i style="color:#17a2b8;">innovative design principles</i>, I create visually stunning, fast, and functional websites tailored to your needs. From <b style="color:#e83e8c;">sleek interfaces</b> to <i style="color:#fd7e14;">smooth navigation</i>, every detail is crafted for <b style="color:#6610f2;">performance</b>, <i style="color:#dc3545;">aesthetics</i>, and <b style="color:#ffc107;">usability</b>. Let’s bring your vision to life with a website that <i style="color:#20c997;">stands out</i> in today’s digital world.
+</p>
+<button onclick="checkMenu()" 
+        style="background-color:#28a745; color:white; border:none; padding:10px 20px; font-size:16px; 
+        border-radius:5px; cursor:pointer; margin-top:15px; transition:0.3s;">
+        Check
+    </button>
+
+    <script>
+        function checkMenu() {
+            let msgBox = document.createElement("div");
+            msgBox.innerText = "Please Check out the menu and select the section of interest...thank you!";
+            msgBox.style.position = "fixed";
+            msgBox.style.top = "50%";
+            msgBox.style.left = "50%";
+            msgBox.style.transform = "translate(-50%, -50%)";
+            msgBox.style.background = "#333";
+            msgBox.style.color = "white";
+            msgBox.style.padding = "15px 20px";
+            msgBox.style.borderRadius = "8px";
+            msgBox.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
+            msgBox.style.fontSize = "16px";
+            msgBox.style.zIndex = "1000";
+
+            document.body.appendChild(msgBox);
+
+            setTimeout(() => {
+                msgBox.remove();
+            }, 4000);
+        }
+    </script>
+
+            </div>
+            <div class="skill-card">
+                <img src="https://assets.onecompiler.app/42jd8ggps/43csd3hqs/bl.jpeg" alt="Blogger" class="skill-image">
+                <h3>Blogger</h3>
+                <p style="font-size:16px; color:#333;">
+  <b style="color:#007bff;">I Create compelling and engaging content</b> that captures your audience’s attention and keeps them coming back for more. <i style="color:#ff5733;">Build a strong online presence</i> by leveraging <b style="color:#28a745;">expert blogging techniques</b> that enhance visibility, credibility, and reader engagement. With the right approach, you can turn your blog into a powerful platform that <i style="color:#6f42c1;">connects, informs, and inspires</i>.
+</p>
+<button onclick="checkMenu()" 
+        style="background-color:#28a745; color:white; border:none; padding:10px 20px; font-size:16px; 
+        border-radius:5px; cursor:pointer; margin-top:15px; transition:0.3s;">
+        Check
+    </button>
+
+    <script>
+        function checkMenu() {
+            let msgBox = document.createElement("div");
+            msgBox.innerText = "Please Check out the menu and select the section of interest...thank you!";
+            msgBox.style.position = "fixed";
+            msgBox.style.top = "50%";
+            msgBox.style.left = "50%";
+            msgBox.style.transform = "translate(-50%, -50%)";
+            msgBox.style.background = "#333";
+            msgBox.style.color = "white";
+            msgBox.style.padding = "15px 20px";
+            msgBox.style.borderRadius = "8px";
+            msgBox.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
+            msgBox.style.fontSize = "16px";
+            msgBox.style.zIndex = "1000";
+
+            document.body.appendChild(msgBox);
+
+            setTimeout(() => {
+                msgBox.remove();
+            }, 4000);
+        }
+    </script>
+            </div>
+            <div class="skill-card">
+                <img src="https://assets.onecompiler.app/42jd8ggps/43csd3hqs/gd.webp" alt="Graphic Design" class="skill-image">
+                <h3>Graphic Design</h3>
+                <p style="font-size:16px; color:#333;">
+  <b style="color:#007bff;">I Design stunning visuals</b> that <i style="color:#ff5733;">captivate</i> your audience and <b style="color:#28a745;">communicate your brand</b> message <i style="color:#6f42c1;">effectively</i>. Make a lasting impression with eye-catching designs that reflect your identity and engage your viewers.
+</p>
+ <button onclick="checkMenu()" 
+        style="background-color:#28a745; color:white; border:none; padding:10px 20px; font-size:16px; 
+        border-radius:5px; cursor:pointer; margin-top:15px; transition:0.3s;">
+        Check
+    </button>
+
+    <script>
+        function checkMenu() {
+            let msgBox = document.createElement("div");
+            msgBox.innerText = "Please Check out the menu and select the section of interest...thank you!";
+            msgBox.style.position = "fixed";
+            msgBox.style.top = "50%";
+            msgBox.style.left = "50%";
+            msgBox.style.transform = "translate(-50%, -50%)";
+            msgBox.style.background = "#333";
+            msgBox.style.color = "white";
+            msgBox.style.padding = "15px 20px";
+            msgBox.style.borderRadius = "8px";
+            msgBox.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
+            msgBox.style.fontSize = "16px";
+            msgBox.style.zIndex = "1000";
+
+            document.body.appendChild(msgBox);
+
+            setTimeout(() => {
+                msgBox.remove();
+            }, 4000);
+        }
+    </script>
+
+            </div>
+            <div class="skill-card">
+    <img src="https://assets.onecompiler.app/42jd8ggps/43csd3hqs/aid.webp" alt="Interior Design" class="skill-image">
+    
+    <h3>Interior Design</h3>
+    
+    <p style="font-size:16px; color:#333;">
+        <b style="color:#007bff;">I Transform spaces</b> with <i style="color:#ff5733;">creative</i> and 
+        <b style="color:#28a745;">functional interior design solutions</b> that bring beauty, comfort, and 
+        practicality together. Elevate any environment with designs that reflect personality, enhance ambiance, 
+        and maximize space efficiency.
+    </p>
+
+   <button onclick="checkMenu()" 
+        style="background-color:#28a745; color:white; border:none; padding:10px 20px; font-size:16px; 
+        border-radius:5px; cursor:pointer; margin-top:15px; transition:0.3s;">
+        Check
+    </button>
+
+    <script>
+        function checkMenu() {
+            let msgBox = document.createElement("div");
+            msgBox.innerText = "Please Check out the menu and select the section of interest...thank you!";
+            msgBox.style.position = "fixed";
+            msgBox.style.top = "50%";
+            msgBox.style.left = "50%";
+            msgBox.style.transform = "translate(-50%, -50%)";
+            msgBox.style.background = "#333";
+            msgBox.style.color = "white";
+            msgBox.style.padding = "15px 20px";
+            msgBox.style.borderRadius = "8px";
+            msgBox.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
+            msgBox.style.fontSize = "16px";
+            msgBox.style.zIndex = "1000";
+
+            document.body.appendChild(msgBox);
+
+            setTimeout(() => {
+                msgBox.remove();
+            }, 4000);
+        }
+    </script>
+</div>
+
+            <div class="skill-card">
+                <img src="https://assets.onecompiler.app/42jd8ggps/43csd3hqs/COUV_379x500.jpg" alt="Magazines" class="skill-image">
+                <h3>Magazines</h3>
+               <p style="font-size:16px; color:#333;">
+  <b style="color:#007bff;">I Explore the latest trends</b>, <i style="color:#ff5733;">stories</i>, and <b style="color:#28a745;">insights</b> in <i style="color:#6f42c1;">creative design</i> and <b style="color:#e83e8c;">lifestyle</b>. Stay inspired with fresh ideas that spark innovation and elevate your everyday experiences.
+</p>
+<button onclick="checkMenu()" 
+        style="background-color:#28a745; color:white; border:none; padding:10px 20px; font-size:16px; 
+        border-radius:5px; cursor:pointer; margin-top:15px; transition:0.3s;">
+        Check
+    </button>
+
+    <script>
+        function checkMenu() {
+            let msgBox = document.createElement("div");
+            msgBox.innerText = "Please Check out the menu and select the section of interest...thank you!";
+            msgBox.style.position = "fixed";
+            msgBox.style.top = "50%";
+            msgBox.style.left = "50%";
+            msgBox.style.transform = "translate(-50%, -50%)";
+            msgBox.style.background = "#333";
+            msgBox.style.color = "white";
+            msgBox.style.padding = "15px 20px";
+            msgBox.style.borderRadius = "8px";
+            msgBox.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
+            msgBox.style.fontSize = "16px";
+            msgBox.style.zIndex = "1000";
+
+            document.body.appendChild(msgBox);
+
+            setTimeout(() => {
+                msgBox.remove();
+            }, 4000);
+        }
+    </script>
+            </div>
+        </div>
+    </section>
+<style>
+    .resources-title {
+        color: darkgreen;
+        font-size: 24px;
+        font-weight: bold;
+        font-style: italic;
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        letter-spacing: 1px;
+        transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+        display: block; /* Ensures it displays properly */
+        cursor: pointer;
+        animation: glowing 2s infinite alternate ease-in-out;
+        margin: 5px 0; /* Small top and bottom spacing */
+        padding: 5px; /* Light padding */
+    }
+
+    .resources-title:hover {
+        transform: scale(1.05);
+        color: #006400;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    @keyframes glowing {
+        0% {
+            text-shadow: 0 0 5px rgba(139, 0, 0, 0.6);
+        }
+        100% {
+            text-shadow: 0 0 15px rgba(139, 0, 0, 0.9);
+        }
+    }
+
+    .container {
+        text-align: center; /* Centers the text */
+        margin: 5px 0; /* Ensures it fits within the content flow */
+    }
+</style>
+
+<div class="container">
+    <p class="resources-title">Other Resources</p>
+</div>
+
+    <section class="card-section">
+        <div class="card green">
+            <div class="card-header">
+                <div class="date">since Feb 2, 2025</div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div class="card-body">
+                <h3>CHRISTIANS LIBRARY</h3>
+                <p>Check out the latest PDFs that will help you in learning christianity</p>
+            </div>
+            <div class="card-footer">
+                <a href="christianity.html" class="btn-add">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+                <a href="christianity.html" class="btn-countdown">study here</a>
+            </div>
+        </div>
+        <div class="card orange">
+            <div class="card-header">
+                <div class="date">since Feb 05, 2025</div>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div class="card-body">
+                <h3>AI ACADEMY</h3>
+                <p>Get your task be performed. find a list of AIs and their premiun prompts to lead into a positive results and time saving. N/B some AI Prompts may be under purchase </p>
+            </div>
+            <div class="card-footer">
+                <a href="ai.html" class="btn-add">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+                <a href="ai.html" class="btn-countdown">check</a>
+            </div>
+        </div>
+        <div class="card red">
+            <div class="card-header">
+               
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.5 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm0 6a1.5 1.5 0" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <div class="card-body">
+                <h3>PARTNERS POSTS</h3>
+                <p>Users who trust us and feel the need to post a content on our web has this section to post their items</p>
+            </div>
+            <div class="card-footer">
+                <a href="users.html" class="btn-add">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path fill-rule="evenodd" d="M12 3.75a.75.75 0 0 1 .75.75v6.75h6.75a.75.75 0 0 1 0 1.5h-6.75v6.75a.75.75 0 0 1-1.5 0v-6.75H4.5a.75.75 0 0 1 0-1.5h6.75V4.5a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+                <a href="users.html" class="btn-countdown">visit</a>
+            </div>
+        </div>
+    </section>
+
+    <footer style="padding: 10px 20px; background: #f8f8f8; border-top: 1px solid #e7e7e7;">
+        <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; gap: 10px;">
+            <div style="margin: 0;">
+                <p style="margin: 0; font-size: 14px;"><strong>Contact:</strong> <a href="mailto:info@talesonline.com" style="color: #00acee; text-decoration: none;">info@talesonline.com</a></p>
+                <p style="margin: 0; font-size: 14px;"><strong>Phone:</strong> (555) 123-4567</p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <a href="https://www.facebook.com" target="_blank" style="display: block; width: 20px; height: 20px;">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/facebook%20(1).png" alt="Facebook" style="width: 100%; height: 100%; object-fit: contain; transition: opacity 0.2s;">
+                </a>
+                <a href="https://twitter.com" target="_blank" style="display: block; width: 20px; height: 20px;">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/twitter.png" alt="Twitter" style="width: 100%; height: 100%; object-fit: contain; transition: opacity 0.2s;">
+                </a>
+                <a href="https://www.instagram.com" target="_blank" style="display: block; width: 20px; height: 20px;">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/instagram.png" alt="Instagram" style="width: 100%; height: 100%; object-fit: contain; transition: opacity 0.2s;">
+                </a>
+                <a href="https://www.linkedin.com" target="_blank" style="display: block; width: 20px; height: 20px;">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/linkedin.png" alt="LinkedIn" style="width: 100%; height: 100%; object-fit: contain; transition: opacity 0.2s;">
+                </a>
+                <a href="https://wa.me/0102645377" target="_blank" style="display: block; width: 20px; height: 20px;">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/whatsapp.png" alt="WhatsApp" style="width: 100%; height: 100%; object-fit: contain; transition: opacity 0.2s;">
+                </a>
+            </div>
+            <div style="font-size: 14px;">
+                <a href="#" style="color: #666; text-decoration: none; margin: 0 5px;">Privacy</a> | 
+                <a href="#" style="color: #666; text-decoration: none; margin: 0 5px;">Terms</a> | 
+                <a href="#" style="color: #666; text-decoration: none; margin: 0 5px;">About</a>
+            </div>
+        </div>
+        <p style="margin: 5px 0 0; font-size: 10px; opacity: 0.7; text-align: center;">© 2025 Tales Online. All rights reserved.</p>
+
+        <style>
+            footer a:hover img { opacity: 0.8; }
+            footer .footer-links a:hover { text-decoration: underline; }
+            @media (max-width: 768px) {
+                footer > div { flex-direction: column; text-align: center; }
+            }
+        </style>
+    </footer>
+
+    <script>
+        // Search Functionality
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+            const resultsDiv = document.getElementById('searchResults');
+            resultsDiv.innerHTML = '';
+            resultsDiv.classList.remove('active');
+
+            if (searchTerm === '') return;
+
+            const elements = document.querySelectorAll('h1, h2, h3, p, li');
+            const matches = [];
+
+            elements.forEach(element => {
+                const text = element.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    matches.push({ text: element.textContent, element });
+                }
+            });
+
+            if (matches.length > 0) {
+                const ul = document.createElement('ul');
+                matches.forEach(match => {
+                    const li = document.createElement('li');
+                    li.textContent = match.text.substring(0, 40) + (match.text.length > 40 ? '...' : '');
+                    li.addEventListener('click', () => {
+                        match.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        resultsDiv.classList.remove('active');
+                    });
+                    ul.appendChild(li);
+                });
+                resultsDiv.appendChild(ul);
+                resultsDiv.classList.add('active');
+            } else {
+                resultsDiv.innerHTML = '<p style="padding: 6px 10px; margin: 0;">No results found</p>';
+                resultsDiv.classList.add('active');
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') performSearch();
+        });
+
+        document.addEventListener('click', function(e) {
+            const searchContainer = document.querySelector('.search-container');
+            const resultsDiv = document.getElementById('searchResults');
+            if (!searchContainer.contains(e.target) && resultsDiv.classList.contains('active')) {
+                resultsDiv.classList.remove('active');
+            }
+        });
+
+        // Menu Toggle
+        const menuToggle = document.getElementById("menu-toggle");
+        const navMenu = document.getElementById("nav-menu");
+        menuToggle.addEventListener("click", (event) => {
+            event.stopPropagation();
+            navMenu.classList.toggle("active");
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!menuToggle.contains(event.target) && !navMenu.contains(event.target)) {
+                navMenu.classList.remove("active");
+            }
+        });
+
+        // Greeting and Quote
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            let greetingText = "";
+            if (hour >= 5 && hour < 12) greetingText = "Good Morning";
+            else if (hour >= 12 && hour < 17) greetingText = "Good Afternoon";
+            else if (hour >= 17 && hour < 21) greetingText = "Good Evening";
+            else greetingText = "Good Night";
+            document.getElementById("greeting").innerText = greetingText;
+        }
+
+        updateGreeting();
+        setInterval(updateGreeting, 60000);
+
+        const quotes = ["Keep on truckin’!", "The road is yours.", "Drive the day away."];
+        document.getElementById("quote").innerText = quotes[Math.floor(Math.random() * quotes.length)];
+
+        setTimeout(() => {
+            document.getElementById('underline').style.width = document.querySelector('.skills-section h2').offsetWidth + 'px';
+        }, 100);
+
+        // Social Buttons
+        const colors = ["#3b5998", "#00acee", "#C13584", "#0077b5"];
+        function changeColorsAndShuffle() {
+            const buttons = document.querySelectorAll(".social-btn");
+            const container = document.getElementById("social-container");
+            buttons.forEach(btn => {
+                btn.style.background = colors[Math.floor(Math.random() * colors.length)];
+            });
+            let shuffled = Array.from(buttons).sort(() => Math.random() - 0.5);
+            shuffled.forEach(btn => container.appendChild(btn));
+        }
+        setInterval(changeColorsAndShuffle, 6000);
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAM4R6aBRGGMQsHXi_uJgtQpi73SUKIfrE",
+            authDomain: "sign-in-b3cbf.firebaseapp.com",
+            projectId: "sign-in-b3cbf",
+            storageBucket: "sign-in-b3cbf.appspot.com",
+            messagingSenderId: "444130382857",
+            appId: "1:444130382857:web:6cd817f6ca5f617f8094d8",
+            measurementId: "G-5K0M53WFRJ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("User is signed in:", user.email);
+            } else {
+                window.location.href = "index.html";
+            }
+        });
+
+        document.getElementById("logout-btn").addEventListener("click", () => {
+            signOut(auth)
+                .then(() => window.location.href = "index.html")
+                .catch((error) => alert("Error signing out: " + error.message));
+        });
+    </script>
+</body>
+</html>

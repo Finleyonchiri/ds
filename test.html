@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tales Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f0f4f8;
+            color: #2c3e50;
+            line-height: 1.6;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        header {
+            background: #34495e;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: white;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: #3498db;
+            border-radius: 50%;
+        }
+
+        .header-title {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .auth-buttons button {
+            padding: 0.5rem 1.5rem;
+            margin-left: 1rem;
+            border: none;
+            border-radius: 20px;
+            background: #3498db;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .auth-buttons button:hover {
+            background: #2980b9;
+        }
+
+        .skills-section {
+            max-width: 1200px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+            animation: slideIn 1s ease-out;
+        }
+
+        .skills-section h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #34495e;
+            font-size: 2.5rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .skill-image {
+            width: 100%;
+            height: 150px;
+            background: #ecf0f1;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .skill-card h3 {
+            color: #34495e;
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-card p {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            background: #34495e;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-icons {
+            margin: 1rem 0;
+        }
+
+        .social-icons a {
+            color: white;
+            margin: 0 0.5rem;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .footer-links a {
+            color: #3498db;
+            margin: 0 1rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo"></div>
+        <h1 class="header-title">Tales Online</h1>
+        <div class="auth-buttons">
+            <button id="logout-btn">Log Out</button>
+        </div>
+    </header>
+
+    <!-- Main Body -->
+    <section class="skills-section" id="skills">
+        <h2>Our Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <div class="skill-image"></div>
+                <h3>Book Writing</h3>
+                <p>Craft compelling stories and bring your imagination to life with professional writing skills.</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-image"></div>
+                <h3>Web Development</h3>
+                <p>Build modern, responsive websites with cutting-edge technologies and design.</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-image"></div>
+                <h3>Blogger</h3>
+                <p>Create engaging content and build your online presence with expert blogging techniques.</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-image"></div>
+                <h3>Graphic Design</h3>
+                <p>Design stunning visuals that captivate and communicate your brand effectively.</p>
+            </div>
+            <div class="skill-card">
+                <div class="skill-image"></div>
+                <h3>Interior Design</h3>
+                <p>Transform spaces with creative and functional interior design solutions.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>Contact: info@talesonline.com | Phone: (555) 123-4567</p>
+            <div class="social-icons">
+                <a href="#">FB</a>
+                <a href="#">TW</a>
+                <a href="#">IG</a>
+                <a href="#">LI</a>
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">About Us</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK and Auth Check -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAM4R6aBRGGMQsHXi_uJgtQpi73SUKIfrE",
+            authDomain: "sign-in-b3cbf.firebaseapp.com",
+            projectId: "sign-in-b3cbf",
+            storageBucket: "sign-in-b3cbf.appspot.com",
+            messagingSenderId: "444130382857",
+            appId: "1:444130382857:web:6cd817f6ca5f617f8094d8",
+            measurementId: "G-5K0M53WFRJ"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Check auth state on page load
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, stay on index.html
+                console.log("User is signed in:", user.email);
+            } else {
+                // User is not signed in, redirect to login.html
+                window.location.href = "login.html";
+            }
+        });
+
+        // Logout functionality
+        document.getElementById("logout-btn").addEventListener("click", () => {
+            signOut(auth)
+                .then(() => {
+                    window.location.href = "login.html";
+                })
+                .catch((error) => {
+                    alert("Error signing out: " + error.message);
+                });
+        });
+    </script>
+</body>
+</html>
