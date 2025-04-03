@@ -19,33 +19,46 @@
             overflow-x: hidden;
         }
 
-        /* Header */
-        header {
-            background: #34495e;
-            padding: 0.5rem 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            flex-wrap: wrap;
-        }
+      header {
+    background: #34495e;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    flex-wrap: wrap;
+}
 
-        .logo {
-            width: clamp(40px, 8vw, 80px);
-            height: clamp(40px, 8vw, 80px);
-            background: url('https://assets.onecompiler.app/42jd8ggps/43csd3hqs/WhatsApp%20Image%202025-03-25%20at%2000.40.52_7d01f9c9.jpg') no-repeat center/cover;
-            border-radius: 50%;
-        }
+header > div {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Adds space between menu toggle, logo, and title */
+}
 
-        .header-title {
-            font-size: clamp(1rem, 3.5vw, 1.8rem);
-            font-weight: 600;
-            color: white;
-            margin-left: 0.5rem;
-        }
+.menu-toggle {
+    font-size: 1.5rem;
+    color: white;
+    cursor: pointer;
+    padding: 0.3rem;
+    margin-right: 0.5rem; /* Additional spacing to the right of the menu toggle */
+}
+
+.logo {
+    width: clamp(40px, 8vw, 80px);
+    height: clamp(40px, 8vw, 80px);
+    background: url('https://assets.onecompiler.app/42jd8ggps/43csd3hqs/WhatsApp%20Image%202025-03-25%20at%2000.40.52_7d01f9c9.jpg') no-repeat center/cover;
+    border-radius: 50%;
+}
+
+.header-title {
+    font-size: clamp(1rem, 3.5vw, 1.8rem);
+    font-weight: 600;
+    color: white;
+    margin-left: 0.5rem; /* Keeps some space from the logo */
+}
 
         .menu-toggle {
             font-size: 1.5rem;
