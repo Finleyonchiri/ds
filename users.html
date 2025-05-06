@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Esteemed Partners</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e6f0fa, #f0f8ff);
+            color: #2f2f2f;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Styling */
+        .navbar {
+            background: #1e3a5f;
+            padding: 1.2rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #355e8a;
+            border-radius: 0 0 20px 20px;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #e6f0fa;
+            text-decoration: none;
+            font-size: 1.2rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 15px;
+            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link:hover {
+            background: #355e8a;
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1300px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            color: #1e3a5f;
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .page-title::after {
+            content: '';
+            width: 100px;
+            height: 3px;
+            background: #4a90e2;
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+        }
+
+        /* Partners Section */
+        .partners-section {
+            margin-bottom: 4rem;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            padding: 1rem;
+        }
+
+        .partner-card {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            border: 1px solid #e6f0fa;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .partner-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: #4a90e2;
+            border-radius: 20px 20px 0 0;
+            transition: height 0.4s ease;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .partner-card:hover::before {
+            height: 100%;
+            opacity: 0.1;
+        }
+
+        .partner-name {
+            color: #1e3a5f;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .star-rating {
+            color: #f7ca18;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .writings-count {
+            color: #5d6d7e;
+            font-size: 1.1rem;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Request Section */
+        .request-section {
+            background: linear-gradient(45deg, #4a90e2, #5dade2);
+            color: #ffffff;
+            padding: 3rem;
+            text-align: center;
+            border-radius: 25px;
+            margin: 0 1rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .request-section::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(30deg);
+            transition: all 0.5s ease;
+        }
+
+        .request-section:hover::after {
+            top: -20%;
+            left: -20%;
+        }
+
+        .request-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .request-text {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .request-button {
+            background: #ffffff;
+            color: #4a90e2;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .request-button:hover {
+            background: #1e3a5f;
+            color: #ffffff;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: #1e3a5f;
+            color: #e6f0fa;
+            padding: 3rem 2rem;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+            margin-top: 4rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-icon {
+            color: #e6f0fa;
+            text-decoration: none;
+            font-size: 1.8rem;
+            padding: 0.8rem;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-icon:hover {
+            background: #4a90e2;
+            color: #ffffff;
+            transform: rotate(360deg);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Additional Decorative Elements */
+        .decorative-line {
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #4a90e2, transparent);
+            margin: 3rem auto;
+            border-radius: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-link {
+                font-size: 1rem;
+                padding: 0.6rem 1rem;
+            }
+
+            .page-title {
+                font-size: 2.2rem;
+            }
+
+            .partner-card {
+                padding: 1.5rem;
+            }
+
+            .partner-name {
+                font-size: 1.4rem;
+            }
+
+            .request-section {
+                padding: 2rem;
+            }
+
+            .request-title {
+                font-size: 1.6rem;
+            }
+
+            .request-button {
+                padding: 0.8rem 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .partners-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .social-links {
+                gap: 1rem;
+            }
+
+            .social-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="dashboard.html" class="nav-link">Return to Dashboard</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1 class="page-title">Our Esteemed Partners</h1>
+
+        <!-- Partners Section -->
+        <section class="partners-section">
+            <div class="partners-grid">
+                <div class="partner-card">
+                    <h2 class="partner-name">Jonathan Blackwell</h2>
+                    <div class="star-rating">★★★★★</div>
+                    <p class="writings-count">Total Writings: 78</p>
+                </div>
+                <div class="partner-card">
+                    <h2 class="partner-name">Elizabeth Hawthorne</h2>
+                    <div class="star-rating">★★★★☆</div>
+                    <p class="writings-count">Total Writings: 54</p>
+                </div>
+                <div class="partner-card">
+                    <h2 class="partner-name">Thomas Reginald</h2>
+                    <div class="star-rating">★★★★★</div>
+                    <p class="writings-count">Total Writings: 92</p>
+                </div>
+                <div class="partner-card">
+                    <h2 class="partner-name">Margaret Sinclair</h2>
+                    <div class="star-rating">★★★★☆</div>
+                    <p class="writings-count">Total Writings: 63</p>
+                </div>
+                <div class="partner-card">
+                    <h2 class="partner-name">Charles Wentworth</h2>
+                    <div class="star-rating">★★★★★</div>
+                    <p class="writings-count">Total Writings: 85</p>
+                </div>
+                <div class="partner-card">
+                    <h2 class="partner-name">Victoria Ashford</h2>
+                    <div class="star-rating">★★★☆☆</div>
+                    <p class="writings-count">Total Writings: 41</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="decorative-line"></div>
+
+        <!-- Request Section -->
+        <section class="request-section">
+            <h2 class="request-title">Aspire to Join Our Ranks?</h2>
+            <p class="request-text">
+                Become part of our distinguished community of writers and contributors. 
+                Share your expertise and insights with a global audience.
+            </p>
+            <button class="request-button">Request Partnership</button>
+        </section>
+
+        <div class="decorative-line"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p class="footer-text">© 2025 The Literary Collective. All Rights Reserved.</p>
+            <div class="social-links">
+                <a href="#" class="social-icon">Tw</a>
+                <a href="#" class="social-icon">Fb</a>
+                <a href="#" class="social-icon">Ln</a>
+                <a href="#" class="social-icon">Ig</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

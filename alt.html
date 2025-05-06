@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Software Alternatives Hub</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #2c3e50, #4b6cb7);
+            color: #333;
+            line-height: 1.6;
+        }
+        /* Header */
+        header {
+            background: #ffffff;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        header h1 {
+            font-size: 48px;
+            margin: 0;
+            color: #2c3e50;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(to right, #2c3e50, #4b6cb7);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        /* Search Section */
+        .search-section {
+            background: #f5f6fa;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .search-container {
+            display: inline-flex;
+            align-items: center;
+        }
+        .search-section input[type="text"] {
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #dfe6e9;
+            border-radius: 5px 0 0 5px;
+            width: 350px;
+            transition: border-color 0.3s;
+        }
+        .search-section input[type="text"]:focus {
+            border-color: #4b6cb7;
+            outline: none;
+        }
+        .search-section button {
+            padding: 12px 20px;
+            background: #4b6cb7;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .search-section button:hover {
+            background: #3b5998;
+        }
+        /* Main Content */
+        .container {
+            max-width: 1300px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .category {
+            margin-bottom: 50px;
+        }
+        .category h2 {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            text-transform: uppercase;
+            border-bottom: 2px solid #4b6cb7;
+            padding-bottom: 10px;
+        }
+        .software-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+        .software-card {
+            background: #f5f6fa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .software-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+        .software-card img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+            border-radius: 5px;
+        }
+        .software-details {
+            flex: 1;
+        }
+        .software-details h3 {
+            font-size: 18px;
+            color: #2c3e50;
+            margin: 0 0 5px;
+        }
+        .stars {
+            color: #f1c40f;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .software-details p {
+            font-size: 14px;
+            color: #636e72;
+            margin: 0 0 10px;
+            min-height: 100px;
+        }
+        .platform-btn {
+            padding: 8px 15px;
+            background: #4b6cb7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        .platform-btn:hover {
+            background: #3b5998;
+        }
+        .platform-dropdown {
+            display: none;
+            position: absolute;
+            bottom: -10px;
+            right: 20px;
+            background: #ffffff;
+            border: 1px solid #dfe6e9;
+            border-radius: 5px;
+            padding: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+        .platform-dropdown.active {
+            display: block;
+        }
+        .platform-dropdown a {
+            display: flex;
+            align-items: center;
+            color: #2c3e50;
+            text-decoration: none;
+            padding: 5px;
+            transition: color 0.3s;
+        }
+        .platform-dropdown a:hover {
+            color: #4b6cb7;
+        }
+        .platform-dropdown img {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+            border: none;
+        }
+        /* Footer */
+        footer {
+            background: linear-gradient(to right, #2c3e50, #4b6cb7);
+            color: #dfe6e9;
+            text-align: center;
+            padding: 25px;
+            font-size: 16px;
+            margin-top: 50px;
+            border-top: 4px solid #4b6cb7;
+        }
+        footer a {
+            color: #dfe6e9;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .software-list {
+                grid-template-columns: 1fr;
+            }
+            .software-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .software-card img {
+                margin: 0 0 10px;
+            }
+            .platform-btn {
+                margin-top: 10px;
+            }
+            .platform-dropdown {
+                right: 50%;
+                transform: translateX(50%);
+            }
+            .search-section input[type="text"] {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Software Alternatives Hub</h1>
+    </header>
+
+    <!-- Search Section -->
+    <div class="search-section">
+        <div class="search-container">
+            <input type="text" placeholder="Search Software..." id="searchBar" onkeyup="searchApps()">
+            <button onclick="searchApps()">Search</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Adobe Alternatives -->
+        <div class="category">
+            <h2>Adobe Alternatives</h2>
+            <div class="software-list">
+                <div class="software-card">
+                    <img src="Photoshop.png" alt="Photoshop Icon">
+                    <div class="software-details">
+                        <h3>Photoshop → Photopea</h3>
+                        <div class="stars">★★★★★</div>
+                        <p>Photopea is a web-based alternative to Photoshop, offering a near-identical interface for seamless transition. It supports PSD files, layers, and advanced editing tools without any installation. Ideal for quick edits, it works on any device with a browser. The free version includes ads but provides full functionality. It’s perfect for designers needing a lightweight, accessible solution. No subscription fees make it a cost-effective choice.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://www.photopea.com/" target="_blank"><img src="https://via.placeholder.com/20?text=Web" alt="Web">Web</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="software-card">
+                    <img src="Illustrator.png" alt="Illustrator Icon">
+                    <div class="software-details">
+                        <h3>Illustrator → Inkscape</h3>
+                        <div class="stars">★★★★☆</div>
+                        <p>Inkscape is a free, open-source vector graphics editor that rivals Adobe Illustrator’s capabilities. It supports SVG files and offers tools for creating scalable designs like logos and illustrations. The software is lightweight, running smoothly on various systems. Its community-driven updates ensure continuous improvement and support. Ideal for both beginners and professionals, it’s perfect for print and digital projects. Completely free with no hidden costs.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://inkscape.org/release/" target="_blank"><img src="https://via.placeholder.com/20?text=W" alt="Windows">Windows</a>
+                            <a href="https://inkscape.org/release/" target="_blank"><img src="https://via.placeholder.com/20?text=M" alt="macOS">macOS</a>
+                            <a href="https://inkscape.org/release/" target="_blank"><img src="https://via.placeholder.com/20?text=L" alt="Linux">Linux</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="software-card">
+                    <img src="Premiere Pro.png" alt="Premiere Pro Icon">
+                    <div class="software-details">
+                        <h3>Premiere Pro → DaVinci Resolve</h3>
+                        <div class="stars">★★★★★</div>
+                        <p>DaVinci Resolve is a professional-grade video editing suite that competes with Premiere Pro. It combines editing, color grading, audio mastering, and VFX in one platform, used in Hollywood productions. The free version offers features that surpass many paid editors. It supports high-resolution projects and advanced workflows with ease. Its intuitive design caters to both beginners and experts. A must-have for filmmakers on a budget.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://www.blackmagicdesign.com/products/davinciresolve/" target="_blank"><img src="https://via.placeholder.com/20?text=W" alt="Windows">Windows</a>
+                            <a href="https://www.blackmagicdesign.com/products/davinciresolve/" target="_blank"><img src="https://via.placeholder.com/20?text=M" alt="macOS">macOS</a>
+                            <a href="https://www.blackmagicdesign.com/products/davinciresolve/" target="_blank"><img src="https://via.placeholder.com/20?text=L" alt="Linux">Linux</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="software-card">
+                    <img src="Lightroom.png" alt="Lightroom Icon">
+                    <div class="software-details">
+                        <h3>Lightroom → Darktable</h3>
+                        <div class="stars">★★★★☆</div>
+                        <p>Darktable is an open-source alternative to Lightroom, designed for photographers to manage and edit RAW images. It offers non-destructive editing, advanced color correction, and a robust workflow for photo processing. The software supports a wide range of camera formats and lenses. Its modular design allows for customized editing pipelines. Free and cross-platform, it’s ideal for professional photographers. A powerful tool for high-quality photo editing.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://www.darktable.org/install/" target="_blank"><img src="https://via.placeholder.com/20?text=W" alt="Windows">Windows</a>
+                            <a href="https://www.darktable.org/install/" target="_blank"><img src="https://via.placeholder.com/20?text=M" alt="macOS">macOS</a>
+                            <a href="https://www.darktable.org/install/" target="_blank"><img src="https://via.placeholder.com/20?text=L" alt="Linux">Linux</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="software-card">
+                    <img src="Audition.avif" alt="Audition Icon">
+                    <div class="software-details">
+                        <h3>Audition → Audacity</h3>
+                        <div class="stars">★★★★★</div>
+                        <p>Audacity is a free, open-source audio editing software that rivals Adobe Audition for recording and editing. It supports multi-track editing, noise reduction, and a wide range of effects for audio production. The interface is straightforward, making it accessible for beginners and pros alike. It’s widely used for podcasts, music, and sound design projects. Cross-platform compatibility ensures broad accessibility. A reliable choice for audio editing without costs.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://www.audacityteam.org/download/" target="_blank"><img src="https://via.placeholder.com/20?text=W" alt="Windows">Windows</a>
+                            <a href="https://www.audacityteam.org/download/" target="_blank"><img src="https://via.placeholder.com/20?text=M" alt="macOS">macOS</a>
+                            <a href="https://www.audacityteam.org/download/" target="_blank"><img src="https://via.placeholder.com/20?text=L" alt="Linux">Linux</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="software-card">
+                    <img src="Acrobat Reader.avif" alt="Acrobat Icon">
+                    <div class="software-details">
+                        <h3>Acrobat Reader → Foxit Reader</h3>
+                        <div class="stars">★★★★☆</div>
+                        <p>Foxit Reader is a free alternative to Adobe Acrobat Reader for viewing, annotating, and editing PDFs. It offers a lightweight, fast performance compared to Adobe’s heavier software. Features include form filling, digital signatures, and PDF creation tools. The interface is clean and user-friendly, suitable for all users. It supports advanced security features for document protection. A great choice for efficient PDF management.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://www.foxit.com/pdf-reader/" target="_blank"><img src="https://via.placeholder.com/20?text=W" alt="Windows">Windows</a>
+                            <a href="https://www.foxit.com/pdf-reader/" target="_blank"><img src="https://via.placeholder.com/20?text=M" alt="macOS">macOS</a>
+                            <a href="https://www.foxit.com/pdf-reader/" target="_blank"><img src="https://via.placeholder.com/20?text=A" alt="Android">Android</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Tools -->
+        <div class="category">
+            <h2>AI Tools</h2>
+            <div class="software-list">
+                <div class="software-card">
+                    <img src="Midjourney.png" alt="Midjourney Icon">
+                    <div class="software-details">
+                        <h3>Midjourney → DALL-E Mini (Craiyon)</h3>
+                        <div class="stars">★★★★☆</div>
+                        <p>DALL-E Mini, now known as Craiyon, is a free alternative to Midjourney for AI-generated art from text prompts. It creates unique images based on user descriptions, ideal for creative projects. While not as advanced as Midjourney, it’s accessible via a web browser with no cost. The output quality is impressive for a free tool, though it may take longer. Perfect for artists experimenting with AI art. A fun and budget-friendly creative tool.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://www.craiyon.com/" target="_blank"><img src="https://via.placeholder.com/20?text=Web" alt="Web">Web</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="software-card">
+                    <img src="ChatGPT.jpg" alt="ChatGPT Icon">
+                    <div class="software-details">
+                        <h3>ChatGPT → Grok (Free Tier)</h3>
+                        <div class="stars">★★★★★</div>
+                        <p>Grok, created by xAI, offers a free tier as an alternative to ChatGPT for conversational AI tasks. It provides helpful, truthful answers and assists with various activities, from coding to research. The free version is robust for casual users, with a focus on human-like responses. It’s accessible via web, making it easy to use on any device. Ideal for those seeking an AI assistant without subscription fees. A powerful tool for productivity and learning.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://xai.com/grok" target="_blank"><img src="https://via.placeholder.com/20?text=Web" alt="Web">Web</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- YouTube Knowledge Accounts for Coding -->
+        <div class="category">
+            <h2>YouTube Knowledge Accounts for Coding</h2>
+            <div class="software-list">
+                <div class="software-card">
+                    <img src="Traversy Media.png" alt="Traversy Media Icon">
+                    <div class="software-details">
+                        <h3>Traversy Media → FreeCodeCamp</h3>
+                        <div class="stars">★★★★★</div>
+                        <p>FreeCodeCamp’s YouTube channel is a free alternative to paid courses like Traversy Media, offering extensive coding tutorials. It covers web development, Python, JavaScript, and more with hands-on projects. The content is beginner-friendly yet deep enough for intermediate learners. It also provides free certifications through its website, complementing the videos. A community-driven platform, it’s perfect for self-paced learning. Ideal for aspiring developers on a budget.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://www.youtube.com/c/Freecodecamp" target="_blank"><img src="https://via.placeholder.com/20?text=Web" alt="Web">YouTube</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="software-card">
+                    <img src="The Net Ninja.png" alt="The Net Ninja Icon">
+                    <div class="software-details">
+                        <h3>The Net Ninja → Programming with Mosh</h3>
+                        <div class="stars">★★★★☆</div>
+                        <p>Programming with Mosh offers free YouTube tutorials as an alternative to The Net Ninja’s paid courses. It covers languages like Python, JavaScript, and React with clear, concise lessons. Mosh’s teaching style is engaging, breaking down complex concepts for beginners. Many full-length courses are available for free on YouTube. It’s perfect for those starting their coding journey without spending money. A great resource for practical coding skills.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://www.youtube.com/c/programmingwithmosh" target="_blank"><img src="https://via.placeholder.com/20?text=Web" alt="Web">YouTube</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Website Builders for Coding -->
+        <div class="category">
+            <h2>Website Builders for Coding</h2>
+            <div class="software-list">
+                <div class="software-card">
+                    <img src="Webflow.html" alt="Webflow Icon">
+                    <div class="software-details">
+                        <h3>Webflow → Brackets</h3>
+                        <div class="stars">★★★★☆</div>
+                        <p>Brackets is a free, open-source code editor for web development, serving as an alternative to Webflow’s paid plans. It offers live preview, inline editing, and support for HTML, CSS, and JavaScript. Designed for developers, it integrates with tools like Git for version control. Its lightweight nature ensures fast performance on any system. Free extensions enhance its functionality for custom workflows. Perfect for coders building websites from scratch.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="http://brackets.io/" target="_blank"><img src="https://via.placeholder.com/20?text=W" alt="Windows">Windows</a>
+                            <a href="http://brackets.io/" target="_blank"><img src="https://via.placeholder.com/20?text=M" alt="macOS">macOS</a>
+                            <a href="http://brackets.io/" target="_blank"><img src="https://via.placeholder.com/20?text=L" alt="Linux">Linux</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="software-card">
+                    <img src="Sublime Text.png" alt="Sublime Text Icon">
+                    <div class="software-details">
+                        <h3>Sublime Text → Visual Studio Code</h3>
+                        <div class="stars">★★★★★</div>
+                        <p>Visual Studio Code (VS Code) is a free alternative to Sublime Text, offering a powerful code editor for web development. It supports debugging, embedded Git control, and a vast extension marketplace for customization. The editor is highly performant, handling large projects with ease. Features like IntelliSense provide smart code completion and error detection. It’s cross-platform, catering to all developers. A top choice for coding websites efficiently.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://code.visualstudio.com/download" target="_blank"><img src="https://via.placeholder.com/20?text=W" alt="Windows">Windows</a>
+                            <a href="https://code.visualstudio.com/download" target="_blank"><img src="https://via.placeholder.com/20?text=M" alt="macOS">macOS</a>
+                            <a href="https://code.visualstudio.com/download" target="_blank"><img src="https://via.placeholder.com/20?text=L" alt="Linux">Linux</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Selling Platforms -->
+        <div class="category">
+            <h2>Selling Platforms</h2>
+            <div class="software-list">
+                <div class="software-card">
+                    <img src="Shopify.jpg" alt="Shopify Icon">
+                    <div class="software-details">
+                        <h3>Shopify → WooCommerce</h3>
+                        <div class="stars">★★★★★</div>
+                        <p>WooCommerce is a free, open-source e-commerce plugin for WordPress, serving as an alternative to Shopify. It allows users to build fully customizable online stores with ease. Features include product management, payment gateways, and shipping options. It’s highly extensible with free and paid plugins for added functionality. Ideal for small to medium businesses looking to sell online. Requires a WordPress site but offers flexibility without monthly fees.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://woocommerce.com/" target="_blank"><img src="https://via.placeholder.com/20?text=Web" alt="Web">Web</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="software-card">
+                    <img src="Etsy.png" alt="Etsy Icon">
+                    <div class="software-details">
+                        <h3>Etsy → Gumroad</h3>
+                        <div class="stars">★★★★☆</div>
+                        <p>Gumroad is a free platform for creators to sell digital products, offering an alternative to Etsy’s fee structure. It supports selling eBooks, courses, music, and more with minimal setup. The platform takes a small percentage per sale but has no upfront costs. It’s user-friendly, with tools for marketing and analytics to grow your audience. Perfect for independent creators and small businesses. A simple way to start selling online.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://gumroad.com/" target="_blank"><img src="https://via.placeholder.com/20?text=Web" alt="Web">Web</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Free Website Hosters -->
+        <div class="category">
+            <h2>Free Website Hosters</h2>
+            <div class="software-list">
+                <div class="software-card">
+                    <img src="Bluehost.png" alt="Bluehost Icon">
+                    <div class="software-details">
+                        <h3>Bluehost → InfinityFree</h3>
+                        <div class="stars">★★★★☆</div>
+                        <p>InfinityFree is a free website hosting service that competes with paid hosts like Bluehost. It offers unlimited disk space, bandwidth, and email accounts with no cost. The service includes a free subdomain and supports PHP and MySQL for dynamic sites. It’s ad-free, ensuring a clean user experience for your visitors. Perfect for small projects, portfolios, or testing sites. A reliable option for hosting without spending money.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://www.infinityfree.net/" target="_blank"><img src="https://via.placeholder.com/20?text=Web" alt="Web">Web</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="software-card">
+                    <img src="Hostinger.png" alt="Hostinger Icon">
+                    <div class="software-details">
+                        <h3>Hostinger → 000webhost</h3>
+                        <div class="stars">★★★☆☆</div>
+                        <p>000webhost is a free hosting service by Hostinger, offering an alternative to their paid plans. It provides 300 MB of disk space and 3 GB of bandwidth, suitable for small sites. Features include a website builder, PHP, and MySQL support for basic web projects. It’s ad-free in most cases, ensuring a professional look. Ideal for beginners or hobbyists starting with a simple site. A cost-free way to get online quickly.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://www.000webhost.com/" target="_blank"><img src="https://via.placeholder.com/20?text=Web" alt="Web">Web</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- App Makers -->
+        <div class="category">
+            <h2>App Makers</h2>
+            <div class="software-list">
+                <div class="software-card">
+                    <img src="Appy Pie.jpg" alt="Appy Pie Icon">
+                    <div class="software-details">
+                        <h3>Appy Pie → AppGyver</h3>
+                        <div class="stars">★★★★☆</div>
+                        <p>AppGyver is a free, no-code platform for building mobile apps, offering an alternative to Appy Pie’s paid plans. It features a drag-and-drop interface to create apps for iOS and Android. The platform supports custom logic, integrations, and a visual editor for UI design. It’s open-source, allowing for greater flexibility and community support. Ideal for startups or individuals creating apps without coding skills. A powerful tool for app development on a budget.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://www.appgyver.com/" target="_blank"><img src="https://via.placeholder.com/20?text=Web" alt="Web">Web</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="software-card">
+                    <img src="Thunkable.png" alt="Thunkable Icon">
+                    <div class="software-details">
+                        <h3>Thunkable → Bubble</h3>
+                        <div class="stars">★★★★☆</div>
+                        <p>Bubble offers a free tier for building web and mobile apps, serving as an alternative to Thunkable’s paid plans. It uses a no-code, drag-and-drop interface to create fully functional apps. The platform supports custom workflows, databases, and third-party integrations. It’s ideal for creating MVPs or small-scale apps without coding expertise. The free plan includes core features, with paid upgrades for advanced needs. Perfect for entrepreneurs and startups.</p>
+                        <button class="platform-btn" onclick="toggleDropdown(this)">Preferences</button>
+                        <div class="platform-dropdown">
+                            <a href="https://bubble.io/" target="_blank"><img src="https://via.placeholder.com/20?text=Web" alt="Web">Web</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Software Alternatives Hub. All rights reserved. | <a href="mailto:support@softwarehub.com">Contact Us</a> | Powered by xAI</p>
+    </footer>
+
+    <script>
+        function toggleDropdown(button) {
+            const dropdown = button.nextElementSibling;
+            dropdown.classList.toggle('active');
+        }
+
+        function searchApps() {
+            let input = document.getElementById('searchBar').value.toLowerCase();
+            let cards = document.getElementsByClassName('software-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                let text = cards[i].innerText.toLowerCase();
+                cards[i].style.display = text.includes(input) ? '' : 'none';
+            }
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            const dropdowns = document.querySelectorAll('.platform-dropdown');
+            dropdowns.forEach(dropdown => {
+                if (!dropdown.contains(event.target) && !dropdown.previousElementSibling.contains(event.target)) {
+                    dropdown.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

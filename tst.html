@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Seventh-day Adventist Church website with devotionals, sermons, books, Sabbath school, prophecy, teachings, missions, events, prayer requests, and more.">
+    <meta name="keywords" content="SDA, Seventh-day Adventist, devotionals, sermons, books, Sabbath, prophecy, teachings, missions, events, prayer, Christian resources">
+    <meta name="author" content="SDA Church">
+    <title>Seventh-day Adventist Church</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1a2526; /* Navy blue-black */
+            --accent-color: #d4a017; /* Gold */
+            --bg-color: #f5f5e8; /* Cream */
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --maroon: #800000;
+            --forest-green: #355e3b;
+            --soft-gray: #e5e7eb;
+        }
+        body {
+            font-family: 'Lora', Georgia, 'Times New Roman', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-color);
+        }
+        .menu-container {
+            background-color: var(--primary-color);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        #menu-button {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        #menu-button:hover {
+            background-color: var(--maroon);
+            color: white;
+        }
+        #menu-list {
+            display: none;
+            position: absolute;
+            top: 3rem;
+            left: 1rem;
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        #menu-list button {
+            display: block;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            background: none;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #menu-list button:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+        }
+        .welcome {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        .section {
+            padding: 2rem 0;
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        #welcome {
+            display: block;
+        }
+        #about {
+            display: block;
+        }
+        .section-intro {
+            background-color: var(--soft-gray);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1rem 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--forest-green);
+            transform: translateX(-50%);
+        }
+        .timeline-item {
+            position: relative;
+            width: 50%;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            text-align: right;
+        }
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            text-align: left;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 1.5rem;
+            width: 16px;
+            height: 16px;
+            background: var(--maroon);
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .timeline-item:nth-child(odd)::before {
+            right: -8px;
+        }
+        .timeline-item:nth-child(even)::before {
+            left: -8px;
+        }
+        .timeline-content {
+            padding: 1rem;
+            background: var(--soft-gray);
+            border-radius: 8px;
+        }
+        .timeline-icon {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 0.5rem;
+        }
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 30px;
+            }
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                text-align: left !important;
+                padding-left: 60px;
+            }
+            .timeline-item::before {
+                left: 22px !important;
+                right: auto !important;
+            }
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .event-card {
+            background: linear-gradient(135deg, var(--forest-green), var(--maroon));
+            color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.3s;
+        }
+        .event-card:hover {
+            transform: translateY(-5px);
+        }
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .btn:hover {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+        }
+        .media-holder {
+            position: relative;
+            padding-top: 56.25%;
+        }
+        .media-holder iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+        footer {
+            background: linear-gradient(135deg, var(--forest-green), var(--maroon));
+            color: white;
+            padding: 2rem 0;
+        }
+        footer a {
+            color: var(--accent-color);
+            transition: color 0.3s;
+        }
+        footer a:hover {
+            color: white;
+        }
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            margin: 0 8px;
+            transition: transform 0.3s;
+        }
+        .social-icon:hover {
+            transform: scale(1.2);
+        }
+        @media (max-width: 768px) {
+            .welcome {
+                height: 300px;
+            }
+            .media-holder {
+                padding-top: 75%;
+            }
+            footer .grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            #menu-list {
+                width: 90%;
+                left: 5%;
+            }
+        }
+        .comment-card {
+            background: var(--soft-gray);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu -->
+    <div class="menu-container">
+        <button id="menu-button">Menu</button>
+        <div id="menu-list">
+            <button onclick="showHome()">Home</button>
+            <button onclick="showSection('devotionals')">Devotionals</button>
+            <button onclick="showSection('sermons')">Sermons/playlist</button>
+            <button onclick="showSection('books')">Books</button>
+            <button onclick="showSection('sabbath')">Sabbath School</button>
+            <button onclick="showSection('prophecy')">Prophecy</button>
+            <button onclick="showSection('teachings')">Teachings</button>
+            <button onclick="showSection('missions')">Missions</button>
+            <button onclick="showSection('events')">Events</button>
+            <button onclick="showSection('prayer')">Prayer Requests</button>
+            <button onclick="showSection('beliefs')">28 Fundamental Beliefs</button>
+            <button onclick="showSection('history')">Church History</button>
+            <button onclick="showSection('newsletter')">Newsletter</button>
+            <button onclick="showSection('contact')">Contact</button>
+        </div>
+    </div>
+
+    <!-- Welcome Section -->
+    <section id="welcome" class="welcome section py-12 bg-white border border-gray-200 z-10">
+    <div class="container mx-auto px-6 max-w-full">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-6 max-w-4xl mx-auto">
+            <div class="text-center sm:text-left w-full">
+                <h1 class="text-3xl sm:text-4xl font-bold mb-4 text-teal-600">Welcome to Seventh-day Adventist Church</h1>
+                <div class="bg-teal-600 p-3 rounded-lg sm:animate-slide-in-left">
+                    <p class="text-base sm:text-lg text-white text-center sm:text-left">We are a family of believers dedicated to sharing the love of Jesus Christ.</p>
+                </div>
+            </div>
+            <a href="dashboard.html" class="inline-block bg-teal-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:scale-105 transition-transform duration-300 mx-auto sm:mx-0">Home</a>
+        </div>
+    </div>
+</section>
+
+<style>
+@keyframes slide-in-left {
+    0% { opacity: 0; transform: translateX(-20px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
+
+@media (min-width: 640px) {
+    .animate-slide-in-left {
+        animation: slide-in-left 1s ease-in-out forwards;
+    }
+}
+</style>
+
+    <!-- About This Website Section -->
+    <section id="about" class="section">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">About This Website</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <img src="https://img.icons8.com/ios-filled/50/1a2526/church.png" alt="Purpose Icon" class="timeline-icon">
+                        <h3 class="text-xl font-bold mb-2">Our Purpose</h3>
+                        <p>Welcome to the official website of the Seventh-day Adventist Church, launched on April 1, 2025. This digital space was created to inspire, educate, and connect our global community of believers as we prepare for Christ’s return.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <img src="https://assets.onecompiler.app/42jd8ggps/437qhhtzc/tales%20profile%20pic.png" alt="Team Icon" class="timeline-icon">
+                        <h3 class="text-xl font-bold mb-2">Who Made It</h3>
+                        <p>The website was crafted by Finley Ochiri (Tales),  dedicated g volunteer passionate about sharing the gospel through modern technology.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <img src="https://img.icons8.com/ios-filled/50/1a2526/book.png" alt="Resources Icon" class="timeline-icon">
+                        <h3 class="text-xl font-bold mb-2">Spiritual Resources</h3>
+                        <p>Access a wealth of resources like daily devotionals, sermons, and our digital library featuring books by Ellen G. White. Dive into Sabbath School lessons and explore biblical prophecy through studies on Daniel and Revelation.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <img src="https://imgs.search.brave.com/mn3i6p-m7j16d0WmLA4ovKJuQzZCRcxMjVgtMVMkJAU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly91cGxv/YWQud2lraW1lZGlh/Lm9yZy93aWtpcGVk/aWEvY29tbW9ucy9m/L2YyL0phbWVzX2Fu/ZF9FbGxlbl9XaGl0/ZV8oMTg2NClfKGNy/b3BwZWQpLmpwZw" alt="History Icon" class="timeline-icon">
+                        <h3 class="text-xl font-bold mb-2">Church History & Beliefs</h3>
+                        <p>Learn about our 28 Fundamental Beliefs and trace the history of the SDA Church, from the Millerite movement to our global expansion today.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <img src="https://img.icons8.com/ios-filled/50/1a2526/helping.png" alt="Missions Icon" class="timeline-icon">
+                        <h3 class="text-xl font-bold mb-2">Missions & Community</h3>
+                        <p>Discover our global mission initiatives, stay updated on events, share prayer requests, and connect with us through our newsletter or contact options.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Devotionals -->
+    <section id="devotionals" class="section">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">Devotionals & Daily Quote</h2>
+            <div class="section-intro">
+                <p>Start your day with spiritual nourishment through our daily devotionals and inspiring quotes. These resources are designed to deepen your relationship with God and encourage you in your faith journey.</p>
+            </div>
+            <style>
+    @keyframes breathe {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.02); }
+        100% { transform: scale(1); }
+    }
+    .breathe-animation {
+        animation: breathe 3s infinite ease-in-out;
+    }
+    .parchment-bg {
+        background: linear-gradient(135deg, #f5f5dc 0%, #ede4c9 100%);
+        border: 2px solid #d4af37;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    .decorative-divider {
+        width: 50px;
+        height: 2px;
+        background: #d4af37;
+        margin: 1rem auto;
+    }
+</style>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class="card border border-gray-200 shadow-lg rounded-lg p-6 transition-all duration-300 breathe-animation">
+        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Morning Devotional Image" class="w-full h-40 object-cover rounded-lg mb-4">
+        <h3 class="text-xl font-bold mb-2 text-gray-900">Morning Devotional</h3>
+        <div class="text-gray-700">
+            <p class="mb-3 font-medium">Start your day with peace and purpose through this morning devotional.</p>
+            <p class="mb-2"><strong>Scripture:</strong> Psalm 5:3 - "In the morning, Lord, you hear my voice; in the morning I lay my requests before you and wait expectantly."</p>
+            <p class="mb-2"><strong>Reflection:</strong> As the sun rises, take a moment to center your heart on God’s promises. This verse reminds us to begin each day with prayer, trusting that God hears us and responds with love.</p>
+            <p class="mb-3"><strong>Prayer:</strong> Heavenly Father, thank You for the gift of a new day. Guide my steps, fill me with Your peace, and let my actions reflect Your love. Amen.</p>
+        </div>
+    </div>
+
+    <div class="card border border-gray-200 shadow-lg rounded-lg p-6 transition-all duration-300 breathe-animation">
+        <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Daily Quote Image" class="w-full h-40 object-cover rounded-lg mb-4">
+        <h3 class="text-xl font-bold mb-2 text-gray-900">Daily Quote</h3>
+        <div class="text-gray-700">
+            <p class="mb-3 font-medium">An inspiring quote to uplift your spirit and motivate your day.</p>
+            <p class="mb-2 italic">“The only way to do great work is to love what you do.” – Steve Jobs</p>
+            <p class="mb-3"><strong>Reflection:</strong> This quote reminds us to pursue our passions with dedication. When we love what we do, our work becomes a source of joy and impact, inspiring others along the way.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Monthly Challenge Section -->
+<div class="mt-12">
+    <h2 class="text-3xl font-bold text-gray-900 text-center mb-6">May Spiritual Challenge</h2>
+    <p class="text-center text-gray-700 mb-8 font-medium">Join this 31-day spiritual challenge to deepen your faith, grow in prayer, and serve others. Complete each daily task and mark your progress!</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- Day 1 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-1" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-1" class="text-gray-800 font-medium">Day 1: Start with Prayer</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Begin your day by praying for wisdom and guidance.</p>
+        </div>
+        <!-- Day 2 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-2" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-2" class="text-gray-800 font-medium">Day 2: Read Psalm 23</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Reflect on God’s provision and care in your life.</p>
+        </div>
+        <!-- Day 3 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-3" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-3" class="text-gray-800 font-medium">Day 3: Share a Kind Word</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Encourage someone with a kind word or message.</p>
+        </div>
+        <!-- Day 4 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-4" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-4" class="text-gray-800 font-medium">Day 4: Meditate on Gratitude</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">List five things you’re grateful for today.</p>
+        </div>
+        <!-- Day 5 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-5" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-5" class="text-gray-800 font-medium">Day 5: Serve Someone</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Help a neighbor or friend with a small task.</p>
+        </div>
+        <!-- Day 6 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-6" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-6" class="text-gray-800 font-medium">Day 6: Read John 3:16</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Reflect on God’s love for the world.</p>
+        </div>
+        <!-- Day 7 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-7" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-7" class="text-gray-800 font-medium">Day 7: Fast for a Meal</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Skip a meal and spend the time in prayer.</p>
+        </div>
+        <!-- Day 8 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-8" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-8" class="text-gray-800 font-medium">Day 8: Memorize a Verse</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Memorize Philippians 4:13 and recite it.</p>
+        </div>
+        <!-- Day 9 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-9" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-9" class="text-gray-800 font-medium">Day 9: Write a Prayer</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Write a personal prayer for strength.</p>
+        </div>
+        <!-- Day 10 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-10" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-10" class="text-gray-800 font-medium">Day 10: Visit a Church</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Attend a service or prayer meeting.</p>
+        </div>
+        <!-- Day 11 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-11" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-11" class="text-gray-800 font-medium">Day 11: Share a Testimony</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Share how God has worked in your life.</p>
+        </div>
+        <!-- Day 12 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-12" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-12" class="text-gray-800 font-medium">Day 12: Read Matthew 5</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Reflect on the Beatitudes and their meaning.</p>
+        </div>
+        <!-- Day 13 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-13" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-13" class="text-gray-800 font-medium">Day 13: Forgive Someone</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Let go of a grudge and pray for peace.</p>
+        </div>
+        <!-- Day 14 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-14" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-14" class="text-gray-800 font-medium">Day 14: Give Generously</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Donate to a cause or help someone in need.</p>
+        </div>
+        <!-- Day 15 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-15" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-15" class="text-gray-800 font-medium">Day 15: Pray for Leaders</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Pray for your church and community leaders.</p>
+        </div>
+        <!-- Day 16 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-16" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-16" class="text-gray-800 font-medium">Day 16: Reflect on Joy</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Write about a joyful moment in your faith.</p>
+        </div>
+        <!-- Day 17 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-17" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-17" class="text-gray-800 font-medium">Day 17: Read Proverbs 3</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Meditate on trusting in the Lord.</p>
+        </div>
+        <!-- Day 18 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-18" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-18" class="text-gray-800 font-medium">Day 18: Encourage a Friend</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Send an encouraging message to a friend.</p>
+        </div>
+        <!-- Day 19 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-19" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-19" class="text-gray-800 font-medium">Day 19: Practice Patience</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Be patient in a challenging situation today.</p>
+        </div>
+        <!-- Day 20 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-20" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-20" class="text-gray-800 font-medium">Day 20: Pray for Healing</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Pray for someone who is sick or struggling.</p>
+        </div>
+        <!-- Day 21 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-21" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-21" class="text-gray-800 font-medium">Day 21: Read Romans 8</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Reflect on the hope we have in Christ.</p>
+        </div>
+        <!-- Day 22 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-22" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-22" class="text-gray-800 font-medium">Day 22: Show Kindness</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Perform a random act of kindness today.</p>
+        </div>
+        <!-- Day 23 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-23" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-23" class="text-gray-800 font-medium">Day 23: Reflect on Faith</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Write about a time your faith was tested.</p>
+        </div>
+        <!-- Day 24 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-24" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-24" class="text-gray-800 font-medium">Day 24: Pray for Peace</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Pray for peace in your heart and the world.</p>
+        </div>
+        <!-- Day 25 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-25" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-25" class="text-gray-800 font-medium">Day 25: Read Isaiah 40</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Meditate on God’s greatness and comfort.</p>
+        </div>
+        <!-- Day 26 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-26" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-26" class="text-gray-800 font-medium">Day 26: Encourage a Child</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Speak words of encouragement to a child.</p>
+        </div>
+        <!-- Day 27 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-27" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-27" class="text-gray-800 font-medium">Day 27: Practice Humility</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Put someone else’s needs before your own.</p>
+        </div>
+        <!-- Day 28 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-28" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-28" class="text-gray-800 font-medium">Day 28: Pray for Unity</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Pray for unity in your family or church.</p>
+        </div>
+        <!-- Day 29 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-29" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-29" class="text-gray-800 font-medium">Day 29: Read Psalm 91</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Reflect on God’s protection over your life.</p>
+        </div>
+        <!-- Day 30 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-30" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-30" class="text-gray-800 font-medium">Day 30: Share Hope</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Share a message of hope with someone.</p>
+        </div>
+        <!-- Day 31 -->
+        <div class="border border-gray-200 rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow duration-300" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+            <div class="flex items-center gap-3">
+                <input type="checkbox" id="day-31" class="h-5 w-5 text-indigo-600 rounded">
+                <label for="day-31" class="text-gray-800 font-medium">Day 31: Celebrate Growth</label>
+            </div>
+            <p class="text-sm text-gray-600 mt-2">Reflect on your spiritual growth this month.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Story Section -->
+<div class="mt-12">
+    <h2 class="text-3xl font-bold text-gray-900 text-center mb-6">Bible Story</h2>
+    <div class="max-w-3xl mx-auto parchment-bg rounded-lg p-8">
+        <h3 class="text-2xl font-bold text-gray-800 text-center mb-4">David and Goliath</h3>
+        <p class="text-gray-700 font-serif leading-relaxed mb-4">
+            In the Valley of Elah, the Israelites faced a formidable enemy: the Philistines, led by the giant Goliath. Goliath, over nine feet tall, taunted the Israelites daily, challenging them to send a champion to fight him. The Israelites were terrified, but a young shepherd named David stepped forward. Armed with only a sling, five smooth stones, and unwavering faith in God, David confronted Goliath. With a single stone, David struck Goliath in the forehead, felling the giant, and the Philistines fled in defeat.
+        </p>
+        <div class="decorative-divider"></div>
+        <p class="text-gray-700 font-medium text-center mb-4"><strong>Bible Reference:</strong> 1 Samuel 17:1-51</p>
+        <div class="decorative-divider"></div>
+        <p class="text-gray-700 mb-2"><strong>Lessons Learned:</strong></p>
+        <ul class="list-disc list-inside text-gray-700">
+            <li>Faith in God overcomes fear: David’s trust in God gave him courage to face a seemingly impossible challenge.</li>
+            <li>God uses the humble: A young shepherd defeated a giant, showing that God works through those who trust Him, regardless of their status.</li>
+            <li>Preparation matters: David’s experience as a shepherd prepared him to protect his flock—and God’s people—with skill and bravery.</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+// Cookie functions with improved error handling
+function setCookie(name, value, days) {
+    try {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + encodeURIComponent(JSON.stringify(value)) + expires + "; path=/; SameSite=Lax";
+    } catch (error) {
+        console.error("Error setting cookie:", error);
+    }
+}
+
+function getCookie(name) {
+    try {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) {
+                return decodeURIComponent(c.substring(nameEQ.length, c.length));
+            }
+        }
+        return null;
+    } catch (error) {
+        console.error("Error getting cookie:", error);
+        return null;
+    }
+}
+
+// Load progress from cookie
+function loadProgress() {
+    try {
+        const progress = getCookie('mayChallengeProgress');
+        if (progress) {
+            const progressObj = JSON.parse(progress);
+            for (let day in progressObj) {
+                const checkbox = document.getElementById(`day-${day}`);
+                if (checkbox) {
+                    checkbox.checked = progressObj[day];
+                }
+            }
+        }
+    } catch (error) {
+        console.error("Error loading progress from cookie:", error);
+    }
+}
+
+// Save progress to cookie
+function saveProgress() {
+    try {
+        const progress = {};
+        for (let day = 1; day <= 31; day++) {
+            const checkbox = document.getElementById(`day-${day}`);
+            if (checkbox) {
+                progress[day] = checkbox.checked;
+            }
+        }
+        setCookie('mayChallengeProgress', progress, 30); // Save for 30 days
+    } catch (error) {
+        console.error("Error saving progress to cookie:", error);
+    }
+}
+
+// Attach event listeners to checkboxes
+document.addEventListener('DOMContentLoaded', function() {
+    // Load progress immediately after DOM is ready
+    loadProgress();
+
+    // Attach change event listeners to all checkboxes
+    for (let day = 1; day <= 31; day++) {
+        const checkbox = document.getElementById(`day-${day}`);
+        if (checkbox) {
+            checkbox.addEventListener('change', saveProgress);
+        }
+    }
+});
+</script>
+            </div>
+        </div>
+    </section>
+
+   <section id="sermons" class="section bg-gray-100 py-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center text-gray-900 mb-6">Sermons</h2>
+        <div class="section-intro max-w-2xl mx-auto text-center mb-12">
+            <p class="text-gray-700 text-lg">Listen to powerful sermons that unpack the truths of the Bible. Our messages focus on practical Christian living, the love of Christ, and preparation for His second coming.</p>
+        </div>
+
+        <!-- Sermon Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Existing Sermon: Faith and Obedience -->
+            <div class="card border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+                <div class="media-holder">
+                    <iframe width="100%" height="200" src="https://www.youtube.com/embed/CF0WnDcQDK0?si=SrpJMA7RuBbvxIlk" title="Faith and Obedience Sermon" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Faith and Obedience</h3>
+                    <p class="text-gray-600 mb-4">A sermon on the importance of trusting God’s plan through faithful obedience.</p>
+                    <a href="https://youtu.be/CF0WnDcQDK0?si=r-2dZv8n7vw8zflb" target="_blank" class="text-blue-600 hover:underline font-medium">Watch on YouTube</a>
+                </div>
+            </div>
+
+            <!-- Existing Sermon: Sabbath Worship -->
+            <div class="card border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+                <div class="media-holder">
+                    <iframe width="100%" height="200" src="https://www.youtube.com/embed/UhuVOpL5cDo?si=Xqpqnm-fQtDilIRK" title="Sabbath Worship Sermon" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Sabbath Worship</h3>
+                    <p class="text-gray-600 mb-4">Understanding the significance of the Sabbath in our spiritual lives.</p>
+                    <a href="https://youtu.be/UhuVOpL5cDo?si=RMhLP6a7XqGaNH6h" target="_blank" class="text-blue-600 hover:underline font-medium">Watch on YouTube</a>
+                </div>
+            </div>
+
+            <!-- Existing Sermon: The Second Coming -->
+            <div class="card border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+                <div class="media-holder">
+                    <iframe width="100%" height="200" src="https://www.youtube.com/embed/nBacrwC45JA?si=ciRHNFSmt4oQfc-7" title="The Second Coming Sermon" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">The Second Coming</h3>
+                    <p class="text-gray-600 mb-4">A message on the hope and preparation for Christ’s return.</p>
+                    <a href="https://youtu.be/nBacrwC45JA?si=4lS5VqEuZXzASpKR" target="_blank" class="text-blue-600 hover:underline font-medium">Watch on YouTube</a>
+                </div>
+            </div>
+
+            <!-- New Sermon: Revelation Explained -->
+            <div class="card border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+                <div class="media-holder">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/SHnFFrfzbEw?si=D2AnNOW-28PhJOyA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Revelation Explained</h3>
+                    <p class="text-gray-600 mb-4">A detailed exploration of the Book of Revelation by pastor Paul, focusing on its prophetic messages for the end times.</p>
+                    <a href="https://youtu.be/SHnFFrfzbEw?si=D2AnNOW-28PhJOyA" target="_blank" class="text-blue-600 hover:underline font-medium">Watch on YouTube</a>
+                </div>
+            </div>
+
+            <!-- New Sermon: Daniel Explained -->
+            <div class="card border border-gray-200 rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+                <div class="media-holder">
+                    <<iframe width="560" height="315" src="https://www.youtube.com/embed/KCvvhg-3QHc?si=HvrtNOlSqk4W9Q8w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></iframe>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Daniel Explained</h3>
+                    <p class="text-gray-600 mb-4">Pastor Paul unpacks the prophecies of the Book of Daniel, revealing their significance for today’s believers.</p>
+                    <a href="https://youtu.be/KCvvhg-3QHc?si=HvrtNOlSqk4W9Q8w" target="_blank" class="text-blue-600 hover:underline font-medium">Watch on YouTube</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- YouTube Playlist Section -->
+        <div class="mt-16">
+            <h3 class="text-2xl font-bold text-center text-gray-900 mb-6">Explore More Sermons: Christian Living Playlist</h3>
+            <p class="text-center text-gray-700 max-w-2xl mx-auto mb-8">Dive deeper into biblical truths with this curated playlist featuring sermons on practical Christian living, spiritual growth, and the love of Christ. Perfect for daily inspiration and reflection.</p>
+            <div class="flex justify-center">
+               <iframe width="560" height="315" src="https://www.youtube.com/embed/GLrWvhA7qLs?si=bkTreFEOredfmzim" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <!-- Songs Playlist Section -->
+        <div class="mt-16">
+            <h3 class="text-2xl font-bold text-center text-gray-900 mb-6">SDA Christian Songs Playlist</h3>
+            <p class="text-center text-gray-700 max-w-2xl mx-auto mb-8">Uplift your spirit with this curated Spotify playlist featuring 148 Seventh-day Adventist songs, perfect for worship and reflection.</p>
+            <div class="flex justify-center">
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/ZU5tZUxPGRE?si=8A7StJt7F6ThphNG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <!-- List of SDA Pastors -->
+        <div class="mt-16">
+            <h3 class="text-2xl font-bold text-center text-gray-900 mb-6"> ALSO SEE</h3>
+            <div class="max-w-3xl mx-auto text-gray-700">
+                <ul class="list-disc list-inside space-y-4">
+                    <li><strong>Mark Finley</strong>: A renowned evangelist who has conducted meetings worldwide for over 50 years. Author of <em>Understanding Daniel and Revelation</em>, he’s a leading expert on biblical prophecy.</li>
+                    <li><strong>Dwight Nelson</strong>: Senior Pastor of Pioneer Memorial Church at Andrews University, known for addressing challenging topics and ministering through television, radio, and the internet.</li>
+                    <li><strong>Walter Pearson Jr.</strong>: An eloquent preacher and former speaker/director of Breath of Life Telecast, known for leading thousands to Christ through his evangelistic efforts.</li>
+                    <li><strong>David Asscherick</strong>: Co-founder of ARISE and pastor at Kingscliff SDA Church in Australia, recognized for sermons like "Imputed Righteousness" and "Growing Your Marriage God’s Way."</li>
+                    <li><strong>Tony Jasper</strong>: Pastor at Prescott SDA Church, known for sermons like "Revelation’s Most Important Word" and "When God Makes All Things New."</li>
+                    <li><strong>H.M.S. Richards</strong>: Founder of Voice of Prophecy, a pioneer in religious radio broadcasting, and a key figure in SDA media evangelism.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Call-to-Action Button -->
+        <div class="mt-12 text-center">
+            <a href="https://youtu.be/nBD5deLd6Sw?si=UQ1ewIcPWLrArF4y" target="_blank" class="inline-block bg-blue-600 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-300">View More Sermons</a>
+        </div>
+    </div>
+</section>
+
+    <!-- Books -->
+    <section id="books" class="section">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">Digital Library</h2>
+            <div class="section-intro">
+                <p>Explore our extensive digital library of inspirational books by Ellen G. White and other Adventist authors. These resources cover topics like Christian living, prophecy, and health.</p>
+            </div>
+       <div class="search-container max-w-lg mx-auto mb-8">
+    <div class="relative">
+        <input type="text" id="book-search" placeholder="Search by title or author..." class="w-full p-4 pr-12 border border-gray-300 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-300 text-gray-700 font-serif text-lg" style="background: #f5f5f5;">
+        <span class="absolute right-4 top-1/2 transform -translate-y-1/2">
+            <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </span>
+    </div>
+</div>
+
+<div id="book-list">
+    <div class="card border border-gray-200 shadow-lg rounded-lg p-6 mb-6 transition-all duration-300 hover:scale-105 hover:shadow-xl" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+        <div style="display: flex; align-items: flex-start; gap: 1.5rem; overflow: hidden;">
+            <img src="https://imgs.search.brave.com/YaRO4JHCOb0XrQWpgpBgG9wowzR13DW8vAdWgTuAmVg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YTIuZWd3d3JpdGlu/Z3Mub3JnL2NvdmVy/cy8yMl9tLmpwZw" alt="Counsels Steward Cover" style="flex-shrink: 0; width: 100px; height: 150px; object-fit: cover; border-radius: 0.25rem;">
+            <div style="flex: 1; min-width: 0;">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2" style="overflow: hidden; text-overflow: ellipsis;">Counsels Steward_EN</h3>
+                <p class="text-md text-gray-700 mb-3 font-medium">Practical guidance on stewardship principles.</p>
+                <div class="preview border-l-4 border-indigo-200 pl-4 mb-3 text-sm text-gray-600 italic">
+                    <p>Stewardship is more than managing resources; it’s a sacred trust. This book offers actionable steps to align your life with divine principles, ensuring faithful service. Learn to prioritize and give wisely.</p>
+                </div>
+                <p class="text-sm text-gray-500 mb-2">Author: Unknown</p>
+                <p class="text-sm text-gray-500 mb-3">Posted by: Finley Onchiri</p>
+                <a href="https://drive.google.com/file/d/1OS7EFTgMRyT-bZfox5XznzWgF8djZ90R/view?usp=drive_link" target="_blank" class="text-indigo-600 font-medium hover:underline transition-colors duration-200">Download PDF</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border border-gray-200 shadow-lg rounded-lg p-6 mb-6 transition-all duration-300 hover:scale-105 hover:shadow-xl" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+        <div style="display: flex; align-items: flex-start; gap: 1.5rem; overflow: hidden;">
+            <img src="https://imgs.search.brave.com/RAlsJAIaMhCQLBarncXuhDbtJuG_l_noGkGkwKbMhTE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pYWRw/YS5vcmcvY2RuL3No/b3AvcHJvZHVjdHMv/dGhlLXBvd2VyLW9m/LWVmZmVjdGl2ZS1w/cmF5ZXItOV84MDB4/LmpwZz92PTE2MTI3/NjQ2Mjk" alt="Effective Prayer Cover" style="flex-shrink: 0; width: 100px; height: 150px; object-fit: cover; border-radius: 0.25rem;">
+            <div style="flex: 1; min-width: 0;">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2" style="overflow: hidden; text-overflow: ellipsis;">Effective Prayer_EN</h3>
+                <p class="text-md text-gray-700 mb-3 font-medium">Tips and insights for meaningful prayer life.</p>
+                <div class="preview border-l-4 border-indigo-200 pl-4 mb-3 text-sm text-gray-600 italic">
+                    <p>Prayer is a powerful tool to connect with the divine. This book explores how to deepen your prayer life through intentional practices. Discover the joy of consistent, heartfelt communication with God.</p>
+                </div>
+                <p class="text-sm text-gray-500 mb-2">Author: Unknown</p>
+                <p class="text-sm text-gray-500 mb-3">Posted by: Finley Onchiri</p>
+                <a href="https://drive.google.com/file/d/19fL97PSAsbhGPBo_bPopPpm3b_6LW0V6/view?usp=drive_link" target="_blank" class="text-indigo-600 font-medium hover:underline transition-colors duration-200">Download PDF</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border border-gray-200 shadow-lg rounded-lg p-6 mb-6 transition-all duration-300 hover:scale-105 hover:shadow-xl" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+        <div style="display: flex; align-items: flex-start; gap: 1.5rem; overflow: hidden;">
+            <img src="https://imgs.search.brave.com/wbFzatDTMwAAdgz_3rJpHYZ_cOkzyLi98ZUgfxr1x7s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuZ3ItYXNzZXRz/LmNvbS9hdXRob3Jz/LzE1NTk0OTAxMTNw/NS8yNzYyOTU1Lmpw/Zw" alt="Jesus Is Coming Cover" style="flex-shrink: 0; width: 100px; height: 150px; object-fit: cover; border-radius: 0.25rem;">
+            <div style="flex: 1; min-width: 0;">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2" style="overflow: hidden; text-overflow: ellipsis;">JESUS IS COMMING_ENG</h3>
+                <p class="text-md text-gray-700 mb-3 font-medium">Understanding biblical prophecies of Jesus' return.</p>
+                <div class="preview border-l-4 border-indigo-200 pl-4 mb-3 text-sm text-gray-600 italic">
+                    <p>The return of Jesus is a central theme in scripture. This book unpacks key prophecies, offering clarity and hope. Prepare your heart for the second coming with biblical insights and practical steps.</p>
+                </div>
+                <p class="text-sm text-gray-500 mb-2">Author: Unknown</p>
+                <p class="text-sm text-gray-500 mb-3">Posted by: Finley Onchiri</p>
+                <a href="https://drive.google.com/file/d/12wNDAkew7IkLFAHQ6rt26wfWzsBfyzyp/view?usp=drive_link" target="_blank" class="text-indigo-600 font-medium hover:underline transition-colors duration-200">Download PDF</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border border-gray-200 shadow-lg rounded-lg p-6 mb-6 transition-all duration-300 hover:scale-105 hover:shadow-xl" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+        <div style="display: flex; align-items: flex-start; gap: 1.5rem; overflow: hidden;">
+            <img src="https://imgs.search.brave.com/JvguLZFlxGBw5ZDTgXvbr6POHKR6A0dKR-efQltDNf4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/NTE3MEdUNGczUkwu/anBn" alt="A Call to Serve TMI Cover" style="flex-shrink: 0; width: 100px; height: 150px; object-fit: cover; border-radius: 0.25rem;">
+            <div style="flex: 1; min-width: 0;">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2" style="overflow: hidden; text-overflow: ellipsis;">A Call to Serve TMI_EN</h3>
+                <p class="text-md text-gray-700 mb-3 font-medium">Encouragement for serving with Total Member Involvement.</p>
+                <div class="preview border-l-4 border-indigo-200 pl-4 mb-3 text-sm text-gray-600 italic">
+                    <p>Total Member Involvement calls every believer to serve. This book inspires action, offering ways to engage in ministry. Join a movement of service and witness the impact of collective faith.</p>
+                </div>
+                <p class="text-sm text-gray-500 mb-2">Author: Unknown</p>
+                <p class="text-sm text-gray-500 mb-3">Posted by: Finley Onchiri</p>
+                <a href="https://drive.google.com/file/d/16sxLWGzOJKI-pGpuK30of3VtOWtdefDs/view?usp=drive_link" target="_blank" class="text-indigo-600 font-medium hover:underline transition-colors duration-200">Download PDF</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border border-gray-200 shadow-lg rounded-lg p-6 mb-6 transition-all duration-300 hover:scale-105 hover:shadow-xl" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+        <div style="display: flex; align-items: flex-start; gap: 1.5rem; overflow: hidden;">
+            <img src="https://imgs.search.brave.com/Z96gVWOCt0ns0N5fTTM23zU51Gij7A72t-GQDzcaSSs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMuc3F1YXJlc3Bh/Y2UtY2RuLmNvbS9j/b250ZW50L3YxLzVk/MGZkNzQ4NjI4NDNj/MDAwMTM2YmE0ZC8x/NTc2Nzg0NDY5NDI0/LTZCODgzMFBCUEZQ/VVVBWk5VTVlQL0g0/SCsxLmpwZw" alt="Health and Hope Cover" style="flex-shrink: 0; width: 100px; height: 150px; object-fit: cover; border-radius: 0.25rem;">
+            <div style="flex: 1; min-width: 0;">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2" style="overflow: hidden; text-overflow: ellipsis;">Health and Hope_ENG</h3>
+                <p class="text-md text-gray-700 mb-3 font-medium">Promoting health principles for physical and spiritual hope.</p>
+                <div class="preview border-l-4 border-indigo-200 pl-4 mb-3 text-sm text-gray-600 italic">
+                    <p>Health and spirituality are deeply connected. This book provides principles to nurture both body and soul. Embrace a lifestyle that fosters hope, vitality, and a closer walk with God.</p>
+                </div>
+                <p class="text-sm text-gray-500 mb-2">Author: Unknown</p>
+                <p class="text-sm text-gray-500 mb-3">Posted by: Finley Onchiri</p>
+                <a href="https://drive.google.com/file/d/1nz4GrqSNUKVaZpJX4QkAjaImL4PPVcGk/view?usp=drive_link" target="_blank" class="text-indigo-600 font-medium hover:underline transition-colors duration-200">Download PDF</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border border-gray-200 shadow-lg rounded-lg p-6 mb-6 transition-all duration-300 hover:scale-105 hover:shadow-xl" style="background: linear-gradient(135deg, #f9fafb 0%, #e5e7eb 100%);">
+        <div style="display: flex; align-items: flex-start; gap: 1.5rem; overflow: hidden;">
+            <img src="https://imgs.search.brave.com/yq1_i3LIY0UT0fbgBBT0bxfVVEN74HoARuNr5q9lRU4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/MzFhNFl1NWVEZkwu/anBn" alt="Power of Hope Cover" style="flex-shrink: 0; width: 100px; height: 150px; object-fit: cover; border-radius: 0.25rem;">
+            <div style="flex: 1; min-width: 0;">
+                <h3 class="text-2xl font-bold text-gray-900 mb-2" style="overflow: hidden; text-overflow: ellipsis;">PowerOfHope_EN</h3>
+                <p class="text-md text-gray-700 mb-3 font-medium">Exploring the transformative power of hope.</p>
+                <div class="preview border-l-4 border-indigo-200 pl-4 mb-3 text-sm text-gray-600 italic">
+                    <p>Hope can change lives in profound ways. This book delves into its transformative power, offering stories and insights. Find strength to overcome challenges through the lens of hope.</p>
+                </div>
+                <p class="text-sm text-gray-500 mb-2">Author: Michelson</p>
+                <p class="text-sm text-gray-500 mb-3">Posted by: Finley Onchiri</p>
+                <a href="https://drive.google.com/file/d/1afTZ5GjOLqdhF35j_NSlg07dOiZ7sJ-C/view?usp=drive_link" target="_blank" class="text-indigo-600 font-medium hover:underline transition-colors duration-200">Download PDF</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const searchInput = document.getElementById('book-search');
+    const bookList = document.getElementById('book-list');
+    const bookCards = bookList.getElementsByClassName('card');
+
+    searchInput.addEventListener('input', function() {
+        const searchTerm = searchInput.value.toLowerCase();
+
+        Array.from(bookCards).forEach(card => {
+            const title = card.querySelector('h3').textContent.toLowerCase();
+            const author = card.querySelector('p:nth-of-type(1)').textContent.toLowerCase(); // First <p> is the author
+            if (title.includes(searchTerm) || author.includes(searchTerm)) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+</script>
+    </div>
+</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sabbath School -->
+   <section id="sabbath" class="section bg-gray-100 py-12">
+    <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-6 text-gray-800">Sabbath School Resources (WEEKLY)</h2>
+        <div class="section-intro text-center max-w-3xl mx-auto mb-8">
+            <p class="text-lg text-gray-600">Our Sabbath School resources provide in-depth Bible study materials for all ages. These lessons help you grow in your understanding of Scripture and prepare for weekly discussions.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="card bg-white shadow-lg rounded-lg p-6">
+                <img src="https://imgs.search.brave.com/MQcwgmVjUTxthLlEnK3lKQgjJrjOZFJx9RqFV-IkwN4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zYWJi/YXRoc2Nob29sLmFk/dmVudGlzdGNodXJj/aC5jb20vd3AtY29u/dGVudC91cGxvYWRz/L3NpdGVzLzIxLzIw/MjUvMDQvMjAyNS1T/U1EyLUFkdWx0LnBu/Zw" alt="Sabbath School Image" class="w-full h-64 object-cover rounded-lg mb-4">
+                <h3 class="text-xl font-bold mb-2 text-gray-800">Adult Lesson</h3>
+                <p class="text-gray-600">Weekly Sabbath school lessons for adults focusing on key Bible themes.</p>
+                <a href="https://youtu.be/cFreMbVvdYI?si=JaIQ8vkSVuu4FB9m" target="_blank" class="text-blue-600 hover:underline">Read Now</a>
+            </div>
+            <div class="card bg-white shadow-lg rounded-lg p-6">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJfI3K7-0wKNxvsPb8-xXEgss6R-MfgWnwIg&s" alt="Sabbath School Image" class="w-full h-64 object-cover rounded-lg mb-4">
+                <h3 class="text-xl font-bold mb-2 text-gray-800">Missions Reading</h3>
+                <p class="text-gray-600">Engaging lessons for youth and teens to explore faith in a relatable way.</p>
+                <a href="https://www.sabbathschoollessons.com/youth" target="_blank" class="text-blue-600 hover:underline">Read Now</a>
+            </div>
+            <div class="card bg-white shadow-lg rounded-lg p-6">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThgGiGno6ZapEfScLOgsOHPgyRefy5KBtwkg&s" alt="Sabbath School Image" class="w-full h-64 object-cover rounded-lg mb-4">
+                <h3 class="text-xl font-bold mb-2 text-gray-800">Children’s Lesson</h3>
+                <p class="text-gray-600">Fun and interactive lessons for children to learn about God’s love.</p>
+                <a href="https://www.sabbathschoollessons.com/children" target="_blank" class="text-blue-600 hover:underline">Read Now</a>
+            </div>
+            <div class="card col-span-1 md:col-span-3 bg-white shadow-lg rounded-lg p-8">
+                <img src="https://imgs.search.brave.com/MQcwgmVjUTxthLlEnK3lKQgjJrjOZFJx9RqFV-IkwN4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zYWJi/YXRoc2Nob29sLmFk/dmVudGlzdGNodXJj/aC5jb20vd3AtY29u/dGVudC91cGxvYWRz/L3NpdGVzLzIxLzIw/MjUvMDQvMjAyNS1T/U1EyLUFkdWx0LnBu/Zw" alt="Lesson Summary Image" class="w-full h-64 object-cover rounded-lg mb-6 mx-auto">
+                <h3 class="text-2xl font-bold mb-4 text-center text-gray-800">Lesson 4: The Nations: Part 1 (April 19–25, 2025)</h3>
+                <p class="text-base text-gray-600 text-center max-w-4xl mx-auto mb-6">This week’s lesson, part of the series "Allusions, Images, Symbols: How to Study Bible Prophecy," explores the prophetic vision of Daniel 2, detailing the rise and fall of world empires and the establishment of God’s eternal kingdom. Through historical and biblical lenses, it contrasts human ambition with divine sovereignty, offering practical insights for living as citizens of God’s kingdom. Below is a detailed daily summary with key verses in the King James Version, enriched with theological and practical reflections.</p>
+                <div class="lesson-summary mt-6 space-y-8">
+                    <div class="day-section border-l-4 border-blue-500 pl-4">
+                        <h4 class="text-lg font-bold mb-3 text-gray-800">Sabbath, April 19, 2025: The Rise of Human Empires</h4>
+                        <p class="text-base text-gray-600">The lesson begins with Genesis 10:1-12, which outlines the descendants of Noah and the formation of nations post-Flood. This passage introduces the concept of human empire-building, epitomized by Nimrod, described as a “mighty hunter before the Lord” who founded Babel, the precursor to Babylon. The narrative sets the stage for Daniel 2’s prophetic vision, where earthly kingdoms, symbolized by the statue’s metals, are shown to be temporary and rooted in human pride. This contrast between human ambition and God’s eternal kingdom invites believers to prioritize divine values over worldly achievements.</p>
+                        <p class="text-base text-gray-600">Nimrod’s establishment of Babel and other cities reflects humanity’s desire for self-glorification, as seen in the later Tower of Babel narrative (Genesis 11:4). This ambition leads to division and conflict, a pattern repeated in the empires of Daniel 2—Babylon, Media-Persia, Greece, and Rome. The lesson draws parallels to modern societies, where nations and individuals often seek power and recognition at the expense of righteousness. It challenges believers to reflect on their own pursuits, asking whether they align with the fleeting glory of human empires or the enduring purpose of God’s kingdom.</p>
+                        <p class="text-base text-gray-600">Theologically, Genesis 10 underscores God’s sovereignty over the nations, as He orchestrates their rise and fall according to His plan. Practically, the lesson encourages believers to engage in their communities with humility, recognizing that true significance comes from serving God’s purposes. By studying the historical context, students gain a deeper understanding of prophecy as a revelation of God’s control over history, fostering trust in His ultimate victory. <span class="text-blue-600 font-semibold">Key Verse:</span> “And these are the sons of Ham, after their families, after their tongues, in their countries, and in their nations” (Genesis 10:20, KJV).</p>
+                    </div>
+
+                    <div class="day-section border-l-4 border-blue-500 pl-4">
+                        <h4 class="text-lg font-bold mb-3 text-gray-800">Sunday, April 20, 2025: God’s Call to a Nation</h4>
+                        <p class="text-base text-gray-600">Genesis 12:1-9 recounts God’s call to Abraham to leave Ur and become the father of a nation that would bless all peoples. Unlike the self-serving empires of Genesis 10, Abraham’s nation is divinely ordained, rooted in faith and obedience. This narrative foreshadows the eternal kingdom of Daniel 2:44, symbolized by the stone “not cut by human hands,” which grows to fill the earth. The lesson emphasizes that God’s plan for humanity is redemptive, contrasting human ambition with divine purpose.</p>
+                        <p class="text-base text-gray-600">Abraham’s journey required immense trust, as he left his homeland without knowing his destination. This faith mirrors the certainty of God’s kingdom in Daniel 2, which is established by divine power, not human effort. The lesson explores how Abraham’s covenant (Genesis 12:3) extends to all believers, who are called to be a “spiritual Israel” that shares God’s blessings globally. This perspective challenges modern believers to prioritize their spiritual identity over national or cultural allegiances, living as ambassadors of God’s kingdom in a divided world.</p>
+                        <p class="text-base text-gray-600">Practically, the lesson invites reflection on how faith shapes personal mission. Just as Abraham was called to bless others, believers are urged to share God’s love through acts of kindness, evangelism, and advocacy for justice. Theologically, the study connects Abraham’s call to the broader biblical narrative, where God’s promises culminate in Christ’s kingdom. This hope inspires believers to persevere in faith, trusting in God’s plan despite worldly challenges. <span class="text-blue-600 font-semibold">Key Verse:</span> “And I will make of thee a great nation, and I will bless thee, and make thy name great; and thou shalt be a blessing” (Genesis 12:2, KJV).</p>
+                    </div>
+
+                    <div class="day-section border-l-4 border-blue-500 pl-4">
+                        <h4 class="text-lg font-bold mb-3 text-gray-800">Monday, April 21, 2025: The Dangers of Human Government</h4>
+                        <p class="text-base text-gray-600">1 Samuel 8:4-18 describes Israel’s demand for a king to be “like all the nations,” rejecting God’s theocratic rule. Samuel warns of the consequences—oppressive taxation, conscription, and loss of freedom—revealing the flaws of human governance when it prioritizes power over righteousness. The lesson connects this to Daniel 2’s statue, where empires like Babylon and Rome rise through conquest but fall due to moral and spiritual decay, highlighting the impermanence of human systems.</p>
+                        <p class="text-base text-gray-600">Israel’s desire for a king stemmed from a lack of trust in God’s leadership and a desire to conform to worldly models. This mirrors the empires in Daniel 2, whose materials (gold, silver, bronze, iron, and clay) deteriorate, symbolizing declining integrity. The lesson challenges believers to evaluate the systems they rely on—political, economic, or social—and recognize their limitations compared to God’s perfect rule. It also explores how human governments often prioritize self-interest, contrasting with the justice and mercy of God’s kingdom.</p>
+                        <p class="text-base text-gray-600">Practically, the lesson calls for discernment in engaging with human institutions, encouraging believers to advocate for righteousness while maintaining allegiance to God. Theologically, it underscores God’s sovereignty over history, as seen in His judgment on earthly powers. The discussion prompts reflection on how faith can guide decisions in a world driven by power, fostering a commitment to live as citizens of God’s eternal kingdom. <span class="text-blue-600 font-semibold">Key Verse:</span> “Nevertheless the people refused to obey the voice of Samuel; and they said, Nay, but we will have a king over us” (1 Samuel 8:19, KJV).</p>
+                    </div>
+
+                    <div class="day-section border-l-4 border-blue-500 pl-4">
+                        <h4 class="text-lg font-bold mb-3 text-gray-800">Tuesday, April 22, 2025: Christ’s Model of Leadership</h4>
+                        <p class="text-base text-gray-600">Matthew 20:25-28 presents Jesus’ teaching on servant-leadership, contrasting it with the domineering style of Gentile rulers. Jesus calls His disciples to serve rather than dominate, exemplifying this through His life and death. The lesson ties this to Daniel 2’s empires, which rely on conquest and control, while God’s kingdom, symbolized by the stone, is built on humility and sacrifice, offering a transformative model for leadership.</p>
+                        <p class="text-base text-gray-600">In the Roman context, leadership meant power and privilege, as seen in the empires of Daniel 2. Jesus redefines greatness, declaring that “whosoever will be great among you, let him be your minister.” This principle challenges the values of Babylon, Media-Persia, and Rome, whose rulers sought glory through oppression. The lesson explores how Christ’s example—washing His disciples’ feet and dying for humanity—sets the standard for believers, urging them to lead with compassion and selflessness in all spheres of life.</p>
+                        <p class="text-base text-gray-600">Practically, the lesson encourages believers to apply servant-leadership in their families, workplaces, and churches, fostering communities rooted in love. Theologically, it connects Christ’s leadership to the eternal kingdom, which triumphs through sacrifice, not force. The discussion prompts reflection on how to emulate Jesus’ example, offering hope that such leadership can transform societies and prepare believers for God’s kingdom. <span class="text-blue-600 font-semibold">Key Verse:</span> “But Jesus called them unto him, and said, Ye know that the princes of the Gentiles exercise dominion over them… But it shall not be so among you” (Matthew 20:25-26, KJV).</p>
+                    </div>
+
+                    <div class="day-section border-l-4 border-blue-500 pl-4">
+                        <h4 class="text-lg font-bold mb-3 text-gray-800">Wednesday, April 23, 2025: The Fall of Babylon</h4>
+                        <p class="text-base text-gray-600">Revelation 18:1-4 calls God’s people to “come out of Babylon,” symbolizing corrupt worldly systems that oppose God’s truth. In Daniel 2, Babylon’s head of gold falls, signifying the transient nature of human empires. The lesson explores how Babylon represents not only the historical empire but also modern systems—cultural, economic, or religious—that prioritize human glory over divine will, urging believers to separate from such influences.</p>
+                        <p class="text-base text-gray-600">Revelation 18 depicts Babylon’s moral decay, materialism, and persecution of the faithful, mirroring the weaknesses of Daniel 2’s empires. The call to “come out” is both a warning and an invitation to align with God’s kingdom, which is eternal and just. The lesson examines how believers can identify “Babylon” in their lives, such as through consumerism, secular ideologies, or compromised values, and choose faithfulness to God’s principles instead.</p>
+                        <p class="text-base text-gray-600">Practically, the lesson challenges believers to live counter-culturally, reflecting God’s values in their choices and relationships. Theologically, it offers hope in God’s judgment on Babylon, assuring the triumph of His kingdom. The discussion encourages group reflection on supporting one another in resisting worldly pressures, fostering a community prepared for Christ’s return. <span class="text-blue-600 font-semibold">Key Verse:</span> “And I heard another voice from heaven, saying, Come out of her, my people, that ye be not partakers of her sins” (Revelation 18:4, KJV).</p>
+                    </div>
+
+                    <div class="day-section border-l-4 border-blue-500 pl-4">
+                        <h4 class="text-lg font-bold mb-3 text-gray-800">Thursday, April 24, 2025: The Eternal Kingdom</h4>
+                        <p class="text-base text-gray-600">Daniel 2:44-45 describes the stone that destroys the statue and becomes a mountain, symbolizing God’s eternal kingdom. Unlike the human empires of gold, silver, bronze, iron, and clay, this kingdom is indestructible, established by divine power. The lesson highlights the hope this vision offers, assuring believers that God’s rule will ultimately replace all earthly powers, fulfilling His promises throughout Scripture.</p>
+                        <p class="text-base text-gray-600">The stone, representing Christ and His kingdom, grows to fill the earth, symbolizing the universal reign of God’s righteousness. The lesson connects this to the covenants with Abraham and David, where God promised a kingdom that would bless all nations. Theologically, it underscores the certainty of God’s prophetic timeline, encouraging believers to live with confidence in His victory. Historically, the succession of empires in Daniel 2 validates the accuracy of biblical prophecy, strengthening faith in God’s Word.</p>
+                        <p class="text-base text-gray-600">Practically, the lesson calls believers to embody the values of the eternal kingdom—love, justice, and humility—in their daily lives. It prompts reflection on how to share this hope through evangelism and service, preparing others for Christ’s return. The discussion fosters anticipation for the day when the stone fully manifests, uniting believers in their mission to reflect God’s kingdom now. <span class="text-blue-600 font-semibold">Key Verse:</span> “And in the days of these kings shall the God of heaven set up a kingdom, which shall never be destroyed” (Daniel 2:44, KJV).</p>
+                    </div>
+
+                    <div class="day-section border-l-4 border-blue-500 pl-4">
+                        <h4 class="text-lg font-bold mb-3 text-gray-800">Friday, April 25, 2025: Further Thought</h4>
+                        <p class="text-base text-gray-600">Daniel 7:14 parallels Daniel 2, describing the Son of Man receiving an everlasting dominion that includes all peoples and nations. The lesson reinforces the certainty of God’s prophetic plan, where human empires give way to divine rule. This study encourages believers to trust in God’s sovereignty, living as faithful citizens of His kingdom amidst a world of temporary powers.</p>
+                        <p class="text-base text-gray-600">Theologically, Daniel 7:14’s universal scope highlights the inclusive nature of God’s kingdom, inviting all to serve Christ. The lesson draws from Ellen G. White’s writings, which emphasize studying prophecy to strengthen faith and prepare for Christ’s return. This perspective grounds the week’s study in SDA theology, urging believers to deepen their understanding of Scripture and its relevance to current events. The discussion explores how prophecy shapes a hopeful worldview, countering despair with assurance of God’s victory.</p>
+                        <p class="text-base text-gray-600">Practically, the lesson encourages group discussion on applying the hope of God’s kingdom through prayer, Bible study, and sharing the gospel. It prompts personal reflection on aligning priorities with eternal values, fostering a commitment to God’s mission. The study concludes with a call to live in anticipation of Christ’s return, actively preparing for the eternal kingdom. <span class="text-blue-600 font-semibold">Key Verse:</span> “And there was given him dominion, and glory, and a kingdom, that all people, nations, and languages, should serve him” (Daniel 7:14, KJV).</p>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <a href="https://www.sabbath.school/Lesson/4" target="_blank" class="text-blue-600 hover:underline text-base">Read Full Lesson</a>
+                </div>
+                <div class="text-center mt-4">
+                    <a href="#" class="inline-block bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 animate-heartbeat-spin">Download Lesson PDF</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+    <!-- Prophecy -->
+    <section id="prophecy" class="section">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">Prophecy Studies</h2>
+            <div class="section-intro">
+                <p>Dive into the prophetic books of the Bible to understand God’s plan for humanity. Our prophecy studies focus on key events, timelines, and the second coming of Christ.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1495480137262-ff29bd0a695c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Prophecy Image" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold mb-2">The Book of Daniel</h3>
+                    <p>Explore the prophecies of Daniel, including the 70 weeks and the vision of the four beasts.</p>
+                    <a href="https://www.adventist.org/beliefs/prophecy/daniel/" target="_blank" class="text-blue-600 hover:underline">Learn More</a>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Prophecy Image" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold mb-2">The Book of Revelation</h3>
+                    <p>Understand the end-time events, the mark of the beast, and the second coming of Christ.</p>
+                    <a href="https://www.adventist.org/beliefs/prophecy/revelation/" target="_blank" class="text-blue-600 hover:underline">Learn More</a>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Prophecy Image" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold mb-2">The Sanctuary Doctrine</h3>
+                    <p>Learn about the heavenly sanctuary and its significance in prophecy.</p>
+                    <a href="https://www.adventist.org/beliefs/prophecy/sanctuary/" target="_blank" class="text-blue-600 hover:underline">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teachings -->
+    <section id="teachings" class="section bg-gray-100">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">Teachings</h2>
+            <div class="section-intro">
+                <p>Our teachings section provides resources on core Christian doctrines, practical living, and spiritual growth, grounded in the Bible and the writings of Ellen G. White.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-2">The Sabbath</h3>
+                    <p>The Sabbath is a sacred day of rest, worship, and fellowship, observed from Friday sunset to Saturday sunset.</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-2">Healthful Living</h3>
+                    <p>God calls us to care for our bodies through proper diet, exercise, and rest, as outlined in the Bible.</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-2">The Second Coming</h3>
+                    <p>We believe in the visible, personal return of Jesus Christ to redeem His people and restore the earth.</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-2">Stewardship</h3>
+                    <p>Everything we have belongs to God, and we are called to manage our time, talents, and resources for His glory.</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-2">The State of the Dead</h3>
+                    <p>The dead remain in an unconscious state until the resurrection at Christ’s return.</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-2">Christian Behavior</h3>
+                    <p>Our actions should reflect Christ’s love, humility, and purity in all aspects of life.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Missions -->
+    <section id="missions" class="section">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">Missions</h2>
+            <div class="section-intro">
+                <p>Our mission outreach programs are dedicated to sharing the gospel, providing humanitarian aid, and building communities worldwide. Below are our most recent mission initiatives, sorted by date (newest first).</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1506784365847-bbadad4e1f72?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Mission Image" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold mb-2">Water Well Project</h3>
+                    <p><strong>Date:</strong> 2025-04-01</p>
+                    <p><strong>Venue:</strong> Rural Kenya</p>
+                    <p>We drilled wells to provide clean water to villages in Kenya, improving health and living conditions.</p>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1506784365847-bbadad4e1f72?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Mission Image" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold mb-2">Medical Camp</h3>
+                    <p><strong>Date:</strong> 2025-03-15</p>
+                    <p><strong>Venue:</strong> Haiti</p>
+                    <p>Provided free medical checkups, vaccinations, and health education to over 500 families in Haiti.</p>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1506784365847-bbadad4e1f72?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Mission Image" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold mb-2">School Construction</h3>
+                    <p><strong>Date:</strong> 2025-02-10</p>
+                    <p><strong>Venue:</strong> Papua New Guinea</p>
+                    <p>Built a school for children in remote areas, giving them access to education and Bible studies.</p>
+                </div>
+                <div class="card">
+                    <img src="https://images.unsplash.com/photo-1506784365847-bbadad4e1f72?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Mission Image" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold mb-2">Disaster Relief</h3>
+                    <p><strong>Date:</strong> 2025-01-20</p>
+                    <p><strong>Venue:</strong> Philippines</p>
+                    <p>Distributed food, clothing, and shelter to families affected by a typhoon in the Philippines.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events -->
+    <section id="events" class="section bg-gray-100">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">Upcoming Events</h2>
+            <div class="section-intro">
+                <p>Join us for our upcoming events, designed to foster community, spiritual growth, and outreach. Stay updated with our calendar of activities and special programs.</p>
+            </div>
+            <div id="events-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Firebase events will be loaded here -->
+            </div>
+            <!-- Static examples for display -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                <div class="event-card">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Event Image" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold mb-2">Youth Retreat</h3>
+                    <p><strong>Date:</strong> 2025-05-10</p>
+                    <p><strong>Location:</strong> Mountain Camp</p>
+                    <p><strong>Posted by:</strong> Brother James</p>
+                    <p>A weekend of spiritual renewal, team-building, and outdoor activities for youth.</p>
+                </div>
+                <div class="event-card">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Event Image" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold mb-2">Community Health Fair</h3>
+                    <p><strong>Date:</strong> 2025-06-15</p>
+                    <p><strong>Location:</strong> Church Grounds</p>
+                    <p><strong>Posted by:</strong> Sister Grace</p>
+                    <p>Free health screenings, workshops, and wellness tips for the community.</p>
+                </div>
+                <div class="event-card">
+                    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Event Image" class="w-full h-40 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-bold mb-2">Prayer Conference</h3>
+                    <p><strong>Date:</strong> 2025-07-01</p>
+                    <p><strong>Location:</strong> Regional Center</p>
+                    <p><strong>Posted by:</strong> Pastor Mark</p>
+                    <p>A day of prayer, worship, and intercession for the church and the world.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prayer Requests -->
+    <section id="prayer" class="section">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">Prayer Requests</h2>
+            <div class="section-intro">
+                <p>Share your prayer requests and join our community in lifting up each other’s needs to God. Your requests will be prayed for by our members and leaders.</p>
+            </div>
+            <div class="card mb-6">
+                <input type="text" id="prayer-requester-name" placeholder="Your Name" class="w-full p-3 border rounded-lg mb-3">
+                <textarea id="prayer-request" placeholder="Share your prayer request..." class="w-full p-3 border rounded-lg"></textarea>
+                <button onclick="submitPrayerRequest()" class="btn mt-3">Submit Prayer Request</button>
+            </div>
+            <div id="prayer-wall" class="space-y-4"></div>
+        </div>
+    </section>
+
+    <!-- 28 Fundamental Beliefs -->
+    <section id="beliefs" class="section bg-gray-100 py-12">
+    <div class="container mx-auto px-4">
+        <h2 class="text-4xl font-bold text-center mb-6 text-gray-800">28 Fundamental Beliefs of the Seventh-day Adventist Church</h2>
+        <div class="intro text-center max-w-4xl mx-auto mb-10">
+            <p class="text-lg text-gray-600">Seventh-day Adventists accept the Bible as their only creed, holding 28 fundamental beliefs as the teaching of the Holy Scriptures. These beliefs, organized into six categories—God, Man, Salvation, Church, Christian Life, and Last-Day Events—express the church’s understanding of God’s Word. Guided by the Holy Spirit, these beliefs may be revised at a General Conference session to reflect a fuller understanding of Bible truth. They permeate every aspect of life, guiding Adventists to live in harmony with God’s will and prepare for Christ’s return.</p>[](https://www.adventist.org/beliefs/)
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Belief 1: Holy Scriptures -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">1. The Holy Scriptures</h3>
+                <p class="text-base text-gray-600">The Holy Scriptures, Old and New Testaments, are the inspired Word of God, written by holy men moved by the Holy Spirit. They are the infallible revelation of God’s will, providing the knowledge necessary for salvation. The Bible serves as the standard of character, the test of experience, and the authoritative source of doctrine. Adventists rely on Scripture to understand God’s plan, trusting its historical and prophetic accuracy. Practically, this belief encourages daily Bible study to align one’s life with divine truth. <span class="text-blue-600 font-semibold">Key Verse:</span> “All scripture is given by inspiration of God, and is profitable for doctrine, for reproof, for correction, for instruction in righteousness” (2 Timothy 3:16, KJV).</p>[](https://www.greenwichadventist.org.uk/28-fundamental-beliefs/)
+            </div>
+
+            <!-- Belief 2: The Trinity -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">2. The Trinity</h3>
+                <p class="text-base text-gray-600">There is one God: Father, Son, and Holy Spirit, a unity of three co-eternal Persons. God is immortal, all-powerful, all-knowing, and ever-present, yet known through His self-revelation. This doctrine affirms God’s infinite nature and His desire for a personal relationship with humanity. Adventists worship the Triune God, recognizing each Person’s role in creation, redemption, and sanctification. This belief shapes a holistic faith, emphasizing God’s love and unity. <span class="text-blue-600 font-semibold">Key Verse:</span> “Go ye therefore, and teach all nations, baptizing them in the name of the Father, and of the Son, and of the Holy Ghost” (Matthew 28:19, KJV).</p>[](https://www.adventist.org/trinity/)
+            </div>
+
+            <!-- Belief 3: The Father -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">3. The Father</h3>
+                <p class="text-base text-gray-600">God the Father is the Creator, Sustainer, and Sovereign of all creation. He is just, holy, merciful, and abounding in love and faithfulness. His unconditional love is revealed through His role in the Godhead, offering salvation through His Son. Adventists view the Father as a loving parent who desires intimacy with His children. This belief fosters trust in God’s provision and guidance, encouraging believers to approach Him in prayer. <span class="text-blue-600 font-semibold">Key Verse:</span> “But to us there is but one God, the Father, of whom are all things, and we in him” (1 Corinthians 8:6, KJV).</p>[](https://www.adventist.org/father/)
+            </div>
+
+            <!-- Belief 4: The Son -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transitionimore duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">4. The Son</h3>
+                <p class="text-base text-gray-600">Jesus Christ, the eternal Son, is fully God and became incarnate to save humanity. He lived a sinless life, died for our sins, rose again, and ascended to heaven, where He intercedes for believers. His life and teachings reveal God’s character and provide the path to salvation. Adventists center their faith on Jesus, trusting His redemptive work. This belief inspires worship and emulation of Christ’s selfless love. <span class="text-blue-600 font-semibold">Key Verse:</span> “For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life” (John 3:16, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 5: The Holy Spirit -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">5. The Holy Spirit</h3>
+                <p class="text-base text-gray-600">The Holy Spirit, the third Person of the Godhead, inspired the Scriptures, empowers believers, and guides them into truth. He convicts of sin, comforts, and sanctifies, enabling a Christlike life. Adventists rely on the Spirit for spiritual growth and mission. This belief encourages openness to divine guidance and active participation in God’s work. <span class="text-blue-600 font-semibold">Key Verse:</span> “But the Comforter, which is the Holy Ghost, whom the Father will send in my name, he shall teach you all things” (John 14:26, KJV).</p>[](https://www.nadadventist.org/about-our-church/beliefs)
+            </div>
+
+            <!-- Belief 6: Creation -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">6. Creation</h3>
+                <p class="text-base text-gray-600">God created the universe in six literal days, culminating in the Sabbath. Humanity, made in God’s image, was the pinnacle of creation. Adventists affirm a recent creation, rejecting evolutionary theories, and view creation as evidence of God’s love and power. This belief shapes a worldview that values stewardship of the earth and human dignity. <span class="text-blue-600 font-semibold">Key Verse:</span> “In the beginning God created the heaven and the earth” (Genesis 1:1, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 7: Nature of Humanity -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">7. The Nature of Humanity</h3>
+                <p class="text-base text-gray-600">Humans were created in God’s image, with free will and dominion over the earth. Sin caused a fall, introducing mortality and separation from God. Despite this, humans retain dignity and potential for redemption. Adventists emphasize holistic care for body, mind, and soul, reflecting God’s original design. This belief encourages respect for all people and personal growth in Christ. <span class="text-blue-600 font-semibold">Key Verse:</span> “So God created man in his own image, in the image of God created he him” (Genesis 1:27, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 8: The Great Controversy -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">8. The Great Controversy</h3>
+                <p class="text-base text-gray-600">All humanity is involved in a cosmic conflict between Christ and Satan, concerning God’s character and law. Originating in heaven with Satan’s rebellion, this controversy affects earth, where sin and suffering result from disobedience. God’s love is vindicated through Christ’s victory, and Adventists participate by sharing this truth. This belief provides hope and purpose amid evil. <span class="text-blue-600 font-semibold">Key Verse:</span> “And there was war in heaven: Michael and his angels fought against the dragon” (Revelation 12:7, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 9: Life, Death, and Resurrection of Christ -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">9. The Life, Death, and Resurrection of Christ</h3>
+                <p class="text-base text-gray-600">Jesus lived a sinless life, died as a substitute for humanity’s sins, and rose from the dead, securing victory over sin and death. His resurrection guarantees eternal life for believers. Adventists celebrate Christ’s atoning work, which reconciles humanity to God. This belief inspires gratitude and confidence in salvation. <span class="text-blue-600 font-semibold">Key Verse:</span> “But he was wounded for our transgressions, he was bruised for our iniquities” (Isaiah 53:5, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 10: The Experience of Salvation -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">10. The Experience of Salvation</h3>
+                <p class="text-base text-gray-600">Salvation is a gift of grace, received through faith in Christ’s atoning sacrifice. The Holy Spirit regenerates believers, enabling a life of obedience and love. Adventists view salvation as both justification and sanctification, transforming lives to reflect God’s character. This belief fosters assurance and a commitment to spiritual growth. <span class="text-blue-600 font-semibold">Key Verse:</span> “For by grace are ye saved through faith; and that not of yourselves: it is the gift of God” (Ephesians 2:8, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 11: Growing in Christ -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">11. Growing in Christ</h3>
+                <p class="text-base text-gray-600">Through the Holy Spirit, believers grow in Christ, overcoming sin and reflecting His character. This growth involves prayer, Bible study, and service, fostering peace and freedom from fear. Adventists emphasize continual spiritual development, preparing for Christ’s return. This belief encourages a dynamic, transformative faith. <span class="text-blue-600 font-semibold">Key Verse:</span> “But grow in grace, and in the knowledge of our Lord and Saviour Jesus Christ” (2 Peter 3:18, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 12: The Church -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">12. The Church</h3>
+                <p class="text-base text-gray-600">The church is the community of believers who confess Jesus as Lord, united for worship, fellowship, and mission. It continues the work of God’s people from Old Testament times, proclaiming the gospel globally. Adventists value the church as a family, supporting spiritual growth and service. This belief fosters community and purpose. <span class="text-blue-600 font-semibold">Key Verse:</span> “And he is the head of the body, the church: who is the beginning, the firstborn from the dead” (Colossians 1:18, KJV).</p>[](https://www.adventist.org/the-church/)
+            </div>
+
+            <!-- Belief 13: The Remnant and Its Mission -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">13. The Remnant and Its Mission</h3>
+                <p class="text-base text-gray-600">The remnant church, faithful to God’s commandments, proclaims the gospel and the three angels’ messages of Revelation 14, preparing the world for Christ’s return. Adventists see themselves as part of this remnant, called to uphold truth and warn of judgment. This belief inspires evangelistic zeal and fidelity to Scripture. <span class="text-blue-600 font-semibold">Key Verse:</span> “And the dragon was wroth with the woman, and went to make war with the remnant of her seed” (Revelation 12:17, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 14: Unity in the Body of Christ -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">14. Unity in the Body of Christ</h3>
+                <p class="text-base text-gray-600">The church is one body, united in Christ despite cultural or ethnic differences. The Holy Spirit fosters unity through love and truth, enabling believers to reflect God’s character. Adventists promote inclusivity and collaboration in mission. This belief encourages harmony and mutual support within the global church. <span class="text-blue-600 font-semibold">Key Verse:</span> “That they all may be one; as thou, Father, art in me, and I in thee” (John 17:21, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 15: Baptism -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">15. Baptism</h3>
+                <p class="text-base text-gray-600">Baptism by immersion symbolizes repentance, forgiveness, and union with Christ’s death and resurrection. It is a public declaration of faith, marking entry into the church. Adventists practice baptism for those who consciously accept Jesus, emphasizing its spiritual significance. This belief fosters commitment to a new life in Christ. <span class="text-blue-600 font-semibold">Key Verse:</span> “Therefore we are buried with him by baptism into death” (Romans 6:4, KJV).</p>[](https://www.learnreligions.com/seventh-day-adventist-beliefs-701396)
+            </div>
+
+            <!-- Belief 16: The Lord’s Supper -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">16. The Lord’s Supper</h3>
+                <p class="text-base text-gray-600">The Lord’s Supper commemorates Christ’s sacrifice, with bread and wine symbolizing His body and blood. It includes foot-washing, signifying humility and service. Open to all believers, it renews commitment to Jesus. Adventists observe this ordinance regularly, fostering unity and gratitude. <span class="text-blue-600 font-semibold">Key Verse:</span> “This do in remembrance of me” (Luke 22:19, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 17: Spiritual Gifts and Ministries -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">17. Spiritual Gifts and Ministries</h3>
+                <p class="text-base text-gray-600">The Holy Spirit bestows spiritual gifts on believers for building up the church and spreading the gospel. These gifts, like teaching and healing, equip members for ministry. Adventists value diverse gifts, encouraging their use in service. This belief promotes active participation in God’s mission. <span class="text-blue-600 font-semibold">Key Verse:</span> “But the manifestation of the Spirit is given to every man to profit withal” (1 Corinthians 12:7, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 18: The Gift of Prophecy -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">18. The Gift of Prophecy</h3>
+                <p class="text-base text-gray-600">The gift of prophecy, a mark of the remnant church, provides guidance through inspired messages. Adventists recognize Ellen G. White’s writings as prophetic, illuminating Scripture without replacing it. Her counsel supports spiritual growth and mission. This belief encourages discernment and reliance on divine guidance. <span class="text-blue-600 font-semibold">Key Verse:</span> “And the spirits of the prophets are subject to the prophets” (1 Corinthians 14:32, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 19: The Law of God -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">19. The Law of God</h3>
+                <p class="text-base text-gray-600">The Ten Commandments reflect God’s character and are binding for all people. They guide moral conduct, revealing sin and pointing to Christ’s righteousness. Adventists uphold the law, not for salvation, but as an expression of love for God. This belief fosters obedience and ethical living. <span class="text-blue-600 font-semibold">Key Verse:</span> “If ye love me, keep my commandments” (John 14:15, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 20: The Sabbath -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">20. The Sabbath</h3>
+                <p class="text-base text-gray-600">The seventh-day Sabbath (Saturday) is a gift of rest and worship, instituted at creation and reaffirmed in the Ten Commandments. It commemorates God’s creative and redemptive acts. Adventists observe the Sabbath from sunset Friday to sunset Saturday, fostering spiritual renewal. This belief shapes lifestyle and priorities. <span class="text-blue-600 font-semibold">Key Verse:</span> “Remember the sabbath day, to keep it holy” (Exodus 20:8, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 21: Stewardship -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">21. Stewardship</h3>
+                <p class="text-base text-gray-600">Believers are stewards of God’s resources, including time, talents, and the environment. Stewardship reflects gratitude and responsibility, supporting God’s work through tithes and offerings. Adventists practice sustainable living and generosity, honoring God’s ownership. This belief encourages purposeful, disciplined living. <span class="text-blue-600 font-semibold">Key Verse:</span> “Moreover it is required in stewards, that a man be found faithful” (1 Corinthians 4:2, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 22: Christian Behavior -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">22. Christian Behavior</h3>
+                <p class="text-base text-gray-600">Christians are called to live Christlike lives, reflecting God’s love in actions and words. This includes modesty, healthful living, and avoiding harmful substances. Adventists strive for holiness, guided by Scripture, to honor God. This belief shapes daily choices and community interactions. <span class="text-blue-600 font-semibold">Key Verse:</span> “Whether therefore ye eat, or drink, or whatsoever ye do, do all to the glory of God” (1 Corinthians 10:31, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 23: Marriage and the Family -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">23. Marriage and the Family</h3>
+                <p class="text-base text-gray-600">God instituted marriage as a lifelong union between a man and a woman, and the family as a reflection of His love. Adventists uphold the sanctity of marriage and prioritize nurturing families. This belief fosters strong relationships and community support for families. <span class="text-blue-600 font-semibold">Key Verse:</span> “Therefore shall a man leave his father and his mother, and shall cleave unto his wife” (Genesis 2:24, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 24: Christ’s Ministry in the Heavenly Sanctuary -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">24. Christ’s Ministry in the Heavenly Sanctuary</h3>
+                <p class="text-base text-gray-600">Jesus ministers in the heavenly sanctuary, interceding for believers and applying His atoning sacrifice. Since 1844, He has engaged in an investigative judgment, reviewing the lives of the professed faithful. Adventists trust Christ’s priestly work, which assures salvation. This belief emphasizes accountability and preparation for judgment. <span class="text-blue-600 font-semibold">Key Verse:</span> “We have such an high priest, who is set on the right hand of the throne of the Majesty in the heavens” (Hebrews 8:1, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 25: The Second Coming of Christ -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">25. The Second Coming of Christ</h3>
+                <p class="text-base text-gray-600">Christ’s second coming is literal, visible, and imminent, marking the climax of salvation. Believers will be resurrected or translated to meet Him, while the unrighteous face judgment. Adventists live in anticipation, sharing this hope globally. This belief inspires urgency and faithfulness. <span class="text-blue-600 font-semibold">Key Verse:</span> “And, behold, I come quickly; and my reward is with me” (Revelation 22:12, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 26: Death and Resurrection -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-600">26. Death and Resurrection</h3>
+                <p class="text-base text-gray-600">Death is a state of unconsciousness, or “soul sleep,” until the resurrection at Christ’s return. The righteous are raised to eternal life, while the wicked face final judgment. Adventists reject immediate afterlife, trusting God’s timing. This belief offers comfort and hope in mortality. <span class="text-blue-600 font-semibold">Key Verse:</span> “For the living know that they shall die: but the dead know not any thing” (Ecclesiastes 9:5, KJV).</p>[](https://www.learnreligions.com/seventh-day-adventist-beliefs-701396)
+            </div>
+
+            <!-- Belief 27: The Millennium and the End of Sin -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">27. The Millennium and the End of Sin</h3>
+                <p class="text-base text-gray-600">After Christ’s return, the righteous reign with Him in heaven for 1,000 years, while the earth lies desolate. At the millennium’s end, the wicked are resurrected, judged, and destroyed with Satan. Sin is eradicated, and God’s kingdom is established. This belief assures ultimate justice. <span class="text-blue-600 font-semibold">Key Verse:</span> “And I saw the dead, small and great, stand before God” (Revelation 20:12, KJV).</p>[](https://www.hemetsda.org/28-fundamental-beliefs)
+            </div>
+
+            <!-- Belief 28: The New Earth -->
+            <div class="card bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition duration-300">
+                <h3 class="text-xl font-bold mb-3 text-gray-800">28. The New Earth</h3>
+                <p class="text-base text-gray-600">God will create a new heaven and earth, where the redeemed live eternally with Him. Free from sin and suffering, the new earth restores Eden’s perfection. Adventists anticipate this eternal home, living in hope and service. This belief inspires a forward-looking faith. <span class="text-blue-600 font-semibold">Key Verse:</span> “And I saw a new heaven and a new earth: for the first heaven and the first earth were passed away” (Revelation 21:1, KJV).</p>[](https://www.askanadventistfriend.com/adventist-beliefs/)
+            </div>
+        </div>
+        <div class="text-center mt-10">
+            <a href="#" class="inline-block bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:bg-blue-700 transition duration-300 animate-heartbeat-spin">Download 28 Fundamental Beliefs PDF</a>
+        </div>
+    </div>
+</section>
+
+
+
+    <!-- Church History -->
+    <section id="history" class="section">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">Church History</h2>
+            <div class="section-intro">
+                <p>The Seventh-day Adventist Church has a rich history rooted in the Great Awakening of the 19th century. Learn about our origins, growth, and global impact.</p>
+            </div>
+            <div class="grid grid-cols-1 gap-6">
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-2">The Millerite Movement (1830s-1840s)</h3>
+                    <p>The SDA Church traces its roots to the Millerite movement, led by William Miller, who preached the imminent return of Christ based on Daniel 8:14.</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-2">The Great Disappointment (1844)</h3>
+                    <p>After Christ did not return on October 22, 1844, a group of believers studied further and discovered the sanctuary doctrine, leading to the formation of the SDA Church.</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-2">Official Organization (1863)</h3>
+                    <p>The Seventh-day Adventist Church was officially organized on May 21, 1863, with a focus on Sabbath-keeping, health reform, and missionary work.</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-2">Ellen G. White’s Ministry (1844-1915)</h3>
+                    <p>Ellen G. White, one of the church’s founders, provided spiritual guidance through her prophetic writings, which continue to inspire Adventists today.</p>
+                </div>
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-2">Global Expansion (20th Century)</h3>
+                    <p>The church grew rapidly, establishing schools, hospitals, and publishing houses worldwide, becoming a global movement with millions of members.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section id="newsletter" class="section bg-gray-100">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">Newsletter</h2>
+            <div class="section-intro">
+                <p>Stay connected with our community by subscribing to our newsletter. Receive updates on events, devotionals, and mission outreach directly to your inbox.</p>
+            </div>
+            <div class="card max-w-md mx-auto">
+                <input type="email" id="newsletter-email" placeholder="Enter your email" class="w-full p-3 border rounded-lg mb-3">
+                <button onclick="subscribeNewsletter()" class="btn w-full">Subscribe</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4">Contact Us</h2>
+            <div class="section-intro">
+                <p>We’d love to hear from you! Reach out via email or WhatsApp for inquiries, prayer requests, or to get involved in our ministries.</p>
+            </div>
+            <div class="card max-w-md mx-auto">
+                <p><strong>Email:</strong> <a href="mailto:talesonlineoffices@gmail.com" class="text-blue-600 hover:underline">talesonlineoffices@gmail.com</a></p>
+                <p><strong>WhatsApp:</strong> <a href="https://wa.me/+254746564794" target="_blank" class="text-blue-600 hover:underline">+1 254 746564794</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
+                <div>
+                    <h3 class="text-xl font-bold mb-3">Seventh-day Adventist Church</h3>
+                    <p>A global community dedicated to sharing the love of Christ and preparing for His return.</p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-3">Quick Links</h3>
+                    <p><a href="#" onclick="showSection('devotionals')">Devotionals</a></p>
+                    <p><a href="#" onclick="showSection('sermons')">Sermons</a></p>
+                    <p><a href="#" onclick="showSection('books')">Books</a></p>
+                    <p><a href="#" onclick="showSection('contact')">Contact</a></p>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold mb-3">Follow Us</h3>
+                    <div class="flex justify-center md:justify-start">
+                        <a href="https://facebook.com" target="_blank"><img src="https://img.icons8.com/ios-filled/50/d4a017/facebook-new.png" alt="Facebook" class="social-icon"></a>
+                        <a href="https://twitter.com" target="_blank"><img src="https://img.icons8.com/ios-filled/50/d4a017/twitter.png" alt="Twitter" class="social-icon"></a>
+                        <a href="https://instagram.com" target="_blank"><img src="https://img.icons8.com/ios-filled/50/d4a017/instagram-new.png" alt="Instagram" class="social-icon"></a>
+                        <a href="https://youtube.com" target="_blank"><img src="https://img.icons8.com/ios-filled/50/d4a017/youtube-play.png" alt="YouTube" class="social-icon"></a>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center mt-6">© 2025 Seventh-day Adventist Church. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-database-compat.js"></script>
+
+    <!-- Menu Toggle Script -->
+    <script>
+        // Toggle Menu
+        const menuButton = document.getElementById('menu-button');
+        const menuList = document.getElementById('menu-list');
+
+        menuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menuList.style.display = menuList.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menuButton.contains(e.target) && !menuList.contains(e.target)) {
+                menuList.style.display = 'none';
+            }
+        });
+
+        // Show Home (Welcome + About)
+        function showHome() {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+                section.style.display = 'none';
+            });
+            document.getElementById('welcome').style.display = 'block';
+            document.getElementById('about').style.display = 'block';
+            menuList.style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Show Section (Hide About, Show Selected Section)
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+                section.style.display = 'none';
+            });
+            document.getElementById('welcome').style.display = 'block'; // Always show Welcome
+            document.getElementById('about').style.display = 'none'; // Hide About
+            const targetSection = document.getElementById(sectionId);
+            targetSection.style.display = 'block';
+            targetSection.classList.add('active');
+            menuList.style.display = 'none';
+            window.scrollTo({ top: targetSection.offsetTop - 70, behavior: 'smooth' });
+        }
+    </script>
+
+    <!-- Firebase Configuration and JavaScript -->
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCi9NWfDwbWSByd_R7ueNkLcQsFlBJ5_VA",
+            authDomain: "web-reg-cbf2f.firebaseapp.com",
+            databaseURL: "https://web-reg-cbf2f-default-rtdb.firebaseio.com",
+            projectId: "web-reg-cbf2f",
+            storageBucket: "web-reg-cbf2f.firebasestorage.app",
+            messagingSenderId: "431303341740",
+            appId: "1:431303341740:web:542070e4c471cd7c8ad109",
+            measurementId: "G-164GMVZQY3"
+        };
+
+        // Initialize Firebase
+        try {
+            firebase.initializeApp(firebaseConfig);
+            console.log("Firebase initialized successfully");
+        } catch (error) {
+            console.error("Firebase initialization error:", error);
+        }
+
+        const database = firebase.database();
+
+        // Load Events from Firebase
+        function loadEvents() {
+            const eventsRef = database.ref('events');
+            eventsRef.on('value', (snapshot) => {
+                const events = snapshot.val();
+                const eventsContainer = document.getElementById('events-container');
+                eventsContainer.innerHTML = '';
+                if (events) {
+                    Object.keys(events).forEach(key => {
+                        const event = events[key];
+                        const eventCard = `
+                            <div class="event-card">
+                                <img src="${event.image || 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60'}" alt="Event Image" class="w-full h-40 object-cover rounded-lg mb-4">
+                                <h3 class="text-xl font-bold mb-2">${event.title}</h3>
+                                <p><strong>Date:</strong> ${event.date}</p>
+                                <p><strong>Location:</strong> ${event.location}</p>
+                                <p><strong>Posted by:</strong> ${event.posterName}</p>
+                                <p>${event.description}</p>
+                            </div>
+                        `;
+                        eventsContainer.innerHTML += eventCard;
+                    });
+                }
+            }, (error) => {
+                console.error("Error loading events:", error);
+            });
+        }
+
+        // Submit Prayer Request
+        function submitPrayerRequest() {
+            const name = document.getElementById('prayer-requester-name').value;
+            const request = document.getElementById('prayer-request').value;
+            if (name && request) {
+                const newPrayerRef = database.ref('prayer_requests').push();
+                newPrayerRef.set({
+                    userId: "anonymous",
+                    content: request,
+                    requesterName: name,
+                    createdAt: Date.now(),
+                    moderated: false
+                }).then(() => {
+                    alert('Prayer request submitted successfully!');
+                    document.getElementById('prayer-requester-name').value = '';
+                    document.getElementById('prayer-request').value = '';
+                }).catch(error => {
+                    alert('Error submitting prayer request: ' + error.message);
+                });
+            } else {
+                alert('Please fill in all fields.');
+            }
+        }
+
+        // Submit Comment on a Prayer Request
+        function submitComment(prayerId) {
+            const commenterName = document.getElementById(`commenter-name-${prayerId}`).value;
+            const commentContent = document.getElementById(`comment-content-${prayerId}`).value;
+            if (commenterName && commentContent) {
+                const newCommentRef = database.ref(`prayer_requests/${prayerId}/comments`).push();
+                newCommentRef.set({
+                    userId: "anonymous",
+                    content: commentContent,
+                    commenterName: commenterName,
+                    createdAt: Date.now(),
+                    moderated: false
+                }).then(() => {
+                    alert('Comment submitted successfully!');
+                    document.getElementById(`commenter-name-${prayerId}`).value = '';
+                    document.getElementById(`comment-content-${prayerId}`).value = '';
+                }).catch(error => {
+                    alert('Error submitting comment: ' + error.message);
+                });
+            } else {
+                alert('Please fill in all fields.');
+            }
+        }
+
+        // Load Prayer Requests and Comments
+        function loadPrayerRequests() {
+            const prayerRef = database.ref('prayer_requests');
+            prayerRef.on('value', (snapshot) => {
+                const prayers = snapshot.val();
+                const prayerWall = document.getElementById('prayer-wall');
+                prayerWall.innerHTML = '';
+                if (prayers) {
+                    Object.keys(prayers).forEach(key => {
+                        const prayer = prayers[key];
+                        let commentsHTML = '';
+                        if (prayer.comments) {
+                            Object.keys(prayer.comments).forEach(commentKey => {
+                                const comment = prayer.comments[commentKey];
+                                commentsHTML += `
+                                    <div class="comment-card">
+                                        <p><strong>${comment.commenterName}</strong> - ${new Date(comment.createdAt).toLocaleString()}</p>
+                                        <p>${comment.content}</p>
+                                    </div>
+                                `;
+                            });
+                        }
+                        const prayerCard = `
+                            <div class="card">
+                                <p><strong>${prayer.requesterName}</strong> - ${new Date(prayer.createdAt).toLocaleString()}</p>
+                                <p>${prayer.content}</p>
+                                <div class="mt-4">
+                                    <h4 class="text-lg font-bold mb-2">Comments</h4>
+                                    ${commentsHTML}
+                                    <div class="mt-4">
+                                        <input type="text" id="commenter-name-${key}" placeholder="Your Name" class="w-full p-2 border rounded-lg mb-2">
+                                        <textarea id="comment-content-${key}" placeholder="Add a comment..." class="w-full p-2 border rounded-lg mb-2"></textarea>
+                                        <button onclick="submitComment('${key}')" class="btn">Submit Comment</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        prayerWall.innerHTML += prayerCard;
+                    });
+                }
+            }, (error) => {
+                console.error("Error loading prayer requests:", error);
+            });
+        }
+
+        // Subscribe to Newsletter
+        function subscribeNewsletter() {
+            const email = document.getElementById('newsletter-email').value;
+            if (email) {
+                const newSubscriberRef = database.ref('newsletter_subscriptions').push();
+                newSubscriberRef.set({
+                    email: email,
+                    subscribedAt: Date.now()
+                }).then(() => {
+                    alert('Subscribed successfully!');
+                    document.getElementById('newsletter-email').value = '';
+                }).catch(error => {
+                    alert('Error subscribing: ' + error.message);
+                });
+            } else {
+                alert('Please enter a valid email address.');
+            }
+        }
+
+        // Initialize Firebase Data
+        loadEvents();
+        loadPrayerRequests();
+    </script>
+</body>
+</html>

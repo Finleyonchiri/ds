@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Academy - Explore Artificial Intelligence</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <style>
+body{background-color:#f4f7fc;font-family:Arial,sans-serif;color:#333}.navbar{background:linear-gradient(90deg,#007bff,#00d4ff);box-shadow:0 2px 5px rgba(0,0,0,.1)}.navbar-brand{font-weight:700;color:#fff!important}.search-container{max-width:600px;margin:2rem auto}.search-container input{border-radius:25px;padding:.75rem 1.5rem;border:1px solid #007bff;box-shadow:0 2px 5px rgba(0,0,0,.1)}.section-title{font-size:1.8rem;color:#007bff;margin:2rem 0 .5rem}.ai-card{background:#fff;border-radius:10px;box-shadow:0 4px 8px rgba(0,0,0,.1);transition:transform .3s;margin-bottom:1.5rem;opacity:0;min-height:100px}.ai-card.loaded{opacity:1}.ai-card:hover{transform:translateY(-5px)}.ai-card h3{color:#007bff;font-size:1.25rem;margin-bottom:.5rem}.ai-card p{color:#555;font-size:.95rem}.ai-card a{color:#007bff;text-decoration:none}.ai-card a:hover{text-decoration:underline}.footer{background:#10182F;color:#bfbfbf;padding:3rem 0;margin-top:3rem}.footer a{color:#bfbfbf;text-decoration:none}.footer a:hover{color:#fff}.footer .icons i{font-size:1.5rem;margin-right:1rem;cursor:pointer}.footer .icons i:hover{color:#fff}.back-home{font-size:1rem;color:#007bff!important}.back-home:hover{text-decoration:underline}
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">AI Academy</a>
+            <a class="back-home" href="dashboard.html"><i class="fas fa-home"></i> Back to Dashboard</a>
+        </div>
+    </nav>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search AIs by name or use...">
+    </div>
+
+    <div class="container">
+        <h2 class="section-title">Conversational AI</h2>
+        <div class="row" id="conversationalAI">
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Grok</h3>
+                    <p>Conversational AI for answering questions and providing insights. <a href="https://x.ai/grok" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>ChatGPT</h3>
+                    <p>General-purpose conversational AI for text generation. <a href="https://openai.com/chatgpt" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Claude</h3>
+                    <p>Conversational AI focused on safety and helpfulness. <a href="https://anthropic.com" target="_blank">Visit</a></p>
+                </div importancia de la investigación educativa></div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Bard</h3>
+                    <p>Google's conversational AI for information retrieval. <a href="https://bard.google.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Perplexity</h3>
+                    <p>AI-powered search engine with conversational answers. <a href="https://perplexity.ai" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Replika</h3>
+                    <p>Conversational AI for companionship and mental health. <a href="https://replika.ai" target="_blank">Visit</a></p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Image & Video Generation</h2>
+        <div class="row" id="imageVideoAI">
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>DALL-E</h3>
+                    <p>Generates images from text prompts for creative applications. <a href="https://openai.com/dall-e" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>MidJourney</h3>
+                    <p>Creates high-quality images for art and design. <a href="https://midjourney.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Stable Diffusion</h3>
+                    <p>Open-source image generation for creative projects. <a href="https://stability.ai" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Synthesia</h3>
+                    <p>Creates AI-generated video content with avatars. <a href="https://synthesia.io" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Runway</h3>
+                    <p>AI tools for video editing and content creation. <a href="https://runwayml.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Firefly</h3>
+                    <p>Adobe's AI for generating and editing creative content. <a href="https://www.adobe.com/products/firefly.html" target="_blank">Visit</a></p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Code & Development</h2>
+        <div class="row" id="codeAI">
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>AlphaCode</h3>
+                    <p>Generates competitive programming code solutions. <a href="https://deepmind.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Copilot</h3>
+                    <p>Assists developers with code suggestions. <a href="https://github.com/features/copilot" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>TensorFlow</h3>
+                    <p>Framework for building and deploying AI models. <a href="https://tensorflow.org" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>PyTorch</h3>
+                    <p>Open-source AI framework for research and development. <a href="https://pytorch.org" target="_blank">Visit</a></p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Natural Language Processing</h2>
+        <div class="row" id="nlpAI">
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>LLaMA</h3>
+                    <p>Efficient AI models for research and NLP tasks. <a href="https://ai.meta.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>BERT</h3>
+                    <p>Processes natural language for search and text analysis. <a href="https://github.com/google-research/bert" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>GPT-4</h3>
+                    <p>Advanced multimodal AI for text and image processing. <a href="https://openai.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>T5</h3>
+                    <p>Text-to-text framework for various NLP tasks. <a href="https://ai.google" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>DeepL</h3>
+                    <p>AI-powered language translation with high accuracy. <a href="https://deepl.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Writing & Content Creation</h2>
+        <div class="row" id="writingAI">
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Jasper</h3>
+                    <p>Generates marketing content and copywriting. <a href="https://jasper.ai" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Grammarly</h3>
+                    <p>AI-powered writing assistant for grammar and style. <a href="https://grammarly.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>QuillBot</h3>
+                    <p>Paraphrasing and summarizing tool for writing. <a href="https://quillbot.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Anyword</h3>
+                    <p>Generates optimized marketing copy. <a href="https://anyword.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Frase</h3>
+                    <p>AI tool for SEO content creation and optimization. <a href="https://frase.io" target="_blank">Visit</a></p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Voice & Audio</h2>
+        <div class="row" id="voiceAI">
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>ElevenLabs</h3>
+                    <p>Generates realistic AI voiceovers and audio. <a href="https://elevenlabs.io" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Murf</h3>
+                    <p>Text-to-speech AI for professional voiceovers. <a href="https://murf.ai" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Otter</h3>
+                    <p>Transcribes audio and meetings in real-time. <a href="https://otter.ai" target="_blank">Visit</a></p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Virtual Assistants</h2>
+        <div class="row" id="assistantAI">
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Siri</h3>
+                    <p>Apple's virtual assistant for task automation. <a href="https://apple.com/siri" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Alexa</h3>
+                    <p>Amazon's voice assistant for smart home control. <a href="https://developer.amazon.com/alexa" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Google Assistant</h3>
+                    <p>Voice-activated assistant for information and tasks. <a href="https://assistant.google.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Cortana</h3>
+                    <p>Microsoft's virtual assistant for productivity. <a href="https://microsoft.com/cortana" target="_blank">Visit</a></p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Business & Automation</h2>
+        <div class="row" id="businessAI">
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Watson</h3>
+                    <p>IBM's AI for business analytics and NLP. <a href="https://ibm.com/watson" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Tableau</h3>
+                    <p>AI-driven data visualization and analytics. <a href="https://tableau.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Blue Prism</h3>
+                    <p>Robotic process automation for business workflows. <a href="https://blueprism.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>UiPath</h3>
+                    <p>Automates repetitive business processes. <a href="https://uipath.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Zapier</h3>
+                    <p>Automates workflows by connecting apps with AI. <a href="https://zapier.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Drift</h3>
+                    <p>Conversational AI for customer support and sales. <a href="https://drift.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Chatbot Frameworks</h2>
+        <div class="row" id="chatbotAI">
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Dialogflow</h3>
+                    <p>Builds conversational agents for apps and devices. <a href="https://cloud.google.com/dialogflow" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Rasa</h3>
+                    <p>Open-source framework for building chatbots. <a href="https://rasa.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Miscellaneous</h2>
+        <div class="row" id="miscAI">
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Wolfram Alpha</h3>
+                    <p>Computational knowledge engine for complex queries. <a href="https://wolframalpha.com" target="_blank">Visit</a></p>
+                </div>
+            </div>
+            <div class="col-md-4 ai-card">
+                <div class="p-3">
+                    <h3>Hugging Face</h3>
+                    <p>Platform for hosting and deploying AI models. <a href="https://huggingface.co" target="_blank">Visit</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-envelope"></i> talesonlineoffices@gmail.com</p>
+                    <p><i class="fas fa-phone"></i> 0746564794</p>
+                    <p><i class="fab fa-whatsapp"></i> 0102645377</p>
+                </div>
+                <div class="col-md-4">
+                    <h4>Quick Links</h4>
+                    <ul class="links">
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4>Follow Us</h4>
+                    <div class="icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2025 AI Academy. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script defer>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const aiCards = document.querySelectorAll('.ai-card');
+
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                aiCards.forEach(card => {
+                    const name = card.querySelector('h3').textContent.toLowerCase();
+                    const use = card.querySelector('p').textContent.toLowerCase();
+                    card.style.display = (name.includes(searchTerm) || use.includes(searchTerm)) ? 'block' : 'none';
+                });
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('loaded');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            aiCards.forEach(card => observer.observe(card));
+        });
+    </script>
+</body>
+</html>

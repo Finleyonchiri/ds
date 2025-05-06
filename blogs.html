@@ -189,7 +189,7 @@
             color: #4a3728;
             text-align: center;
             margin-bottom: 2rem;
-            border-bottom: 2px solid #1e3a8a; /* Deep Navy Blue */
+            border-bottom: 2px solid #1e3a8a;
             padding-bottom: 0.5rem;
             font-family: 'Times New Roman', serif;
             position: relative;
@@ -222,6 +222,7 @@
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.6s ease-out;
+            position: relative;
         }
 
         .blog-card.visible {
@@ -240,6 +241,14 @@
             opacity: 0.05;
             border-radius: 10px;
             z-index: -1;
+        }
+
+        .blog-card img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
         }
 
         .blog-card h3 {
@@ -262,6 +271,61 @@
             color: #4a3728;
             line-height: 1.6;
             font-family: 'Garamond', serif;
+        }
+
+        .blog-card .content p {
+            margin-bottom: 1rem;
+        }
+
+        /* Featured Author Section */
+        .author-spotlight {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border: 2px solid #1e3a8a;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .author-spotlight h2 {
+            font-size: 2rem;
+            color: #4a3728;
+            margin-bottom: 1rem;
+            font-family: 'Times New Roman', serif;
+        }
+
+        .author-spotlight img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 2px solid #1e3a8a;
+        }
+
+        .author-spotlight p {
+            font-size: 1rem;
+            color: #4a3728;
+            line-height: 1.6;
+            font-family: 'Garamond', serif;
+            margin-bottom: 1rem;
+        }
+
+        .author-spotlight a {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #1e3a8a;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .author-spotlight a:hover {
+            background: #3b82f6;
         }
 
         /* Footer Styles */
@@ -293,24 +357,24 @@
             margin: 0.5rem 0;
         }
 
-        .social-icons {
+        .social-links {
             display: flex;
             justify-content: center;
             gap: 10px;
         }
 
-        .social-icons a {
+        .social-links a {
             display: block;
             width: 24px;
             height: 24px;
             transition: opacity 0.2s;
         }
 
-        .social-icons a:hover {
+        .social-links a:hover {
             opacity: 0.8;
         }
 
-        .social-icons img {
+        .social-links img {
             width: 100%;
             height: 100%;
             object-fit: contain;
@@ -368,7 +432,7 @@
                 margin: 1rem auto;
             }
 
-            .blogs-section {
+            .blogs-section, .author-spotlight {
                 padding: 1rem;
             }
 
@@ -378,6 +442,10 @@
 
             .blog-card {
                 padding: 1.5rem;
+            }
+
+            .blog-card img {
+                max-height: 150px;
             }
 
             .blog-card h3 {
@@ -390,6 +458,15 @@
 
             .blog-card .content {
                 font-size: 0.95rem;
+            }
+
+            .author-spotlight img {
+                width: 120px;
+                height: 120px;
+            }
+
+            .author-spotlight h2 {
+                font-size: 1.8rem;
             }
 
             .footer-content {
@@ -434,6 +511,10 @@
                 padding: 1rem;
             }
 
+            .blog-card img {
+                max-height: 120px;
+            }
+
             .blog-card h3 {
                 font-size: 1.3rem;
             }
@@ -444,6 +525,15 @@
 
             .blog-card .content {
                 font-size: 0.9rem;
+            }
+
+            .author-spotlight img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .author-spotlight h2 {
+                font-size: 1.5rem;
             }
 
             footer {
@@ -461,15 +551,14 @@
             <div class="logo"></div>
             <h1 class="header-title">Tales Online</h1>
         </div>
-      <ul class="nav-menu" id="nav-menu"> 
-	    <li><a href="dashboard.html">Home</a></li>
+        <ul class="nav-menu" id="nav-menu"> 
+            <li><a href="dashboard.html">Home</a></li>
             <li><a href="books.html">Books</a></li>
             <li><a href="magazine.html">Magazines</a></li>
             <li><a href="about.html">About the Developer</a></li>
             <li><a href="blogs.html">Blogs</a></li>
-	    <li><a href="pod.html">Podcast</a></li>
-	      <li><a href="shop.html">Shop</a></li>
-            
+            <li><a href="pod.html">Podcast</a></li>
+            <li><a href="shop.html">Shop</a></li>
         </ul>
     </header>
 
@@ -485,62 +574,169 @@
         <h2 class="section-title">Our Blogs</h2>
         <div class="blog-list">
             <div class="blog-card">
-                <h3>The Magic of Storytelling</h3>
-                <p class="blogger">By Dr. Evelyn Harper</p>
-                <p class="content">
-                    Storytelling has been a cornerstone of human culture since the dawn of time. From ancient oral traditions to modern novels, stories have the power to connect us, inspire us, and teach us valuable lessons. In this blog, we explore how storytelling shapes our understanding of the world and why it remains a vital art form in the digital age.
-                </p>
+                <img src="https://images.everydayhealth.com/images/seo-graphic-content-initiative/health-benefits-of-watermelon-(2).png?sfvrsn=42e095fc_3" alt="Morning Run">
+                <h3>The Morning Run: Advantages for Mind and Body</h3>
+                <p class="blogger">By Dr. Sarah Thompson</p>
+                <div class="content">
+                    <p>Starting your day with a morning run can transform both your physical and mental well-being. The crisp morning air, the rhythmic sound of your footsteps, and the quiet of the early hours create a perfect setting for exercise. Running in the morning boosts your metabolism, helping you burn calories more efficiently throughout the day. Studies show that morning exercise can increase fat oxidation, making it an excellent choice for those aiming to maintain a healthy weight.</p>
+                    <p>Beyond physical benefits, a morning run enhances mental clarity and focus. The release of endorphins during exercise acts as a natural mood enhancer, reducing stress and anxiety. For many, this time becomes a meditative practice, allowing them to process thoughts and plan their day. Regular morning runners often report improved productivity and a greater sense of accomplishment, as they’ve already tackled a significant task before the day begins.</p>
+                    <p>Another advantage is the consistency that morning runs foster. By exercising first thing, you’re less likely to skip your workout due to unexpected commitments or fatigue later in the day. Establishing a routine strengthens discipline, which can spill over into other areas of life, such as work or personal goals. Additionally, morning runs expose you to natural light, which helps regulate your circadian rhythm, leading to better sleep quality.</p>
+                    <p>However, it’s essential to approach morning runs mindfully. Proper warm-ups, hydration, and appropriate gear are crucial to prevent injuries. Start with shorter distances and gradually increase intensity to avoid burnout. Whether you’re a seasoned runner or a beginner, the morning run offers a powerful way to kickstart your day, blending physical fitness with mental rejuvenation.</p>
+                </div>
             </div>
             <div class="blog-card">
-                <h3>Why Historical Fiction Matters</h3>
-                <p class="blogger">By Prof. Marcus Elton</p>
-                <p class="content">
-                    Historical fiction offers a unique lens through which we can explore the past. By blending factual events with imaginative narratives, this genre brings history to life in a way that textbooks cannot. Join us as we delve into the importance of historical fiction and recommend some must-read titles for history enthusiasts.
-                </p>
+                <img src="https://kajabi-storefronts-production.kajabi-cdn.com/kajabi-storefronts-production/file-uploads/sites/58266/images/ba0bf6-a230-75a-461e-20b23652e4_b87e445a-92f4-4c58-b24b-7fda0d3e2667.png" alt="Writing Novel">
+                <h3>Crafting Your First Novel: A Journey of Words</h3>
+                <p class="blogger">By Emily Carter</p>
+                <div class="content">
+                    <p>Writing a novel is a dream for many, but the process can feel daunting. The key to starting lies in embracing the journey rather than fixating on the destination. Begin with a spark—an idea, character, or setting that excites you. Spend time brainstorming and outlining to give your story structure, but remain flexible to let creativity flow. A loose outline can guide you while allowing room for unexpected plot twists or character developments.</p>
+                    <p>Consistency is crucial when writing a novel. Set a daily or weekly word count goal, even if it’s just 500 words. This steady progress builds momentum and keeps the story alive in your mind. Create a dedicated writing space free from distractions, and establish a routine that suits your lifestyle. Some writers thrive in the early morning, while others find their creative peak at night. Experiment to discover what works best for you.</p>
+                    <p>One of the biggest hurdles for new novelists is self-doubt. The inner critic can be relentless, but it’s important to silence it during the first draft. Focus on getting the story down, knowing you can refine it later. Joining a writing group or sharing your work with trusted beta readers can provide valuable feedback and encouragement. These communities offer support and remind you that every writer faces challenges.</p>
+                    <p>Finally, embrace the revision process. A first draft is rarely perfect, but it’s a foundation to build upon. Edit for clarity, coherence, and emotional impact, and don’t shy away from cutting unnecessary scenes. Completing a novel is a monumental achievement, and with persistence, your story can resonate with readers. Let your passion for storytelling guide you through this rewarding creative endeavor.</p>
+                </div>
             </div>
             <div class="blog-card">
-                <h3>The Rise of Fantasy Literature</h3>
-                <p class="blogger">By Ms. Clara Veyron</p>
-                <p class="content">
-                    Fantasy literature has seen a remarkable surge in popularity over the past few decades. From epic sagas to magical realism, this genre allows readers to escape into worlds of wonder and adventure. In this post, we examine the reasons behind fantasy's enduring appeal and highlight some of the best fantasy books of 2025.
-                </p>
+                <img src="https://thereader.mitpress.mit.edu/wp-content/uploads/2021/07/lead-collage-2-700x420.jpg" alt="Science Fiction">
+                <h3>The Evolution of Science Fiction in Literature</h3>
+                <p class="blogger">By Prof. Alan Brooks</p>
+                <div class="content">
+                    <p>Science fiction has long captivated readers with its ability to explore the unknown, from distant galaxies to futuristic societies. Originating in the 19th century with works like Mary Shelley’s *Frankenstein* and H.G. Wells’ *The Time Machine*, the genre has evolved dramatically. Early science fiction focused on scientific marvels and cautionary tales, reflecting society’s fascination and apprehension about technological progress.</p>
+                    <p>In the mid-20th century, the genre expanded with the Golden Age of Science Fiction, marked by authors like Isaac Asimov and Arthur C. Clarke. Their stories delved into complex themes such as artificial intelligence, space exploration, and human identity. This era introduced iconic tropes like interstellar travel and dystopian worlds, which remain staples today. Science fiction became a lens for examining societal issues, using speculative settings to comment on politics, ethics, and culture.</p>
+                    <p>Today, science fiction is more diverse and inclusive than ever. Contemporary authors like N.K. Jemisin and Liu Cixin bring fresh perspectives, blending cultural narratives with speculative ideas. The genre now encompasses subgenres like cyberpunk, climate fiction, and Afrofuturism, reflecting global concerns such as environmental crises and digital surveillance. Modern science fiction often prioritizes character-driven stories, exploring the human experience within extraordinary contexts.</p>
+                    <p>The genre’s enduring appeal lies in its ability to push boundaries and inspire innovation. Science fiction encourages readers to question reality and imagine possibilities beyond the present. Whether you’re drawn to epic space operas or introspective tales of artificial life, there’s a science fiction story for every reader. As technology advances, the genre will continue to evolve, challenging us to envision the future while reflecting on our present.</p>
+                </div>
             </div>
             <div class="blog-card">
-                <h3>Poetry as a Form of Expression</h3>
-                <p class="blogger">By Mr. Adrian Lyle</p>
-                <p class="content">
-                    Poetry is more than just words on a page—it’s a powerful form of expression that captures the human experience in its rawest form. Whether it’s a sonnet, a haiku, or free verse, poetry allows us to explore emotions and ideas in a unique way. In this blog, we discuss the impact of poetry and share some tips for aspiring poets.
-                </p>
+                <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba" alt="Nature Writing">
+                <h3>The Art of Nature Writing: Connecting with the Earth</h3>
+                <p class="blogger">By Laura Greenwood</p>
+                <div class="content">
+                    <p>Nature writing is a literary tradition that celebrates the beauty and complexity of the natural world. From the transcendental essays of Henry David Thoreau to the contemporary works of Robin Wall Kimmerer, this genre invites readers to deepen their connection with the environment. Nature writing blends observation, science, and poetry, capturing the intricate relationships between humans and the ecosystems they inhabit.</p>
+                    <p>At its core, nature writing is about mindfulness. It encourages us to slow down, observe the world around us, and reflect on our place within it. Whether describing the migration of birds or the texture of a forest floor, nature writers evoke a sense of wonder and responsibility. This genre often serves as a call to action, urging readers to protect the planet in the face of climate change and habitat loss.</p>
+                    <p>Writing about nature requires keen observation and a willingness to engage with the senses. Start by spending time outdoors, noting the sights, sounds, and smells of your surroundings. Journaling these experiences can help you develop a unique voice and perspective. Many nature writers also draw on scientific knowledge to enrich their work, blending facts with lyrical prose to create compelling narratives.</p>
+                    <p>In an era of environmental challenges, nature writing is more relevant than ever. It fosters empathy for the natural world and inspires collective action. By reading and writing about nature, we can cultivate a deeper appreciation for the Earth and commit to its preservation. Whether you’re an aspiring writer or a curious reader, nature writing offers a pathway to reconnect with the world around you.</p>
+                </div>
+            </div>
+            <div class="blog-card">
+                <img src="https://imgs.search.brave.com/vtvhYoyIPfhoX7a-KjGy7i1Y5Ogaqwd6CU73EGw0lV8/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/c2hvcGlmeS5jb20v/cy9maWxlcy8xLzAw/MTUvMTgwNy81OTI2/L2ZpbGVzL1RoZV9t/ZW1vaXJpc3Rfc19t/aXJyb3JfNjAweDYw/MC5qcGc_dj0xNjk5/NDk1NjY4" alt="Memoir Writing">
+                <h3>The Power of Memoir: Telling Your Story</h3>
+                <p class="blogger">By Michael Vargas</p>
+                <div class="content">
+                    <p>Memoirs are a powerful way to share personal experiences, offering readers a window into the author’s life and perspective. Unlike autobiographies, which cover an entire life, memoirs focus on specific moments or themes, weaving narratives that resonate universally. Writing a memoir requires vulnerability, honesty, and a commitment to uncovering the truth of your experiences.</p>
+                    <p>The process begins with reflection. Identify a pivotal moment or recurring theme in your life—perhaps a challenge overcome, a transformative journey, or a lesson learned. Use vivid details to bring these moments to life, immersing readers in your world. A successful memoir balances personal storytelling with broader insights, allowing readers to find connections to their own lives.</p>
+                    <p>One challenge of memoir writing is navigating emotional complexity. You may need to revisit painful memories or confront difficult truths, but this authenticity is what makes memoirs compelling. Seek feedback from trusted readers to ensure your story is clear and impactful. Additionally, consider the ethical implications of writing about others, striving to portray people fairly and respectfully.</p>
+                    <p>Memoirs have the power to inspire, heal, and connect. They remind us that every life holds stories worth telling, no matter how ordinary they may seem. By sharing your truth, you can offer solace or inspiration to others. Whether you’re writing for publication or personal growth, a memoir is a testament to the resilience and richness of the human experience.</p>
+                </div>
+            </div>
+            <div class="blog-card">
+                <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b" alt="Short Stories">
+                <h3>The Craft of Short Stories: Brevity and Impact</h3>
+                <p class="blogger">By Rachel Lin</p>
+                <div class="content">
+                    <p>Short stories are a unique literary form, demanding precision and economy while delivering profound emotional impact. Unlike novels, which unfold over hundreds of pages, short stories capture a moment, emotion, or revelation in a compact narrative. Masters like Alice Munro and Raymond Carver demonstrate how a few thousand words can create worlds as vivid and memorable as any epic.</p>
+                    <p>Writing a short story begins with a strong premise—a single idea or conflict that drives the narrative. Focus on a specific moment or turning point, and build your story around it. Characters should be well-defined but revealed efficiently through actions, dialogue, or subtle details. Every word counts, so avoid unnecessary exposition and let the story’s subtext do the heavy lifting.</p>
+                    <p>One of the challenges of short story writing is creating a satisfying arc within a limited space. A compelling beginning hooks the reader, while a resonant ending leaves a lasting impression. Experiment with structure, perspective, and tone to find the best way to tell your story. Reading widely in the genre can also inspire new approaches and techniques.</p>
+                    <p>Short stories are a playground for creativity, offering writers the chance to explore diverse voices and styles. They’re also an accessible entry point for new writers, requiring less time than a novel but no less skill. Whether published in literary magazines or shared with friends, a well-crafted short story can linger in readers’ minds long after the final sentence.</p>
+                </div>
+            </div>
+            <div class="blog-card">
+                <img src="https://images.unsplash.com/photo-1507838153414-b4b713384a76" alt="Music Literature">
+                <h3>Music and Literature: A Harmonious Connection</h3>
+                <p class="blogger">By Dr. Olivia Kent</p>
+                <div class="content">
+                    <p>Music and literature share a deep, symbiotic relationship, each enhancing the other’s emotional and narrative power. From the lyrical prose of Toni Morrison to the rhythm-infused poetry of Langston Hughes, writers often draw on musicality to enrich their work. Similarly, musicians like Bob Dylan and Joni Mitchell craft songs that tell stories as vivid as any novel.</p>
+                    <p>In literature, music can serve as a motif, setting the tone or reflecting a character’s inner world. For example, jazz in James Baldwin’s stories evokes the vibrancy and struggles of African American life, while classical music in Kazuo Ishiguro’s novels underscores themes of restraint and longing. Writers use rhythm, cadence, and repetition to mimic musical structures, creating prose that sings.</p>
+                    <p>For readers, music-inspired literature offers a multisensory experience, blending the intellectual with the visceral. Reading about a character’s favorite song or a pivotal concert can evoke personal memories, deepening the emotional impact. Writers can also draw inspiration from music, using playlists to set the mood or lyrics to spark story ideas. This cross-pollination enriches both art forms.</p>
+                    <p>Exploring the intersection of music and literature opens new creative possibilities. Try writing a story inspired by a song’s narrative or crafting prose that captures a melody’s rhythm. As both a reader and writer, you’ll find that music and literature together create a harmony that resonates deeply, bridging the gap between sound and story.</p>
+                </div>
+            </div>
+            <div class="blog-card">
+                <img src="https://images.unsplash.com/photo-1534972195531-d756b9bfa9f2" alt="Digital Storytelling">
+                <h3>Digital Storytelling: Literature in the Digital Age</h3>
+                <p class="blogger">By Ethan Patel</p>
+                <div class="content">
+                    <p>The digital age has revolutionized storytelling, offering new platforms and formats for literature. From interactive e-books to serialized stories on social media, digital storytelling expands the boundaries of how narratives are created and consumed. This evolution allows writers to engage audiences in innovative ways, blending text, visuals, and interactivity.</p>
+                    <p>One of the most exciting aspects of digital storytelling is its accessibility. Platforms like Wattpad and Medium enable writers to share their work with global audiences without traditional publishing barriers. Readers can comment, share, and even influence a story’s direction, creating a dynamic, collaborative experience. Multimedia elements like audio, video, and animations further enhance the narrative, making stories more immersive.</p>
+                    <p>However, digital storytelling also presents challenges. The abundance of content online makes it harder for writers to stand out, and the fast-paced nature of digital platforms can prioritize quantity over quality. Writers must master concise, engaging prose to capture fleeting attention spans. Additionally, navigating algorithms and monetization requires a blend of creativity and technical savvy.</p>
+                    <p>Despite these challenges, digital storytelling is a vibrant frontier for literature. It democratizes storytelling, giving voice to diverse perspectives and fostering communities of readers and writers. Whether you’re crafting a Twitter thread or an interactive novel, the digital age offers endless possibilities to reimagine how stories are told and shared.</p>
+                </div>
+            </div>
+            <div class="blog-card">
+                <img src="https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0" alt="Travel Writing">
+                <h3>Travel Writing: Capturing the Spirit of Place</h3>
+                <p class="blogger">By Sophia Alvarez</p>
+                <div class="content">
+                    <p>Travel writing is a genre that transports readers to distant lands, capturing the essence of a place through vivid prose. From the bustling markets of Marrakech to the serene fjords of Norway, travel writers weave sensory details and cultural insights to create immersive narratives. This genre celebrates exploration, curiosity, and the human connection to place.</p>
+                    <p>Effective travel writing goes beyond describing landmarks; it delves into the heart of a destination. Writers observe local customs, engage with residents, and reflect on their own experiences to uncover a place’s unique character. Humor, vulnerability, and authenticity make these stories relatable, allowing readers to feel as though they’re journeying alongside the writer.</p>
+                    <p>One challenge of travel writing is avoiding clichés and stereotypes. Instead of relying on overused tropes, focus on specific, unexpected details—a street musician’s melody, the texture of a traditional dish, or a fleeting conversation. Researching a destination’s history and culture adds depth, while ethical considerations ensure respectful representation of local communities.</p>
+                    <p>In a world where travel is both a privilege and a responsibility, travel writing inspires mindful exploration. It encourages readers to see the world with fresh eyes and appreciate the diversity of human experiences. Whether you’re documenting a grand adventure or a local getaway, travel writing captures the magic of discovery and the stories that places tell.</p>
+                </div>
+            </div>
+            <div class="blog-card">
+                <img src="https://images.unsplash.com/photo-1515169067868-5387ec356754" alt="Children’s Literature">
+                <h3>The Magic of Children’s Literature: Inspiring Young Minds</h3>
+                <p class="blogger">By Clara Winston</p>
+                <div class="content">
+                    <p>Children’s literature holds a special place in the literary world, sparking imagination and fostering a love of reading from an early age. From picture books to young adult novels, these stories shape how children see themselves and the world. Authors like Roald Dahl and J.K. Rowling create magical worlds that captivate young readers while addressing universal themes like friendship, courage, and identity.</p>
+                    <p>Writing for children requires a delicate balance of simplicity and depth. The language must be accessible, but the story should resonate emotionally and intellectually. Vivid characters, engaging plots, and relatable conflicts keep young readers invested. Illustrations often play a crucial role, especially in picture books, where visuals and text work together to tell the story.</p>
+                    <p>Children’s literature also has the power to teach without preaching. Stories can introduce complex topics like diversity, environmental stewardship, or resilience in age-appropriate ways. By presenting these themes through compelling narratives, authors help children develop empathy and critical thinking. Parents and educators often use these books as tools for meaningful conversations.</p>
+                    <p>The impact of children’s literature extends beyond childhood, shaping lifelong readers and thinkers. For writers, creating stories for young audiences is both a challenge and a privilege, requiring creativity and a deep understanding of young perspectives. Whether it’s a whimsical tale or a coming-of-age saga, children’s literature ignites the spark of wonder that lasts a lifetime.</p>
+                </div>
+            </div>
+            <div class="blog-card">
+                <img src="https://assets.onecompiler.app/42jd8ggps/437qhhtzc/tales%20profile%20pic.png" alt="Africanicity">
+                <h3>Africanicity: Celebrating the Soul of a Continent</h3>
+                <p class="blogger">By Finley Onchiri</p>
+                <div class="content">
+                    <p>Africanicity is a term that encapsulates the vibrant, multifaceted essence of African identity, culture, and heritage. It is not merely a geographical label but a celebration of the continent’s rich tapestry of traditions, stories, and philosophies. From the rhythmic beats of West African djembe drums to the intricate beadwork of Maasai artisans, Africanicity embodies a spirit of resilience, creativity, and communal harmony. This concept invites us to explore the depth of African contributions to global culture, often overshadowed by stereotypes or colonial narratives.</p>
+                    <p>The roots of Africanicity lie in its oral traditions, where griots and storytellers have preserved histories, values, and wisdom through generations. These narratives, passed down in languages like Swahili, Yoruba, or Amharic, carry the weight of ancestral knowledge. They teach lessons of ubuntu—the African philosophy of interconnectedness and humanity. In modern times, African writers like Chinua Achebe and Chimamanda Ngozi Adichie have woven these oral traditions into literature, giving voice to African experiences and challenging Western-centric perspectives.</p>
+                    <p>Africanicity also shines through in the continent’s artistic expressions. Visual arts, from the ancient rock paintings of the San people to contemporary installations by El Anatsui, reflect a profound connection to the land and its stories. Music and dance, whether in the form of South African amapiano or Ethiopian eskista, are not just entertainment but communal rituals that bind people together. These art forms transcend borders, influencing global genres like jazz, hip-hop, and afrobeat, and reminding us of Africa’s indelible mark on the world.</p>
+                    <p>Yet, Africanicity is not static; it evolves with the continent’s dynamic present and future. Urban centers like Lagos, Nairobi, and Accra pulse with innovation, blending tradition with modernity. Young Africans are reclaiming their narratives through digital platforms, from Nollywood films to Afrofuturist novels that imagine bold, speculative futures. This forward-looking aspect of Africanicity challenges the notion of Africa as a monolith, showcasing its diversity across 54 nations, thousands of languages, and countless cultural practices.</p>
+                    <p>Embracing Africanicity means recognizing the continent’s contributions while confronting its challenges, such as postcolonial legacies and economic disparities. It calls for a global appreciation of African agency—acknowledging Africans as architects of their own stories, not passive subjects. For those outside the continent, engaging with Africanicity involves listening to African voices, supporting African creators, and unlearning biases. For Africans, it’s a call to celebrate their heritage while forging paths that honor both tradition and innovation.</p>
+                    <p>Ultimately, Africanicity is a lens through which we can understand the soul of a continent that has shaped human history and continues to inspire. It invites us to dance to its rhythms, learn from its wisdom, and contribute to its unfolding story. By embracing Africanicity, we not only honor Africa’s past and present but also invest in a future where its vibrant spirit continues to illuminate the world.</p>
+                </div>
             </div>
         </div>
+    </section>
+
+    <!-- Featured Author Spotlight -->
+    <section class="author-spotlight">
+        <h2>Featured Author: Nia Okoye</h2>
+        <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91" alt="Nia Okoye">
+        <p>Nia Okoye is an award-winning novelist and poet whose work explores themes of identity, migration, and resilience. Born in Lagos, Nigeria, and now based in London, her debut novel, *Echoes of Home*, was shortlisted for the 2024 Commonwealth Book Prize. Nia’s lyrical prose and vivid storytelling draw from her African heritage, blending myth and modernity to create unforgettable narratives.</p>
+        <p>Her latest poetry collection, *Woven Threads*, celebrates the strength of women across generations. When not writing, Nia mentors young writers and advocates for diversity in publishing. Her work has been featured in *The Guardian* and *Granta*, cementing her as a rising star in global literature.</p>
+        <a href="#">Read More About Nia</a>
     </section>
 
     <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div>
-                <p><strong>Contact:</strong> <a href="mailto:info@talesonline.com" style="color: #00acee; text-decoration: none;">info@talesonline.com</a></p>
-                <p><strong>Phone:</strong> (555) 123-4567</p>
+                <p><strong>Contact:</strong> <a href="mailto:talesonlineoffices@gmail.com">talesonlineoffices@gmail.com</a></p>
+                <p><strong>Phone:</strong> 0746564794 or 0102645377</p>
             </div>
-            <div class="social-icons">
+            <div class="social-links">
                 <a href="https://www.facebook.com" target="_blank">
                     <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/facebook%20(1).png" alt="Facebook">
                 </a>
-                <a href="https://twitter.com" target="_blank">
-                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/twitter.png" alt="Twitter">
+                <a href="https://x.com/Jupiter_floor?t=Nw1DO_fY1WE_vXMLd6-aLw&s=09" target="_blank">
+                    <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/twitter.png" alt="X">
                 </a>
-                <a href="https://www.instagram.com" target="_blank">
+                <a href="https://www.instagram.com/tales_me_?igsh=aDRyOHN3Z2xuMGh5" target="_blank">
                     <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/instagram.png" alt="Instagram">
                 </a>
                 <a href="https://www.linkedin.com" target="_blank">
                     <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/linkedin.png" alt="LinkedIn">
                 </a>
-                <a href="https://wa.me/0102645377" target="_blank">
+                <a href="https://wa.me/+254102645377" target="_blank">
                     <img src="https://assets.onecompiler.app/42jd8ggps/43d95ns59/whatsapp.png" alt="WhatsApp">
+                </a>
+                <a href="mailto:talesonlineoffices@gmail.com" target="_blank">
+                    <img src="emali.jpg" alt="Gmail">
                 </a>
             </div>
             <div class="footer-links">
-                <a href="#">Privacy</a> | 
+                <a href="priv.html">Privacy</a> | 
                 <a href="#">Terms</a> | 
                 <a href="#">About</a>
             </div>
